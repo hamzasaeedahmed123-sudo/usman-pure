@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   Star,
   ShieldCheck,
@@ -43,14 +44,17 @@ export function FeaturedSpotlight() {
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center">
             {/* Product Image Gallery Column (5 cols) */}
             <div className="lg:col-span-5 flex flex-col items-center">
-              <div className="relative w-full aspect-square max-w-md rounded-2xl bg-stone-50 border border-stone-200/80 p-6 flex items-center justify-center overflow-hidden">
+              <Link
+                href="/product/prod-3"
+                className="relative w-full aspect-square max-w-md rounded-2xl bg-stone-50 border border-stone-200/80 p-6 flex items-center justify-center overflow-hidden block group cursor-pointer"
+              >
                 <Image
                   src="/images/products/prod-3.jpg"
                   alt="Fat2Fuel Advance Multigrain Flour For Effective Weight Loss"
                   fill
                   sizes="(max-width: 1024px) 100vw, 40vw"
                   priority
-                  className="object-contain p-4 hover:scale-105 transition-transform duration-500"
+                  className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
                 />
                 <span className="absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-black uppercase tracking-wider bg-rose-600 text-white shadow-md">
                   Best Seller • Save 23%
@@ -58,7 +62,7 @@ export function FeaturedSpotlight() {
                 <span className="absolute top-4 right-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-200">
                   100% Stone-Ground
                 </span>
-              </div>
+              </Link>
 
               {/* Trust Badges Under Image */}
               <div className="mt-6 grid grid-cols-3 gap-3 w-full max-w-md text-center">
@@ -88,9 +92,11 @@ export function FeaturedSpotlight() {
                   <span className="text-xs font-bold text-emerald-700">In Stock (Dispatches in 24h)</span>
                 </div>
 
-                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight leading-snug">
-                  Fat2Fuel Advance Multigrain Flour For Effective Weight Loss
-                </h2>
+                <Link href="/product/prod-3">
+                  <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-stone-900 tracking-tight leading-snug hover:text-amber-800 transition">
+                    Fat2Fuel Advance Multigrain Flour For Effective Weight Loss
+                  </h2>
+                </Link>
 
                 {/* Star Rating */}
                 <div className="flex items-center gap-2 mt-3">
@@ -202,16 +208,22 @@ export function FeaturedSpotlight() {
                   </button>
                 </div>
 
-                {/* WhatsApp Instant COD Order */}
-                <div className="mt-3">
-                  <a
-                    href={`https://wa.me/923000000000?text=Hello%20Usman's%20Pure,%20I%20want%20to%20order%20Fat2Fuel%20Weight%20Loss%20Flour%20(${selectedPack}%20x%20${quantity}%20=%20₨${totalPrice})%20with%20Cash%20on%20Delivery.`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-3 px-6 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center gap-2 transition"
+                {/* Direct Order Now & Details Buttons */}
+                <div className="mt-4 flex flex-col sm:flex-row items-center gap-2.5">
+                  <Link
+                    href={`/checkout?product=prod-3&pack=${selectedPack === "5kg" ? "standard" : "large"}&qty=${quantity}`}
+                    className="w-full sm:flex-1 py-3 px-6 rounded-xl text-xs sm:text-sm font-extrabold bg-stone-900 hover:bg-amber-900 text-white flex items-center justify-center gap-2 transition shadow-md text-center"
                   >
-                    Buy Now with Cash on Delivery (COD)
-                  </a>
+                    <Truck className="w-4 h-4 text-amber-400" />
+                    <span>Order (Cash on Delivery) — ₨{totalPrice.toLocaleString()}</span>
+                  </Link>
+
+                  <Link
+                    href="/product/prod-3"
+                    className="w-full sm:w-auto py-3 px-5 rounded-xl text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 flex items-center justify-center transition text-center"
+                  >
+                    Full Details &rarr;
+                  </Link>
                 </div>
               </div>
             </div>

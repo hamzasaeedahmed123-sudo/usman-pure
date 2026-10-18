@@ -14,6 +14,7 @@ import {
   Trash2,
   Check,
   ArrowRight,
+  Truck,
 } from "lucide-react";
 import { PRODUCTS } from "@/data/products";
 
@@ -443,14 +444,23 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
                   ₨{cartTotal.toLocaleString()}
                 </span>
               </div>
-              <Link
-                href="/cart"
-                onClick={() => setCartDrawerOpen(false)}
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-amber-800 hover:bg-amber-900 shadow-md shadow-amber-900/20 transition duration-200 flex items-center justify-center gap-2"
-              >
-                <Check className="w-4 h-4" />
-                <span>View Cart &amp; Cash on Delivery Checkout</span>
-              </Link>
+              <div className="flex flex-col gap-2">
+                <Link
+                  href="/checkout"
+                  onClick={() => setCartDrawerOpen(false)}
+                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-stone-900 hover:bg-amber-900 shadow-md transition duration-200 flex items-center justify-center gap-2"
+                >
+                  <Truck className="w-4 h-4 text-amber-400" />
+                  <span>Order Now — Cash on Delivery</span>
+                </Link>
+                <Link
+                  href="/cart"
+                  onClick={() => setCartDrawerOpen(false)}
+                  className="w-full py-2.5 rounded-xl font-bold text-xs text-stone-700 bg-stone-100 hover:bg-stone-200 transition text-center"
+                >
+                  View Full Cart &amp; Details
+                </Link>
+              </div>
               <div className="text-center text-[11px] text-stone-500 flex items-center justify-center gap-1.5">
                 <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
                 <span>100% Purity Certified • 14-Day Money Back Guarantee</span>

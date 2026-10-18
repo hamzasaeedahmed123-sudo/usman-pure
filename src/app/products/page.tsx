@@ -277,24 +277,25 @@ export default function ProductsPage() {
                           </span>
                         </div>
 
-                        <button
-                          onClick={(e) => handleAddToCart(product, e)}
-                          className={`h-10 px-3.5 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all duration-200 cursor-pointer shadow-xs ${
-                            isAdded
-                              ? "bg-emerald-600 text-white"
-                              : "bg-stone-900 hover:bg-amber-800 text-white active:scale-95"
-                          }`}
-                        >
-                          {isAdded ? (
-                            <>
-                              <Check className="w-4 h-4" /> Added
-                            </>
-                          ) : (
-                            <>
-                              <ShoppingBag className="w-3.5 h-3.5" /> Add
-                            </>
-                          )}
-                        </button>
+                        <div className="flex items-center gap-1.5">
+                          <Link
+                            href={`/checkout?product=${product.id}&pack=standard&qty=1`}
+                            className="h-10 px-3 rounded-xl text-xs font-bold bg-stone-900 hover:bg-amber-800 text-white flex items-center gap-1 transition shadow-xs"
+                          >
+                            <Truck className="w-3.5 h-3.5 text-amber-400" />
+                            <span>Order</span>
+                          </Link>
+                          <button
+                            onClick={(e) => handleAddToCart(product, e)}
+                            className={`h-10 px-3 rounded-xl text-xs font-bold flex items-center gap-1 transition-all duration-200 cursor-pointer border ${
+                              isAdded
+                                ? "bg-emerald-600 border-emerald-600 text-white"
+                                : "bg-stone-100 hover:bg-stone-200 border-stone-200 text-stone-800"
+                            }`}
+                          >
+                            {isAdded ? <Check className="w-3.5 h-3.5" /> : <ShoppingBag className="w-3.5 h-3.5" />}
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -404,22 +405,31 @@ export default function ProductsPage() {
                 </p>
 
                 <div className="mt-6 pt-4 border-t border-stone-200 flex flex-col gap-2.5">
-                  <button
-                    onClick={() => {
-                      handleAddToCart(quickViewProduct);
-                      setQuickViewProduct(null);
-                    }}
-                    className="w-full py-3 px-4 rounded-xl text-sm font-bold bg-stone-900 hover:bg-amber-800 text-white flex items-center justify-center gap-2 transition cursor-pointer"
-                  >
-                    <ShoppingBag className="w-4 h-4" /> Add to Cart — {quickViewProduct.priceFormatted}
-                  </button>
-
                   <Link
-                    href={`/product/${quickViewProduct.id}`}
-                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-stone-100 hover:bg-stone-200 text-stone-800 flex items-center justify-center gap-1.5 transition text-center"
+                    href={`/checkout?product=${quickViewProduct.id}&pack=standard&qty=1`}
+                    className="w-full py-3 px-4 rounded-xl text-sm font-extrabold bg-stone-900 hover:bg-amber-900 text-white flex items-center justify-center gap-2 transition cursor-pointer shadow-md text-center"
                   >
-                    View Full Product Details &rarr;
+                    <Truck className="w-4 h-4 text-amber-400" /> Order Now — Cash on Delivery ({quickViewProduct.priceFormatted})
                   </Link>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        handleAddToCart(quickViewProduct);
+                        setQuickViewProduct(null);
+                      }}
+                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold border border-stone-300 hover:bg-stone-100 text-stone-800 flex items-center justify-center gap-1.5 transition cursor-pointer"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" /> Add to Basket
+                    </button>
+
+                    <Link
+                      href={`/product/${quickViewProduct.id}`}
+                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 flex items-center justify-center gap-1 transition text-center"
+                    >
+                      View Details &rarr;
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

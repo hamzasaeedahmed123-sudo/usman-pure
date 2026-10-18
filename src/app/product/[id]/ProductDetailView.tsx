@@ -17,6 +17,7 @@ import {
   RotateCcw,
   Truck,
   MessageCircle,
+  Sparkles,
 } from "lucide-react";
 
 interface ProductDetailViewProps {
@@ -50,7 +51,7 @@ export function ProductDetailView({ id }: ProductDetailViewProps) {
     setTimeout(() => setIsAdded(false), 2000);
   };
 
-  const relatedProducts = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 4);
+  const relatedProducts = PRODUCTS.filter((p) => p.id !== product.id).slice(0, 8);
 
   return (
     <div className="min-h-screen bg-stone-50 flex flex-col justify-between">
@@ -206,58 +207,71 @@ export function ProductDetailView({ id }: ProductDetailViewProps) {
                     </div>
                   </div>
 
-                  {/* Quantity & Add to Cart */}
-                  <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-                    <div className="flex items-center justify-between sm:justify-start border border-stone-200 rounded-xl bg-stone-50 px-3 py-2 w-full sm:w-auto gap-4">
-                      <button
-                        onClick={() => setQuantity((q) => Math.max(1, q - 1))}
-                        className="w-8 h-8 rounded-lg bg-white border border-stone-200 text-stone-700 font-bold hover:bg-stone-200 flex items-center justify-center cursor-pointer"
+                  {/* Quantity & Action Buttons */}
+                  <div className="mt-6 space-y-3">
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                      {/* Quantity Selector */}
+                      <div className="flex items-center justify-between sm:justify-start border border-stone-200 rounded-xl bg-stone-50 px-3 py-2 w-full sm:w-auto gap-4">
+                        <button
+                          onClick={() => setQuantity((q) => Math.max(1, q - 1))}
+                          className="w-8 h-8 rounded-lg bg-white border border-stone-200 text-stone-700 font-bold hover:bg-stone-200 flex items-center justify-center cursor-pointer"
+                        >
+                          -
+                        </button>
+                        <span className="text-sm font-black text-stone-900 min-w-[20px] text-center">
+                          {quantity}
+                        </span>
+                        <button
+                          onClick={() => setQuantity((q) => q + 1)}
+                          className="w-8 h-8 rounded-lg bg-white border border-stone-200 text-stone-700 font-bold hover:bg-stone-200 flex items-center justify-center cursor-pointer"
+                        >
+                          +
+                        </button>
+                      </div>
+
+                      {/* Primary Order Now Button (Navigates to /checkout with selected product) */}
+                      <Link
+                        href={`/checkout?product=${product.id}&pack=${selectedPack}&qty=${quantity}`}
+                        className="flex-1 py-3.5 px-6 rounded-xl text-sm font-extrabold bg-stone-900 hover:bg-amber-900 text-white flex items-center justify-center gap-2 shadow-lg hover:shadow-xl transition duration-200 cursor-pointer active:scale-98 text-center"
                       >
-                        -
-                      </button>
-                      <span className="text-sm font-black text-stone-900 min-w-[20px] text-center">
-                        {quantity}
-                      </span>
-                      <button
-                        onClick={() => setQuantity((q) => q + 1)}
-                        className="w-8 h-8 rounded-lg bg-white border border-stone-200 text-stone-700 font-bold hover:bg-stone-200 flex items-center justify-center cursor-pointer"
-                      >
-                        +
-                      </button>
+                        <Truck className="w-5 h-5 text-amber-400" />
+                        <span>Order Now — Cash on Delivery (₨{totalPrice.toLocaleString()})</span>
+                      </Link>
                     </div>
 
-                    <button
-                      onClick={handleAddToCart}
-                      className={`flex-1 py-3.5 px-6 rounded-xl text-sm font-bold flex items-center justify-center gap-2 transition cursor-pointer shadow-md ${
-                        isAdded
-                          ? "bg-emerald-600 text-white"
-                          : "bg-stone-900 hover:bg-amber-800 text-white active:scale-98"
-                      }`}
-                    >
-                      {isAdded ? (
-                        <>
-                          <Check className="w-5 h-5" /> Added to Basket
-                        </>
-                      ) : (
-                        <>
-                          <ShoppingBag className="w-5 h-5" /> Add to Cart — ₨{totalPrice.toLocaleString()}
-                        </>
-                      )}
-                    </button>
-                  </div>
+                    <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                      {/* Secondary Add to Cart */}
+                      <button
+                        onClick={handleAddToCart}
+                        className={`flex-1 py-3 px-5 rounded-xl text-xs font-bold flex items-center justify-center gap-2 transition cursor-pointer border ${
+                          isAdded
+                            ? "bg-emerald-600 border-emerald-600 text-white"
+                            : "bg-white hover:bg-stone-100 border-stone-300 text-stone-800"
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <Check className="w-4 h-4" /> Added to Basket
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="w-4 h-4 text-stone-600" /> Add to Basket
+                          </>
+                        )}
+                      </button>
 
-                  {/* WhatsApp COD Order */}
-                  <div className="mt-3">
-                    <a
-                      href={`https://wa.me/923000000000?text=Hello%20Usman's%20Pure,%20I%20want%20to%20order%20${encodeURIComponent(
-                        product.title
-                      )}%20(${selectedPack}%20x%20${quantity}%20=%20₨${totalPrice})%20with%20Cash%20on%20Delivery.`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="w-full py-3 px-6 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center gap-2 transition"
-                    >
-                      <MessageCircle className="w-4 h-4" /> Order with Cash on Delivery (COD) via WhatsApp
-                    </a>
+                      {/* Tertiary WhatsApp COD Order */}
+                      <a
+                        href={`https://wa.me/923000000000?text=Hello%20Usman's%20Pure,%20I%20want%20to%20order%20${encodeURIComponent(
+                          product.title
+                        )}%20(${selectedPack}%20x%20${quantity}%20=%20₨${totalPrice})%20with%20Cash%20on%20Delivery.`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-3 px-5 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center gap-2 transition shadow-xs"
+                      >
+                        <MessageCircle className="w-4 h-4" /> Order via WhatsApp
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -353,41 +367,105 @@ export function ProductDetailView({ id }: ProductDetailViewProps) {
           </div>
         </div>
 
-        {/* Related Products Section */}
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-stone-200">
-          <div className="flex items-center justify-between mb-8">
-            <h3 className="text-2xl font-black text-stone-900 tracking-tight">
-              You May Also Like
-            </h3>
-            <Link href="/shop" className="text-xs font-bold text-amber-800 hover:text-amber-900">
-              View All &rarr;
+        {/* Related Products Section - When scrolling down, other products are listed */}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-stone-200">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+            <div>
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-stone-200 text-stone-800 mb-2">
+                <Sparkles className="w-3.5 h-3.5 text-amber-800" /> More From Usman&apos;s Pure
+              </div>
+              <h3 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                Other Pure Essentials You May Like
+              </h3>
+              <p className="text-xs sm:text-sm text-stone-500 mt-1">
+                Explore our full line of slow-milled diet flours, cold-pounded spices, and organic teas.
+              </p>
+            </div>
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-800 hover:text-amber-900 hover:underline"
+            >
+              <span>Explore All Products ({PRODUCTS.length})</span>
+              <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {relatedProducts.map((rel) => (
-              <Link
+              <div
                 key={rel.id}
-                href={`/product/${rel.id}`}
-                className="group bg-white rounded-2xl border border-stone-200 p-4 shadow-xs hover:shadow-lg hover:border-amber-400 transition"
+                className="group bg-white rounded-2xl border border-stone-200/90 p-4 shadow-xs hover:shadow-xl hover:border-amber-400 transition-all duration-300 flex flex-col justify-between"
               >
-                <div className="relative aspect-square w-full rounded-xl bg-stone-50 overflow-hidden mb-3 flex items-center justify-center">
-                  <Image
-                    src={rel.image}
-                    alt={rel.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 25vw"
-                    className="object-contain p-3 group-hover:scale-105 transition-transform"
-                  />
+                <div>
+                  <Link href={`/product/${rel.id}`} className="block">
+                    <div className="relative aspect-square w-full rounded-xl bg-stone-50 overflow-hidden mb-3 flex items-center justify-center border border-stone-100">
+                      <Image
+                        src={rel.image}
+                        alt={rel.title}
+                        fill
+                        sizes="(max-width: 640px) 100vw, 25vw"
+                        className="object-contain p-3 group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <span className="absolute top-2.5 left-2.5 px-2 py-0.5 rounded text-[10px] font-extrabold uppercase bg-rose-600 text-white">
+                        {rel.discountBadge}
+                      </span>
+                      <span className="absolute top-2.5 right-2.5 px-2 py-0.5 rounded text-[10px] font-bold bg-stone-900/80 text-white">
+                        {rel.weight}
+                      </span>
+                    </div>
+
+                    <div className="text-[10px] font-extrabold uppercase tracking-wider text-amber-800 mb-1">
+                      {rel.categoryLabel}
+                    </div>
+                    <h4 className="text-xs font-bold text-stone-900 line-clamp-2 group-hover:text-amber-800 transition min-h-[32px]">
+                      {rel.title}
+                    </h4>
+                  </Link>
+
+                  <div className="mt-2 flex items-baseline gap-2">
+                    <span className="text-sm font-black text-stone-900">{rel.priceFormatted}</span>
+                    <span className="text-xs text-stone-400 line-through">{rel.originalPriceFormatted}</span>
+                  </div>
                 </div>
-                <div className="text-[10px] font-extrabold uppercase text-amber-800">{rel.categoryLabel}</div>
-                <h4 className="text-xs font-bold text-stone-900 line-clamp-1 group-hover:text-amber-800 mt-0.5">
-                  {rel.title}
-                </h4>
-                <div className="text-xs font-black text-stone-900 mt-2">{rel.priceFormatted}</div>
-              </Link>
+
+                <div className="mt-4 pt-3 border-t border-stone-100 flex items-center gap-2">
+                  <Link
+                    href={`/checkout?product=${rel.id}&pack=standard&qty=1`}
+                    className="flex-1 py-2 px-3 rounded-xl bg-stone-900 hover:bg-amber-800 text-white text-[11px] font-bold flex items-center justify-center gap-1.5 transition text-center"
+                  >
+                    <Truck className="w-3.5 h-3.5 text-amber-400" />
+                    <span>Order (COD)</span>
+                  </Link>
+                  <Link
+                    href={`/product/${rel.id}`}
+                    className="py-2 px-3 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-700 text-[11px] font-bold transition text-center"
+                  >
+                    Details
+                  </Link>
+                </div>
+              </div>
             ))}
           </div>
+        </div>
+
+        {/* Sticky Mobile Order Bar */}
+        <div className="lg:hidden fixed bottom-0 inset-x-0 bg-white/95 backdrop-blur-md border-t border-stone-200 p-3 z-30 shadow-2xl flex items-center justify-between gap-3">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className="relative w-10 h-10 rounded-lg bg-stone-100 border border-stone-200 shrink-0 overflow-hidden">
+              <Image src={product.image} alt={product.title} fill sizes="40px" className="object-contain p-0.5" />
+            </div>
+            <div className="min-w-0">
+              <div className="text-xs font-bold text-stone-900 truncate">{product.title}</div>
+              <div className="text-xs font-black text-emerald-800">₨{totalPrice.toLocaleString()}</div>
+            </div>
+          </div>
+          <Link
+            href={`/checkout?product=${product.id}&pack=${selectedPack}&qty=${quantity}`}
+            className="py-2.5 px-4 rounded-xl bg-stone-900 hover:bg-amber-800 text-white text-xs font-extrabold shrink-0 flex items-center gap-1.5 shadow-md active:scale-95"
+          >
+            <Truck className="w-3.5 h-3.5 text-amber-400" />
+            <span>Order (COD)</span>
+          </Link>
         </div>
       </main>
 

@@ -126,10 +126,10 @@ export function ProductCatalog({
                 key={product.id}
                 className="group relative flex flex-col bg-white rounded-2xl border border-stone-200/80 shadow-sm hover:shadow-xl hover:border-amber-300/80 transition-all duration-300 overflow-hidden"
               >
-                {/* Product Image Box */}
-                <div
-                  onClick={() => setQuickViewProduct(product)}
-                  className="relative w-full aspect-square bg-stone-50 overflow-hidden cursor-pointer flex items-center justify-center p-6 border-b border-stone-100"
+                {/* Product Image Box - Click navigates to product details page */}
+                <Link
+                  href={`/product/${product.id}`}
+                  className="relative w-full aspect-square bg-stone-50 overflow-hidden cursor-pointer flex items-center justify-center p-6 border-b border-stone-100 block"
                 >
                   <Image
                     src={product.image}
@@ -152,16 +152,18 @@ export function ProductCatalog({
                   {/* Quick View Button on Hover */}
                   <div className="absolute inset-x-4 bottom-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
                     <button
+                      type="button"
                       onClick={(e) => {
+                        e.preventDefault();
                         e.stopPropagation();
                         setQuickViewProduct(product);
                       }}
                       className="w-full py-2 px-3 rounded-lg bg-white/95 text-stone-900 text-xs font-bold shadow-lg hover:bg-stone-900 hover:text-white transition flex items-center justify-center gap-1.5 backdrop-blur-sm cursor-pointer"
                     >
-                      <Eye className="w-3.5 h-3.5" /> Quick View
+                      <Eye className="w-3.5 h-3.5" /> Quick Preview
                     </button>
                   </div>
-                </div>
+                </Link>
 
                 {/* Product Info */}
                 <div className="p-5 flex-1 flex flex-col justify-between">
@@ -321,26 +323,32 @@ export function ProductCatalog({
 
                 {/* CTAs */}
                 <div className="mt-6 pt-4 border-t border-stone-200 flex flex-col gap-2.5">
-                  <button
-                    onClick={() => {
-                      handleAddToCart(quickViewProduct);
-                      setQuickViewProduct(null);
-                    }}
-                    className="w-full py-3 px-4 rounded-xl text-sm font-bold bg-stone-900 hover:bg-amber-800 text-white flex items-center justify-center gap-2 transition cursor-pointer"
+                  <Link
+                    href={`/checkout?product=${quickViewProduct.id}&pack=standard&qty=1`}
+                    className="w-full py-3 px-4 rounded-xl text-sm font-extrabold bg-stone-900 hover:bg-amber-900 text-white flex items-center justify-center gap-2 transition cursor-pointer shadow-md text-center"
                   >
-                    <ShoppingBag className="w-4 h-4" /> Add to Cart — {quickViewProduct.priceFormatted}
-                  </button>
+                    <Truck className="w-4 h-4 text-amber-400" /> Order Now — Cash on Delivery ({quickViewProduct.priceFormatted})
+                  </Link>
 
-                  <a
-                    href={`https://wa.me/923000000000?text=Hi%20Usman's%20Pure,%20I%20want%20to%20order%20${encodeURIComponent(
-                      quickViewProduct.title
-                    )}%20(${quickViewProduct.priceFormatted})`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full py-2.5 px-4 rounded-xl text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white flex items-center justify-center gap-2 transition"
-                  >
-                    Order via WhatsApp Cash on Delivery
-                  </a>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => {
+                        handleAddToCart(quickViewProduct);
+                        setQuickViewProduct(null);
+                      }}
+                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold border border-stone-300 hover:bg-stone-100 text-stone-800 flex items-center justify-center gap-1.5 transition cursor-pointer"
+                    >
+                      <ShoppingBag className="w-3.5 h-3.5" /> Add to Basket
+                    </button>
+
+                    <Link
+                      href={`/product/${quickViewProduct.id}`}
+                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 flex items-center justify-center gap-1 transition text-center"
+                    >
+                      <span>Full Details</span>
+                      <ExternalLink className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>
