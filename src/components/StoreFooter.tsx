@@ -82,32 +82,32 @@ export function StoreFooter() {
             </h4>
             <ul className="space-y-2.5 text-stone-400">
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
-                  All Products
+                <a href="/shop" className="hover:text-amber-400 transition">
+                  All Products (11)
                 </a>
               </li>
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
+                <a href="/category/flours" className="hover:text-amber-400 transition">
                   Stone-Ground Atta
                 </a>
               </li>
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
+                <a href="/product/prod-3" className="hover:text-amber-400 transition">
                   Weight Loss Flour
                 </a>
               </li>
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
+                <a href="/product/prod-4" className="hover:text-amber-400 transition">
                   Diabetic Control Flour
                 </a>
               </li>
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
+                <a href="/category/teas" className="hover:text-amber-400 transition">
                   Organic Herbal Teas
                 </a>
               </li>
               <li>
-                <a href="#product-catalog" className="hover:text-amber-400 transition">
+                <a href="/bundles" className="hover:text-amber-400 transition">
                   Mega Bundles
                 </a>
               </li>
@@ -121,33 +121,33 @@ export function StoreFooter() {
             </h4>
             <ul className="space-y-2.5 text-stone-400">
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
+                <a href="/about" className="hover:text-amber-400 transition">
                   14-Day Return Guarantee
                 </a>
               </li>
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
-                  Shipping & Delivery Info
+                <a href="/cart" className="hover:text-amber-400 transition">
+                  Cash on Delivery Info
                 </a>
               </li>
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
-                  Lab Test Certificates
+                <a href="/about" className="hover:text-amber-400 transition">
+                  Lab Test Standards
                 </a>
               </li>
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
+                <a href="/contact" className="hover:text-amber-400 transition">
                   Customized Diet Plans
                 </a>
               </li>
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
-                  Privacy Policy
+                <a href="/about" className="hover:text-amber-400 transition">
+                  About Usman&apos;s Pure
                 </a>
               </li>
               <li>
-                <a href="#purity" className="hover:text-amber-400 transition">
-                  Terms of Service
+                <a href="/contact" className="hover:text-amber-400 transition">
+                  Contact Support Desk
                 </a>
               </li>
             </ul>

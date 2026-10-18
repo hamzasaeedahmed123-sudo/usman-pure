@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { PRODUCTS, Product } from "@/data/products";
 import {
   Star,
@@ -161,12 +162,11 @@ export function ProductCatalog({
                     </div>
 
                     {/* Product Title */}
-                    <h3
-                      onClick={() => setQuickViewProduct(product)}
-                      className="text-base font-bold text-stone-900 leading-snug line-clamp-2 hover:text-amber-800 transition cursor-pointer min-h-[44px]"
-                    >
-                      {product.title}
-                    </h3>
+                    <Link href={`/product/${product.id}`}>
+                      <h3 className="text-base font-bold text-stone-900 leading-snug line-clamp-2 hover:text-amber-800 transition min-h-[44px]">
+                        {product.title}
+                      </h3>
+                    </Link>
 
                     {/* Star Rating & Review count */}
                     <div className="flex items-center gap-1.5 mt-2">
