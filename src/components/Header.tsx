@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import {
-  Leaf,
   ShoppingBag,
   Search,
   Menu,
@@ -11,11 +11,15 @@ import {
   Sparkles,
   ShieldCheck,
   ChevronDown,
-  ArrowRight,
   Trash2,
+  Check,
 } from "lucide-react";
 
-export function Header() {
+interface HeaderProps {
+  theme?: "amber" | "green" | "terracotta";
+}
+
+export function Header({ theme = "amber" }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
@@ -25,30 +29,28 @@ export function Header() {
   const [cartItems, setCartItems] = useState([
     {
       id: "prod-1",
-      name: "Cold-Pressed Black Seed Oil",
-      volume: "250ml",
-      price: 28.0,
+      name: "Chakki Multigrain Flour",
+      pack: "10kg Eco Bag",
+      price: 29.99,
       quantity: 1,
     },
     {
       id: "prod-2",
-      name: "Raw Wild Sidr Honey",
-      volume: "500g",
-      price: 42.0,
+      name: "Organic Herbal Tea (Rosella Blend)",
+      pack: "100g Stand-up Pouch",
+      price: 14.0,
       quantity: 1,
     },
   ]);
 
-  // Handle scroll detection
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 15);
+      setIsScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Handle Command/Ctrl + K shortcut for search
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key === "k") {
@@ -65,89 +67,129 @@ export function Header() {
   }, []);
 
   const navLinks = [
-    { label: "Pure Oils", href: "#pure-oils", badge: "Cold-Pressed" },
-    { label: "Raw Honey", href: "#raw-honey" },
-    { label: "Organic Herbs", href: "#organic-herbs" },
-    { label: "Purity Standards", href: "#purity-standards" },
+    { label: "Multigrain Flour", href: "#flour", badge: "Stone Ground" },
+    { label: "Herbal Teas", href: "#teas", badge: "Rosella Blend" },
+    { label: "Organic Spices", href: "#spices", badge: "Kashmiri" },
+    { label: "Our Purity Guarantee", href: "#purity" },
     { label: "Lab Reports", href: "#lab-reports" },
   ];
 
   const searchableProducts = [
-    { name: "Cold-Pressed Black Seed Oil", category: "Pure Oils", price: "$28.00" },
-    { name: "Raw Wild Sidr Honey", category: "Raw Honey", price: "$42.00" },
-    { name: "Extra Virgin Cold-Pressed Olive Oil", category: "Pure Oils", price: "$32.00" },
-    { name: "Pure Sweet Almond Oil", category: "Pure Oils", price: "$24.00" },
-    { name: "Grade-A Kashmiri Saffron", category: "Organic Herbs", price: "$45.00" },
+    {
+      name: "Premium Chakki Multigrain Flour",
+      category: "Stone-Ground Flours",
+      price: "$29.99 (10kg)",
+    },
+    {
+      name: "Organic Herbal Tea (Rosella & Olive Leaf)",
+      category: "Herbal Infusions",
+      price: "$14.00 (100g)",
+    },
+    {
+      name: "Hand-Pounded Kashmiri Chili Powder",
+      category: "Pure Spices",
+      price: "$12.50 (100g)",
+    },
+    {
+      name: "Organic Mixed Whole Masalas",
+      category: "Pure Spices",
+      price: "$22.00 (200g)",
+    },
   ];
 
-  const filteredProducts = searchableProducts.filter((p) =>
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    p.category.toLowerCase().includes(searchQuery.toLowerCase())
+  const filtered = searchableProducts.filter(
+    (p) =>
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.category.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const cartSubtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+  const cartTotal = cartItems.reduce(
+    (sum, item) => sum + item.price * item.quantity,
     0
   );
 
-  const handleRemoveItem = (id: string) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
+  // Theme styling for header elements
+  const themeClasses = {
+    amber: {
+      bar: "bg-[#452D17] text-[#F9F3EA]",
+      glass: isScrolled
+        ? "bg-[#FAF5EC]/85 border-[#D8C2A0]/70 text-[#3F2A17] shadow-lg shadow-[#3F2A17]/5"
+        : "bg-white/45 border-white/60 text-[#3F2A17]",
+      accent: "bg-[#54361C] hover:bg-[#3D2511] text-[#FAF5EC]",
+      pill: "bg-[#EFE2CE] text-[#54361C] border-[#D8C2A0]",
+      badge: "bg-[#54361C] text-[#FAF5EC]",
+    },
+    green: {
+      bar: "bg-[#114427] text-[#EEF9F2]",
+      glass: isScrolled
+        ? "bg-[#EDF8F1]/85 border-[#B5DFCA]/70 text-[#124227] shadow-lg shadow-[#124227]/5"
+        : "bg-white/45 border-white/60 text-[#124227]",
+      accent: "bg-[#145330] hover:bg-[#0D3B22] text-[#EEF9F2]",
+      pill: "bg-[#DCF0E5] text-[#145330] border-[#B5DFCA]",
+      badge: "bg-[#145330] text-[#EEF9F2]",
+    },
+    terracotta: {
+      bar: "bg-[#661D0F] text-[#FDF4EF]",
+      glass: isScrolled
+        ? "bg-[#FCF1EC]/90 border-[#E8BFB2]/70 text-[#681E10] shadow-lg shadow-[#681E10]/5"
+        : "bg-white/50 border-white/60 text-[#681E10]",
+      accent: "bg-[#8D2D1B] hover:bg-[#6D2012] text-[#FDF4EF]",
+      pill: "bg-[#F7DDD5] text-[#8D2D1B] border-[#E8BFB2]",
+      badge: "bg-[#8D2D1B] text-[#FDF4EF]",
+    },
+  }[theme];
 
   return (
     <>
       <header className="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-        {/* Top Announcement Bar */}
-        <div className="bg-gradient-to-r from-emerald-950 via-zinc-900 to-emerald-950 border-b border-emerald-500/20 px-4 py-1.5 text-center text-[11px] sm:text-xs font-medium text-emerald-300 flex items-center justify-center gap-2">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400 animate-pulse" />
-          <span>100% Certified Organic & Cold-Pressed. Free delivery on orders over $50.</span>
-          <span className="hidden md:inline-flex items-center gap-1 font-semibold text-emerald-200 underline underline-offset-2">
-            View Lab Certificates <ArrowRight className="w-3 h-3" />
+        {/* Top Purity Ribbon */}
+        <div
+          className={`${themeClasses.bar} transition-colors duration-500 py-1.5 px-4 text-center text-[11px] sm:text-xs font-medium flex items-center justify-center gap-2 tracking-wide`}
+        >
+          <Sparkles className="w-3.5 h-3.5 opacity-90 animate-pulse" />
+          <span>
+            100% Certified Organic • Traditional Stone-Ground • Zero Preservatives
+          </span>
+          <span className="hidden md:inline-block opacity-60">|</span>
+          <span className="hidden md:inline-flex items-center gap-1 font-semibold underline underline-offset-2">
+            Free Nationwide Shipping on Orders $50+
           </span>
         </div>
 
-        {/* Main Glassmorphic Navigation Bar */}
+        {/* Main Frosted Glass Navbar */}
         <div
-          className={`mx-auto transition-all duration-300 ${
-            isScrolled
-              ? "bg-zinc-950/85 backdrop-blur-xl border-b border-zinc-800/80 shadow-2xl py-3 px-4 sm:px-8"
-              : "bg-zinc-950/50 backdrop-blur-md border-b border-zinc-800/40 py-4 px-4 sm:px-8"
+          className={`mx-auto transition-all duration-300 backdrop-blur-xl border-b ${themeClasses.glass} px-4 sm:px-8 ${
+            isScrolled ? "py-2.5" : "py-3.5"
           }`}
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Brand Logo */}
+            {/* Official Brand Logo */}
             <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative flex items-center justify-center w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500/20 via-teal-500/10 to-emerald-600/30 border border-emerald-500/30 group-hover:border-emerald-400/60 shadow-lg shadow-emerald-500/10 transition duration-300">
-                <Leaf className="w-5 h-5 text-emerald-400 group-hover:scale-110 transition-transform duration-300" />
-                <span className="absolute -top-1 -right-1 w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping" />
-              </div>
-
-              <div className="flex flex-col text-left">
-                <div className="flex items-center gap-1.5">
-                  <span className="font-extrabold text-lg sm:text-xl tracking-tight text-white group-hover:text-emerald-300 transition">
-                    Usman&apos;s Pure
-                  </span>
-                  <span className="hidden sm:inline-block text-[10px] uppercase font-bold tracking-widest px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30">
-                    Organic
-                  </span>
-                </div>
-                <span className="text-[10px] text-zinc-400 font-mono tracking-wider -mt-0.5">
-                  Nature In Its Purest Form
-                </span>
+              <div className="relative w-36 sm:w-44 h-10 sm:h-12 flex items-center">
+                <Image
+                  src="/images/logo-transparent.png"
+                  alt="Usman's Pure Products"
+                  fill
+                  sizes="200px"
+                  className="object-contain object-left group-hover:scale-[1.02] transition-transform duration-300"
+                  priority
+                />
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 bg-zinc-900/60 border border-zinc-800/70 rounded-full px-4 py-1.5 backdrop-blur-md shadow-inner">
+            <nav className="hidden lg:flex items-center gap-1 bg-white/55 border border-white/70 rounded-full px-4 py-1.5 backdrop-blur-md shadow-xs">
               {navLinks.map((item) => (
                 <Link
                   key={item.label}
                   href={item.href}
-                  className="relative px-3.5 py-1.5 rounded-full text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-800/70 transition duration-200 flex items-center gap-1.5 group"
+                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold hover:bg-black/5 transition duration-200 flex items-center gap-1.5 group tracking-tight"
                 >
                   <span>{item.label}</span>
                   {item.badge && (
-                    <span className="text-[9px] font-semibold text-emerald-400 bg-emerald-950/70 border border-emerald-800/60 px-1.5 py-0.2 rounded-full">
+                    <span
+                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border ${themeClasses.pill}`}
+                    >
                       {item.badge}
                     </span>
                   )}
@@ -155,17 +197,17 @@ export function Header() {
               ))}
             </nav>
 
-            {/* Header Utilities / Right CTA */}
-            <div className="flex items-center gap-3">
-              {/* Search Trigger */}
+            {/* Header Utilities */}
+            <div className="flex items-center gap-2.5 sm:gap-3">
+              {/* Quick Search Trigger */}
               <button
                 onClick={() => setSearchModalOpen(true)}
                 aria-label="Search Pure Products"
-                className="cursor-pointer hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-800/80 text-zinc-400 hover:text-zinc-200 text-xs transition"
+                className="cursor-pointer hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 border border-white/80 hover:bg-white text-xs font-medium shadow-xs transition"
               >
-                <Search className="w-3.5 h-3.5" />
-                <span>Search...</span>
-                <kbd className="hidden md:inline-block font-mono text-[10px] bg-zinc-800 text-zinc-400 px-1 rounded border border-zinc-700">
+                <Search className="w-3.5 h-3.5 opacity-70" />
+                <span className="opacity-80">Search store...</span>
+                <kbd className="hidden md:inline-block font-mono text-[10px] bg-black/5 px-1.5 py-0.5 rounded">
                   ⌘K
                 </kbd>
               </button>
@@ -173,34 +215,36 @@ export function Header() {
               {/* Shopping Cart Button */}
               <button
                 onClick={() => setCartDrawerOpen(true)}
-                className="cursor-pointer relative p-2.5 rounded-xl border border-zinc-800 bg-zinc-900/70 hover:bg-zinc-800/80 text-zinc-300 hover:text-white transition duration-200"
-                aria-label="Shopping Cart"
+                className="cursor-pointer relative p-2.5 rounded-full bg-white/65 hover:bg-white border border-white/80 shadow-xs transition duration-200"
+                aria-label="View Shopping Cart"
               >
-                <ShoppingBag className="w-4 h-4 text-emerald-400" />
+                <ShoppingBag className="w-4 h-4" />
                 {cartItems.length > 0 && (
-                  <span className="absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 rounded-full bg-emerald-500 text-[10px] font-bold text-zinc-950 shadow-md animate-pulse">
+                  <span
+                    className={`absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold shadow-xs ${themeClasses.badge}`}
+                  >
                     {cartItems.length}
                   </span>
                 )}
               </button>
 
-              {/* Primary Action Button */}
+              {/* Primary Call to Action */}
               <Link
-                href="#pure-oils"
-                className="hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-xl text-xs font-semibold text-white bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 shadow-md shadow-emerald-500/20 hover:shadow-emerald-500/30 transition duration-200"
+                href="#products"
+                className={`hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shadow-sm transition duration-200 ${themeClasses.accent}`}
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
                 <span>Shop Pure</span>
               </Link>
 
-              {/* Mobile Hamburger Toggle */}
+              {/* Mobile Hamburger Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-xl border border-zinc-800 bg-zinc-900/80 text-zinc-300 hover:text-white focus:outline-none"
+                className="lg:hidden p-2 rounded-full bg-white/70 hover:bg-white border border-white/80 transition"
                 aria-label="Toggle Navigation Menu"
               >
                 {mobileMenuOpen ? (
-                  <X className="w-5 h-5 text-emerald-400" />
+                  <X className="w-5 h-5" />
                 ) : (
                   <Menu className="w-5 h-5" />
                 )}
@@ -208,35 +252,37 @@ export function Header() {
             </div>
           </div>
 
-          {/* Mobile Dropdown Drawer */}
+          {/* Mobile Slide-down Drawer */}
           {mobileMenuOpen && (
-            <div className="lg:hidden mt-3 pt-3 border-t border-zinc-800/80 animate-in fade-in slide-in-from-top-2 duration-200">
-              <div className="flex flex-col gap-1.5 pb-2">
+            <div className="lg:hidden mt-3 pt-3 border-t border-black/10 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="flex flex-col gap-1 pb-2">
                 {navLinks.map((item) => (
                   <Link
                     key={item.label}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium text-zinc-300 hover:text-white hover:bg-zinc-900/90 transition"
+                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-white/60 transition"
                   >
                     <span>{item.label}</span>
                     {item.badge ? (
-                      <span className="text-[10px] font-semibold text-emerald-400 bg-emerald-950 border border-emerald-800/60 px-2 py-0.5 rounded-full">
+                      <span
+                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${themeClasses.pill}`}
+                      >
                         {item.badge}
                       </span>
                     ) : (
-                      <ChevronDown className="w-4 h-4 text-zinc-600 -rotate-90" />
+                      <ChevronDown className="w-4 h-4 opacity-50 -rotate-90" />
                     )}
                   </Link>
                 ))}
 
-                <div className="pt-2 mt-1 border-t border-zinc-800 flex gap-2">
+                <div className="pt-2 mt-1 border-t border-black/10 flex gap-2">
                   <Link
-                    href="#pure-oils"
+                    href="#products"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center py-2.5 rounded-xl font-semibold text-xs text-white bg-gradient-to-r from-emerald-500 to-teal-500 shadow-md"
+                    className={`w-full text-center py-2.5 rounded-xl font-bold text-xs shadow-sm ${themeClasses.accent}`}
                   >
-                    Browse Pure Collection
+                    Explore Pure Catalog
                   </Link>
                 </div>
               </div>
@@ -245,47 +291,53 @@ export function Header() {
         </div>
       </header>
 
-      {/* Quick Search Modal */}
+      {/* Quick Search Modal Dialog */}
       {searchModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-zinc-950/80 backdrop-blur-md animate-in fade-in duration-200">
-          <div className="w-full max-w-lg rounded-2xl border border-zinc-800 bg-zinc-900/95 p-4 shadow-2xl">
-            <div className="flex items-center gap-3 pb-3 border-b border-zinc-800">
-              <Search className="w-5 h-5 text-emerald-400" />
+        <div className="fixed inset-0 z-50 flex items-start justify-center pt-24 px-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-200">
+          <div className="w-full max-w-lg rounded-2xl border border-white/70 bg-white/95 backdrop-blur-2xl p-5 shadow-2xl text-stone-900">
+            <div className="flex items-center gap-3 pb-3 border-b border-stone-200">
+              <Search className="w-5 h-5 text-emerald-700" />
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search oils, honey, organic herbs..."
+                placeholder="Search flour, herbal teas, Kashmiri spices..."
                 autoFocus
-                className="w-full bg-transparent text-sm text-white focus:outline-none placeholder:text-zinc-500"
+                className="w-full bg-transparent text-sm font-medium focus:outline-none placeholder:text-stone-400"
               />
               <button
                 onClick={() => setSearchModalOpen(false)}
-                className="p-1 rounded-md text-zinc-400 hover:text-white hover:bg-zinc-800"
+                className="p-1 rounded-md text-stone-400 hover:text-stone-800 hover:bg-stone-100"
               >
                 <X className="w-4 h-4" />
               </button>
             </div>
 
-            <div className="mt-3 max-h-60 overflow-y-auto space-y-1">
-              {filteredProducts.length > 0 ? (
-                filteredProducts.map((p) => (
+            <div className="mt-3 max-h-64 overflow-y-auto space-y-1.5">
+              {filtered.length > 0 ? (
+                filtered.map((p) => (
                   <Link
                     key={p.name}
-                    href="#pure-oils"
+                    href="#products"
                     onClick={() => setSearchModalOpen(false)}
-                    className="flex items-center justify-between p-2.5 rounded-xl hover:bg-zinc-800/70 transition text-xs text-zinc-300"
+                    className="flex items-center justify-between p-3 rounded-xl hover:bg-stone-100/80 transition text-xs group"
                   >
                     <div>
-                      <div className="font-semibold text-white">{p.name}</div>
-                      <div className="text-[10px] text-zinc-500">{p.category}</div>
+                      <div className="font-semibold text-stone-900 group-hover:text-emerald-800">
+                        {p.name}
+                      </div>
+                      <div className="text-[10px] text-stone-500 font-medium">
+                        {p.category}
+                      </div>
                     </div>
-                    <span className="font-bold text-emerald-400">{p.price}</span>
+                    <span className="font-bold text-stone-800 bg-stone-100 px-2.5 py-1 rounded-md">
+                      {p.price}
+                    </span>
                   </Link>
                 ))
               ) : (
-                <div className="py-6 text-center text-xs text-zinc-500">
-                  No matching pure items found.
+                <div className="py-6 text-center text-xs text-stone-500">
+                  No products found matching &ldquo;{searchQuery}&rdquo;.
                 </div>
               )}
             </div>
@@ -293,20 +345,24 @@ export function Header() {
         </div>
       )}
 
-      {/* Slide-over Mini-Cart Drawer */}
+      {/* Slide-over Mini Cart Drawer */}
       {cartDrawerOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-zinc-950/75 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="w-full max-w-md h-full bg-zinc-900/95 border-l border-zinc-800 p-6 flex flex-col justify-between shadow-2xl">
+        <div className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200">
+          <div className="w-full max-w-md h-full bg-white/95 backdrop-blur-2xl border-l border-white/60 p-6 flex flex-col justify-between shadow-2xl text-stone-900">
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+              <div className="flex items-center justify-between pb-4 border-b border-stone-200">
                 <div className="flex items-center gap-2">
-                  <ShoppingBag className="w-5 h-5 text-emerald-400" />
-                  <span className="font-bold text-white text-base">Your Pure Basket</span>
-                  <span className="text-xs text-zinc-400 font-mono">({cartItems.length} items)</span>
+                  <ShoppingBag className="w-5 h-5 text-emerald-800" />
+                  <span className="font-bold text-base tracking-tight">
+                    Your Pure Basket
+                  </span>
+                  <span className="text-xs text-stone-500 font-mono">
+                    ({cartItems.length} items)
+                  </span>
                 </div>
                 <button
                   onClick={() => setCartDrawerOpen(false)}
-                  className="p-1.5 rounded-lg text-zinc-400 hover:text-white hover:bg-zinc-800"
+                  className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100"
                 >
                   <X className="w-5 h-5" />
                 </button>
@@ -316,16 +372,24 @@ export function Header() {
                 {cartItems.map((item) => (
                   <div
                     key={item.id}
-                    className="p-3.5 rounded-xl bg-zinc-950/70 border border-zinc-800/70 flex items-center justify-between"
+                    className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between"
                   >
                     <div>
-                      <div className="text-sm font-semibold text-zinc-100">{item.name}</div>
-                      <div className="text-xs text-zinc-400">{item.volume} • Qty: {item.quantity}</div>
-                      <div className="text-xs font-bold text-emerald-400 mt-1">${(item.price * item.quantity).toFixed(2)}</div>
+                      <div className="text-sm font-bold text-stone-900">
+                        {item.name}
+                      </div>
+                      <div className="text-xs text-stone-500 font-medium">
+                        {item.pack} • Qty: {item.quantity}
+                      </div>
+                      <div className="text-xs font-extrabold text-stone-900 mt-1">
+                        ${(item.price * item.quantity).toFixed(2)}
+                      </div>
                     </div>
                     <button
-                      onClick={() => handleRemoveItem(item.id)}
-                      className="p-1.5 text-zinc-500 hover:text-red-400 transition"
+                      onClick={() =>
+                        setCartItems(cartItems.filter((i) => i.id !== item.id))
+                      }
+                      className="p-1.5 text-stone-400 hover:text-red-500 transition"
                       aria-label="Remove item"
                     >
                       <Trash2 className="w-4 h-4" />
@@ -335,19 +399,25 @@ export function Header() {
               </div>
             </div>
 
-            <div className="pt-4 border-t border-zinc-800">
+            <div className="pt-4 border-t border-stone-200">
               <div className="flex items-center justify-between text-sm mb-4">
-                <span className="text-zinc-400">Estimated Total:</span>
-                <span className="text-lg font-extrabold text-white">${cartSubtotal.toFixed(2)}</span>
+                <span className="text-stone-500 font-medium">Order Subtotal:</span>
+                <span className="text-xl font-black text-stone-900">
+                  ${cartTotal.toFixed(2)}
+                </span>
               </div>
               <button
-                onClick={() => alert("Proceeding to checkout with 100% Purity Guarantee!")}
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-zinc-950 bg-gradient-to-r from-emerald-400 to-teal-400 hover:from-emerald-500 hover:to-teal-500 shadow-lg shadow-emerald-500/20 transition duration-200"
+                onClick={() =>
+                  alert("Redirecting to checkout with 100% Purity Guarantee!")
+                }
+                className="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-emerald-800 hover:bg-emerald-900 shadow-md shadow-emerald-900/20 transition duration-200 flex items-center justify-center gap-2"
               >
-                Proceed to Secure Checkout
+                <Check className="w-4 h-4" />
+                <span>Proceed to Secure Checkout</span>
               </button>
-              <div className="mt-2 text-center text-[11px] text-zinc-500">
-                🔒 256-bit encrypted • 100% Money-back Purity Guarantee
+              <div className="mt-2.5 text-center text-[11px] text-stone-500 flex items-center justify-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>100% Stone-Ground & Pure Certified • Money Back Guarantee</span>
               </div>
             </div>
           </div>

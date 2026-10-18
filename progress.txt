@@ -3,47 +3,50 @@ Started: Sun Oct 18 2026
 ---
 
 ## Codebase Patterns
-- Framework: Next.js 16+ App Router with TypeScript
-- Styling: Tailwind CSS v4 with glassmorphism utility tokens
-- Animation: GSAP 3 (Interactive HTML5 Canvas particle physics) & Framer Motion
-- Icons: Lucide React
-- Brand: Usman's Pure (100% Cold-Pressed & Raw Organic Essentials)
+- Framework: Next.js 16+ App Router with Turbopack & React 19
+- Styling: Tailwind CSS v4 with bespoke glassmorphic tokens
+- Animation: Framer Motion (liquid slider transitions & modals) & GSAP
+- Sizing: CSS clamp() for kinetic typography ensuring zero mobile overflow
+- Brand Theme: Usman's Pure Products (Warm Amber/Cream, Mint/Forest Green, Terracotta/Crimson Spice)
 - Spec location: `.planning/`
 - Story definition: `prd.json`
 - Stop condition: `<promise>COMPLETE</promise>`
 - Verification rule: Run `npm run lint` and `npm run build` before committing
 
-## 2026-10-18 - US-000 (Initial Setup)
-- Initialized Next.js project with App Router, TypeScript, and Tailwind CSS.
-- Initialized GSD framework structure in `.planning/`.
-- Configured Ralph Loop files (`ralph-loop.sh`, `prd.json`, `progress.txt`, `CLAUDE.md`).
-- **Learnings for future iterations:**
-  - When running scripts on Windows PowerShell, prefer `npm.cmd` and `npx.cmd`.
-  - Ralph Loop scripts run in Git Bash or WSL with `bash ./ralph-loop.sh`.
----
-
 ## 2026-10-18 - US-001 (CLI Dependencies Verified)
-- Installed `jq` via winget.
-- Installed `gh` via winget and completed GitHub OAuth device authentication (`hamzasaeedahmed123-sudo`).
+- Verified `git`, `jq`, and `gh` installed and authenticated.
 ---
 
-## 2026-10-18 - US-002 (GSAP Fluid Hero Section)
-- Installed animation libraries: `framer-motion`, `gsap`, `lucide-react`.
-- Created interactive GSAP Fluid Particle Canvas in `src/components/Hero.tsx` with mouse velocity displacement and fluid connective mesh.
-- Implemented GSAP entrance choreography timeline and continuous HUD glow.
-- Added interactive loop simulator tab with live terminal feedback.
+## 2026-10-18 - US-002 (Official Brand Header Shell)
+- Built `src/components/Header.tsx` with official transparent logo, frosted glass backdrop, quick search modal (`⌘K`), and slide-over mini-cart drawer.
+- Added dynamic theme prop (`amber` | `green` | `terracotta`) synchronizing the header navbar with the active slider slide.
 ---
 
-## 2026-10-18 - US-003 (Modern Header Navigation & Brand Shell)
-- Built `src/components/Header.tsx` featuring:
-  - Top announcement ribbon with certificate links
-  - Glassmorphic navigation bar with scroll state detection
-  - Brand identity: Usman's Pure with leaf emblem and organic badge
-  - Desktop nav links (Pure Oils, Raw Honey, Organic Herbs, Purity Standards, Lab Reports)
-  - Search trigger with shortcut badge, cart with item counter, and primary "Shop Pure" CTA
-  - Mobile responsive slide-down drawer with animated hamburger toggle
-- Integrated `<Header />` into `src/app/layout.tsx` across the application shell.
-- Updated store branding in `src/components/Hero.tsx` with curated pure product cards.
+## 2026-10-18 - US-003 (Ultra-Smooth 4-Second Interactive Product Slider Hero)
+- Completely discarded dark SaaS theme in favor of warm organic luxury e-commerce aesthetic.
+- Implemented `src/components/ProductSliderHero.tsx`:
+  - **Slide 1 (Wheat / Cream Amber Theme):**
+    - Giant Kinetic Text: "MULTIGRAIN FLOUR"
+    - Product: Premium Chakki Multigrain Flour (100% Stone-Ground, Zero Maida)
+    - Pack Sizes: 5kg ($16.50) / 10kg ($29.99)
+    - Badges: 100% Stone Ground, High Fiber, Diabetic Friendly
+  - **Slide 2 (Fresh Organic Green Theme):**
+    - Giant Kinetic Text: "HERBAL TEAS"
+    - Product: Pure Organic Herbal Tea (Rosella & Olive Leaf Blend)
+    - Pack Sizes: 100g Stand-up Pouch ($14.00) / 20 Pyramid Bags ($18.50)
+    - Badges: Caffeine Free, Antioxidant Rich, Pure Detox
+  - **Slide 3 (Warm Terracotta / Spice Red Theme):**
+    - Giant Kinetic Text: "ORGANIC SPICES"
+    - Product: Pure Hand-Pounded Spices (Kashmiri Chili & Whole Masalas)
+    - Pack Sizes: 100g Jar ($12.50) / 200g Pouch ($22.00)
+    - Badges: Cold Ground, Zero Adulteration, Rich Aroma
+  - **4-Second Auto-Slide & Scrubber Bar:**
+    - Continuous 4000ms liquid progress scrubber bar filling per slide.
+    - Bottom-left circular Play / Pause toggle and Prev / Next arrow buttons.
+    - Frosted glass floating spec card on each slide with pack size selector, price, Add to Cart, and Learn More modal.
+  - **Responsiveness:**
+    - Clamp typography dynamically scales on mobile without breaking.
+    - Center product visual and floating spec cards stack seamlessly on portrait phones.
 - **Learnings for future iterations:**
-  - Glassmorphic header with `backdrop-blur-xl` and dynamic scroll padding provides a sleek luxury look without visual stutter.
+  - Next.js 16 with Cache Components flags dynamic `new Date().getFullYear()` during prerendering; use static or client date.
 ---

@@ -1,12 +1,12 @@
 {
   "project": "usman-pure",
-  "branchName": "ralph/feature-foundation",
-  "description": "Usman's Pure Store - Next.js GSD Foundation & Core Application Setup",
+  "branchName": "ralph/feature-slider-hero",
+  "description": "Usman's Pure Products - High-End Interactive Hero Slider & Organic Brand Experience",
   "userStories": [
     {
       "id": "US-001",
       "title": "Validate development environment and CLI dependencies",
-      "description": "As a developer, I need to ensure jq, gh, and git are available and validated in the environment.",
+      "description": "Ensure git, jq, and GitHub CLI (gh) are available and authenticated.",
       "acceptanceCriteria": [
         "Script verifies availability of git, jq, and gh",
         "Clear diagnostic output provided if any tool is missing",
@@ -18,45 +18,49 @@
     },
     {
       "id": "US-002",
-      "title": "Build GSAP Fluid Kinetic Hero Section",
-      "description": "As a visitor, I want an animated, fluid Hero section showcasing Usman's Pure store and GSD capabilities.",
+      "title": "Build Official Brand Header Shell",
+      "description": "As a visitor, I want a frosted glass navbar with official Usman's Pure branding, search, cart, and mobile menu.",
       "acceptanceCriteria": [
-        "Interactive GSAP fluid particle canvas responding to cursor movements",
-        "Entrance timeline choreography with ambient gradient lighting",
-        "Live HUD card preview with interactive product vault & loop simulator",
-        "Typecheck and production build pass cleanly"
+        "Official logo displayed with transparent backdrop",
+        "Responsive navigation links with collection badges",
+        "Search modal dialog (Ctrl+K) and slide-over mini cart drawer",
+        "Dynamic theme integration matching active slide palette",
+        "Typecheck and lint pass cleanly"
       ],
       "priority": 2,
       "passes": true,
-      "notes": "Implemented in src/components/Hero.tsx and mounted in src/app/page.tsx"
+      "notes": "Implemented in src/components/Header.tsx with theme reactivity"
     },
     {
       "id": "US-003",
-      "title": "Create Modern Header Navigation and Brand Shell",
-      "description": "As a visitor, I want a clean, responsive header with branding and navigation links.",
+      "title": "Build 4-Second Interactive Product Slider Hero",
+      "description": "As a visitor, I want an ultra-smooth, 4-second auto-advancing Hero slider with liquid wipe transitions matching the brand reference.",
       "acceptanceCriteria": [
-        "Responsive navigation header located in src/components/Header.tsx",
-        "Dark mode compatible styling using Tailwind CSS with clean glassmorphism",
-        "Mobile hamburger menu toggle for small screens",
-        "Mounted in src/app/layout.tsx across all pages",
-        "Typecheck and lint pass cleanly"
+        "Slide 1: Wheat/Cream Amber Theme with giant kinetic 'MULTIGRAIN FLOUR' and Chakki Multigrain Flour product",
+        "Slide 2: Fresh Organic Green Theme with giant kinetic 'HERBAL TEAS' and Rosella & Olive Leaf Blend product",
+        "Slide 3: Warm Terracotta Theme with giant kinetic 'ORGANIC SPICES' and Kashmiri Chili & Whole Masalas",
+        "Continuous 4-second progress scrubber bar filling over exact 4000ms window",
+        "Interactive Play/Pause circular button on bottom-left and manual Prev/Next arrows",
+        "Floating frosted glass spec card with pack size selector, price, Add to Cart, and Learn More modal",
+        "100% mobile and laptop responsive with clamp() typography and no horizontal overflow",
+        "Typecheck and production build pass cleanly"
       ],
       "priority": 3,
       "passes": true,
-      "notes": "Implemented in src/components/Header.tsx with announcement bar, search, cart badge, and responsive drawer"
+      "notes": "Implemented in src/components/ProductSliderHero.tsx and mounted in src/app/page.tsx"
     },
     {
       "id": "US-004",
-      "title": "Add System Status & Autonomous Loop Dashboard Card",
-      "description": "As a developer, I want to see real-time status of Ralph Loop tasks and GSD milestones directly in the app.",
+      "title": "Purity Promise & Authentic Customer Assurance Section",
+      "description": "As a buyer, I want clear trust pillars explaining stone-ground milling, organic sourcing, and lab-tested purity.",
       "acceptanceCriteria": [
-        "Status component displaying completed vs pending stories from prd.json",
-        "Visual badges for story passes: true / passes: false",
+        "Trust grid highlighting stone-ground milling, organic farms, and lab testing",
+        "Official brand footer with copyright and guarantee seals",
         "Typecheck and lint pass cleanly"
       ],
       "priority": 4,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented on src/app/page.tsx beneath the hero slider"
     }
   ]
 }
