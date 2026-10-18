@@ -164,17 +164,22 @@ export function Header({ theme = "amber" }: HeaderProps) {
         >
           <div className="max-w-7xl mx-auto flex items-center justify-between">
             {/* Official Brand Logo */}
-            <Link href="/" className="flex items-center gap-3 group">
-              <div className="relative w-36 sm:w-44 h-10 sm:h-12 flex items-center">
+            <Link
+              href="/"
+              className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none"
+              aria-label="USMAN'S PURE PRODUCTS"
+            >
+              <div className="relative w-40 sm:w-52 h-10 sm:h-12 flex items-center">
                 <Image
-                  src="/images/logo-transparent.png"
-                  alt="Usman's Pure Products"
+                  src="/logo.png"
+                  alt="USMAN'S PURE PRODUCTS"
                   fill
-                  sizes="200px"
+                  sizes="(max-width: 640px) 160px, 210px"
                   className="object-contain object-left group-hover:scale-[1.02] transition-transform duration-300"
                   priority
                 />
               </div>
+              <span className="sr-only">USMAN&apos;S PURE PRODUCTS</span>
             </Link>
 
             {/* Desktop Navigation Links */}
@@ -255,6 +260,20 @@ export function Header({ theme = "amber" }: HeaderProps) {
           {/* Mobile Slide-down Drawer */}
           {mobileMenuOpen && (
             <div className="lg:hidden mt-3 pt-3 border-t border-black/10 animate-in fade-in slide-in-from-top-2 duration-200">
+              <div className="px-3.5 pb-2.5 mb-1 border-b border-black/10 flex items-center justify-between">
+                <div className="relative w-36 h-9 flex items-center">
+                  <Image
+                    src="/logo.png"
+                    alt="USMAN'S PURE PRODUCTS"
+                    fill
+                    sizes="150px"
+                    className="object-contain object-left"
+                  />
+                </div>
+                <span className="text-[10px] font-bold text-stone-600 uppercase tracking-widest">
+                  Menu
+                </span>
+              </div>
               <div className="flex flex-col gap-1 pb-2">
                 {navLinks.map((item) => (
                   <Link

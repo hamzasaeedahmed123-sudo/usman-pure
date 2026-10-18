@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ProductSliderHero } from "@/components/ProductSliderHero";
 import {
   ShieldCheck,
@@ -87,12 +88,18 @@ export default function Home() {
       {/* Brand Footer */}
       <footer className="py-12 bg-stone-900 text-stone-300 text-xs border-t border-stone-800">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2">
-            <span className="font-extrabold text-white text-base tracking-tight">
-              USMAN&apos;S PURE PRODUCTS
-            </span>
-            <span className="text-stone-500">•</span>
-            <span className="text-stone-400">Pure Food. Real Nutrition.</span>
+          <div className="flex items-center gap-3">
+            <div className="relative w-40 h-10 flex items-center">
+              <Image
+                src="/logo.png"
+                alt="USMAN'S PURE PRODUCTS"
+                fill
+                sizes="160px"
+                className="object-contain object-left invert brightness-200"
+              />
+            </div>
+            <span className="hidden sm:inline-block text-stone-600">•</span>
+            <span className="hidden sm:inline-block text-stone-400 font-medium">Pure Food. Real Nutrition.</span>
           </div>
 
           <div className="flex items-center gap-6 text-stone-400">

@@ -62,7 +62,7 @@ const SLIDES: SlideData[] = [
     productTagline: "100% Stone-Ground, Zero Maida",
     description:
       "Cold-milled in traditional chakki stones to preserve natural bran, germ, and wholesome dietary fiber.",
-    image: "/images/flour-cutout.png",
+    image: "/atta-bag.png",
     packOptions: [
       { size: "5kg", price: "$16.50" },
       { size: "10kg", price: "$29.99", isDefault: true },
@@ -93,7 +93,7 @@ const SLIDES: SlideData[] = [
     productTagline: "Rosella & Olive Leaf Blend",
     description:
       "A restorative artisanal infusion of crimson wild rosella, Mediterranean olive leaves, and chamomile.",
-    image: "/images/tea-cutout.png",
+    image: "/tea-pouch.png",
     packOptions: [
       { size: "100g Stand-up Pouch", price: "$14.00", isDefault: true },
       { size: "20 Pyramid Bags", price: "$18.50" },
@@ -124,7 +124,7 @@ const SLIDES: SlideData[] = [
     productTagline: "Kashmiri Chili & Whole Masalas",
     description:
       "Sun-ripened Kashmiri red chilies and whole royal spices cold-pounded with essential oils intact.",
-    image: "/images/spices-cutout.png",
+    image: "/spices-jar.png",
     packOptions: [
       { size: "100g Jar", price: "$12.50", isDefault: true },
       { size: "200g Pouch", price: "$22.00" },
