@@ -1,7 +1,7 @@
 {
   "project": "usman-pure",
   "branchName": "ralph/feature-foundation",
-  "description": "Next.js GSD Foundation & Core Application Setup",
+  "description": "Usman's Pure Store - Next.js GSD Foundation & Core Application Setup",
   "userStories": [
     {
       "id": "US-001",
@@ -19,11 +19,11 @@
     {
       "id": "US-002",
       "title": "Build GSAP Fluid Kinetic Hero Section",
-      "description": "As a visitor, I want an animated, fluid Hero section showcasing GSD & Ralph Loop capabilities.",
+      "description": "As a visitor, I want an animated, fluid Hero section showcasing Usman's Pure store and GSD capabilities.",
       "acceptanceCriteria": [
         "Interactive GSAP fluid particle canvas responding to cursor movements",
         "Entrance timeline choreography with ambient gradient lighting",
-        "Live HUD card preview with interactive loop simulator",
+        "Live HUD card preview with interactive product vault & loop simulator",
         "Typecheck and production build pass cleanly"
       ],
       "priority": 2,
@@ -36,13 +36,14 @@
       "description": "As a visitor, I want a clean, responsive header with branding and navigation links.",
       "acceptanceCriteria": [
         "Responsive navigation header located in src/components/Header.tsx",
-        "Dark mode compatible styling using Tailwind CSS",
+        "Dark mode compatible styling using Tailwind CSS with clean glassmorphism",
         "Mobile hamburger menu toggle for small screens",
+        "Mounted in src/app/layout.tsx across all pages",
         "Typecheck and lint pass cleanly"
       ],
       "priority": 3,
-      "passes": false,
-      "notes": ""
+      "passes": true,
+      "notes": "Implemented in src/components/Header.tsx with announcement bar, search, cart badge, and responsive drawer"
     },
     {
       "id": "US-004",

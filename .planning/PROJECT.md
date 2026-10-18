@@ -1,12 +1,14 @@
-# Project: Next.js Web Application (GSD Framework)
+# Project: Usman's Pure (E-Commerce & Brand Showcase)
 
 ## Vision & Overview
-A modern, high-performance web application built with Next.js (App Router), TypeScript, and Tailwind CSS. The project adopts the **Get Shit Done (GSD)** framework and **Ralph Loop** methodology for autonomous, spec-driven development.
+**Usman's Pure** is a premium organic storefront specializing in 100% unrefined cold-pressed oils, raw unprocessed forest honey, and certified organic herbs. The project is built using Next.js 16 (App Router), TypeScript, Tailwind CSS v4, and GSAP/Framer Motion fluid kinetic physics, guided by the **Get Shit Done (GSD)** framework and **Ralph Loop** methodology.
 
 ## Tech Stack
-- **Framework:** Next.js 15+ (App Router)
+- **Framework:** Next.js 16+ (App Router, Turbopack)
 - **Language:** TypeScript
-- **Styling:** Tailwind CSS
+- **Styling:** Tailwind CSS v4 with glassmorphism design tokens
+- **Animations:** GSAP 3 (Canvas fluid particle mechanics) & Framer Motion
+- **Icons:** Lucide React
 - **Code Quality:** ESLint, TypeScript Strict Mode
 - **Autonomous Tooling:** Ralph Loop (`ralph-loop.sh`), GitHub CLI (`gh`), `jq`
 
