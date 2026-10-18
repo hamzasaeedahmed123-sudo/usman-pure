@@ -13,31 +13,31 @@
         "Typecheck and lint pass cleanly"
       ],
       "priority": 1,
-      "passes": false,
-      "notes": "Prerequisite for Ralph autonomous loop execution"
+      "passes": true,
+      "notes": "Verified: jq installed, GitHub CLI installed and authenticated via OAuth device login"
     },
     {
       "id": "US-002",
+      "title": "Build GSAP Fluid Kinetic Hero Section",
+      "description": "As a visitor, I want an animated, fluid Hero section showcasing GSD & Ralph Loop capabilities.",
+      "acceptanceCriteria": [
+        "Interactive GSAP fluid particle canvas responding to cursor movements",
+        "Entrance timeline choreography with ambient gradient lighting",
+        "Live HUD card preview with interactive loop simulator",
+        "Typecheck and production build pass cleanly"
+      ],
+      "priority": 2,
+      "passes": true,
+      "notes": "Implemented in src/components/Hero.tsx and mounted in src/app/page.tsx"
+    },
+    {
+      "id": "US-003",
       "title": "Create Modern Header Navigation and Brand Shell",
       "description": "As a visitor, I want a clean, responsive header with branding and navigation links.",
       "acceptanceCriteria": [
         "Responsive navigation header located in src/components/Header.tsx",
         "Dark mode compatible styling using Tailwind CSS",
         "Mobile hamburger menu toggle for small screens",
-        "Typecheck and lint pass cleanly"
-      ],
-      "priority": 2,
-      "passes": false,
-      "notes": ""
-    },
-    {
-      "id": "US-003",
-      "title": "Build Hero Section with Feature Cards",
-      "description": "As a visitor, I want to see an engaging hero section highlighting project capabilities.",
-      "acceptanceCriteria": [
-        "Hero component with dynamic typography and call-to-action buttons",
-        "Feature grid showcasing GSD Spec-Driven Development and Ralph Loop Autonomous workflows",
-        "Clean responsive layout matching modern design aesthetics",
         "Typecheck and lint pass cleanly"
       ],
       "priority": 3,

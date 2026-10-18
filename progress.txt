@@ -3,8 +3,9 @@ Started: Sun Oct 18 2026
 ---
 
 ## Codebase Patterns
-- Framework: Next.js 15 App Router with TypeScript
-- Styling: Tailwind CSS classes
+- Framework: Next.js 15+ App Router with TypeScript
+- Styling: Tailwind CSS v4 classes
+- Animation: GSAP 3 + Framer Motion for kinetic UI and canvas particle physics
 - Spec location: `.planning/`
 - Story definition: `prd.json`
 - Stop condition: `<promise>COMPLETE</promise>`
@@ -17,4 +18,20 @@ Started: Sun Oct 18 2026
 - **Learnings for future iterations:**
   - When running scripts on Windows PowerShell, prefer `npm.cmd` and `npx.cmd`.
   - Ralph Loop scripts run in Git Bash or WSL with `bash ./ralph-loop.sh`.
+---
+
+## 2026-10-18 - US-001 (CLI Dependencies Verified)
+- Installed `jq` via winget.
+- Installed `gh` via winget and completed GitHub OAuth device authentication.
+---
+
+## 2026-10-18 - US-002 (GSAP Fluid Hero Section)
+- Installed animation libraries: `framer-motion`, `gsap`, `lucide-react`.
+- Created interactive GSAP Fluid Particle Canvas in `src/components/Hero.tsx` with mouse velocity displacement and fluid connective mesh.
+- Implemented GSAP entrance choreography timeline and continuous HUD glow.
+- Added interactive loop simulator tab with live terminal feedback.
+- Updated `src/app/page.tsx` and layout metadata.
+- **Learnings for future iterations:**
+  - GSAP context (`gsap.context()`) ensures clean teardown in React 19 Strict Mode.
+  - Interactive HTML5 canvas with requestAnimationFrame delivers 60+ FPS without hydration lag.
 ---
