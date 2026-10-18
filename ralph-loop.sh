@@ -7,7 +7,10 @@
 #   ./ralph-loop.sh --tool amp [max_iterations]
 # ==============================================================================
 
-set -eo pipefail
+# Ensure standard POSIX utilities are on PATH when run via Git for Windows
+if [ -d "/usr/bin" ]; then
+  export PATH="/usr/bin:$PATH"
+fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 PRD_FILE="$SCRIPT_DIR/prd.json"
