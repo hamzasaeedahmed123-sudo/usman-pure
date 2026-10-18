@@ -20,6 +20,9 @@ import {
 } from "lucide-react";
 import { Header } from "@/components/Header";
 
+// Fluid animation easing matching exact Shakky liquid-slider reference
+const FLUID_EASE = [0.83, 0, 0.17, 1] as const;
+
 export interface SlideData {
   id: number;
   theme: "amber" | "green" | "terracotta";
@@ -32,12 +35,13 @@ export interface SlideData {
   image: string;
   packOptions: Array<{ size: string; price: string; isDefault?: boolean }>;
   badges: string[];
-  bgStyle: string;
+  bgGradient: string;
   textColor: string;
   kineticColor: string;
   accentBtn: string;
-  specCardBg: string;
-  specCardBorder: string;
+  cardBg: string;
+  cardBorder: string;
+  progressBarColor: string;
   learnMoreDetails: {
     origin: string;
     milling: string;
@@ -57,20 +61,20 @@ const SLIDES: SlideData[] = [
     productName: "Premium Chakki Multigrain Flour",
     productTagline: "100% Stone-Ground, Zero Maida",
     description:
-      "Crafted from 9 ancient nutrient-dense grains stone-milled in traditional chakki stone mills to preserve raw bran, wheat germ, and vital dietary fiber.",
-    image: "/images/flour-product.jpg",
+      "Cold-milled in traditional chakki stones to preserve natural bran, germ, and wholesome dietary fiber.",
+    image: "/images/flour-cutout.png",
     packOptions: [
       { size: "5kg", price: "$16.50" },
       { size: "10kg", price: "$29.99", isDefault: true },
     ],
     badges: ["100% Stone Ground", "High Fiber", "Diabetic Friendly"],
-    bgStyle:
-      "bg-gradient-to-br from-[#F8F1E2] via-[#EEDCC2] to-[#DFBE91] text-[#422C18]",
-    textColor: "text-[#422C18]",
-    kineticColor: "text-[#422C18]/[0.88]",
-    accentBtn: "bg-[#4D3019] hover:bg-[#38210F] text-[#FAF5EB]",
-    specCardBg: "bg-[#FAF4EA]/80",
-    specCardBorder: "border-[#D6BE9C]/80",
+    bgGradient: "from-[#F7EFE1] via-[#EADBCA] to-[#DEC6A6]",
+    textColor: "text-[#3B2411]",
+    kineticColor: "text-[#3B2411]",
+    accentBtn: "bg-[#3E2613] hover:bg-[#28170A] text-[#FAF5EC]",
+    cardBg: "bg-[#FAF4EA]/85 backdrop-blur-2xl",
+    cardBorder: "border-[#DFC9A9]/80",
+    progressBarColor: "bg-[#3E2613]",
     learnMoreDetails: {
       origin: "Single-source organic wheat & millets from certified family farms",
       milling: "Cold chakki stone-grinding at <40°C preserving vitamins & minerals",
@@ -88,20 +92,20 @@ const SLIDES: SlideData[] = [
     productName: "Pure Organic Herbal Tea",
     productTagline: "Rosella & Olive Leaf Blend",
     description:
-      "A soothing artisanal restorative infusion of crimson wild rosella calyces, Mediterranean olive leaves, and aromatic chamomile flowers.",
-    image: "/images/tea-product.jpg",
+      "A restorative artisanal infusion of crimson wild rosella, Mediterranean olive leaves, and chamomile.",
+    image: "/images/tea-cutout.png",
     packOptions: [
       { size: "100g Stand-up Pouch", price: "$14.00", isDefault: true },
       { size: "20 Pyramid Bags", price: "$18.50" },
     ],
     badges: ["Caffeine Free", "Antioxidant Rich", "Pure Detox"],
-    bgStyle:
-      "bg-gradient-to-br from-[#E3F4EA] via-[#CAE9D5] to-[#9FD6B6] text-[#0E3E23]",
-    textColor: "text-[#0E3E23]",
-    kineticColor: "text-[#0E3E23]/[0.90]",
-    accentBtn: "bg-[#114828] hover:bg-[#0B341C] text-[#F0FBF4]",
-    specCardBg: "bg-[#F0FAF4]/80",
-    specCardBorder: "border-[#B2DEC5]/80",
+    bgGradient: "from-[#E6F5ED] via-[#D1EBDC] to-[#A2D8BA]",
+    textColor: "text-[#08301A]",
+    kineticColor: "text-[#08301A]",
+    accentBtn: "bg-[#0C3B20] hover:bg-[#072513] text-[#F0FBF4]",
+    cardBg: "bg-[#F2FAF5]/85 backdrop-blur-2xl",
+    cardBorder: "border-[#B7E2CB]/80",
+    progressBarColor: "bg-[#0C3B20]",
     learnMoreDetails: {
       origin: "Highland organic botanical reserves & wild-crafted olive groves",
       milling: "Sun-dried whole petals and leaves gently coarse-cut by hand",
@@ -119,20 +123,20 @@ const SLIDES: SlideData[] = [
     productName: "Pure Hand-Pounded Spices",
     productTagline: "Kashmiri Chili & Whole Masalas",
     description:
-      "Sun-ripened Kashmiri red chilies and royal whole spices cold-pounded in small artisanal batches with natural essential oils fully intact.",
-    image: "/images/spices-product.jpg",
+      "Sun-ripened Kashmiri red chilies and whole royal spices cold-pounded with essential oils intact.",
+    image: "/images/spices-cutout.png",
     packOptions: [
       { size: "100g Jar", price: "$12.50", isDefault: true },
       { size: "200g Pouch", price: "$22.00" },
     ],
     badges: ["Cold Ground", "Zero Adulteration", "Rich Aroma"],
-    bgStyle:
-      "bg-gradient-to-br from-[#A0351E] via-[#862714] to-[#601407] text-[#FDF4EE]",
-    textColor: "text-[#FDF4EE]",
-    kineticColor: "text-[#FDF4EE]/[0.92]",
-    accentBtn: "bg-[#FBF0E7] hover:bg-[#F3DEC9] text-[#7A2110]",
-    specCardBg: "bg-[#772111]/75",
-    specCardBorder: "border-[#B64D36]/60",
+    bgGradient: "from-[#9C321C] via-[#812411] to-[#5C1407]",
+    textColor: "text-[#FFF5ED]",
+    kineticColor: "text-[#FFF5ED]",
+    accentBtn: "bg-[#FFF5ED] hover:bg-[#FFE8DA] text-[#6E1C0D]",
+    cardBg: "bg-[#671A0B]/80 backdrop-blur-2xl",
+    cardBorder: "border-[#B84E37]/60",
+    progressBarColor: "bg-[#FFF5ED]",
     learnMoreDetails: {
       origin: "Kashmiri valleys & Malabar coastal organic spice estates",
       milling: "Slow stone-pounding without friction heat to lock in volatile aroma",
@@ -143,7 +147,7 @@ const SLIDES: SlideData[] = [
   },
 ];
 
-const AUTO_SLIDE_DURATION = 4000; // Exact 4-second auto loop
+const AUTO_SLIDE_DURATION = 4000; // Exact 4-second cycle
 
 export function ProductSliderHero() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
@@ -152,7 +156,8 @@ export function ProductSliderHero() {
   const [selectedPackIndex, setSelectedPackIndex] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
-  const [direction, setDirection] = useState(1); // 1 = forward, -1 = backward
+  const [direction, setDirection] = useState<number>(1); // 1 = forward, -1 = backward
+  const scrubberRef = useRef<HTMLDivElement>(null);
 
   const currentSlide = SLIDES[currentSlideIndex];
 
@@ -176,11 +181,11 @@ export function ProductSliderHero() {
     goToSlide((currentSlideIndex - 1 + SLIDES.length) % SLIDES.length, -1);
   }, [currentSlideIndex, goToSlide]);
 
-  // Exact 4-second high-resolution timeline progress scrubber
+  // Exact 4-second continuous liquid timeline progress scrubber
   useEffect(() => {
     if (!isPlaying) return;
 
-    const intervalTime = 25; // 25ms tick
+    const intervalTime = 20; // 20ms precision tick
     const increment = (intervalTime / AUTO_SLIDE_DURATION) * 100;
 
     const timer = setInterval(() => {
@@ -196,7 +201,7 @@ export function ProductSliderHero() {
     return () => clearInterval(timer);
   }, [isPlaying, nextSlide]);
 
-  // Keyboard navigation
+  // Keyboard controls
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === "ArrowRight") nextSlide();
@@ -215,194 +220,209 @@ export function ProductSliderHero() {
     setTimeout(() => setIsAdded(false), 2200);
   };
 
+  const handleScrubberClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!scrubberRef.current) return;
+    const rect = scrubberRef.current.getBoundingClientRect();
+    const clickRatio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+    const targetSlide = Math.min(SLIDES.length - 1, Math.floor(clickRatio * SLIDES.length));
+    goToSlide(targetSlide, targetSlide >= currentSlideIndex ? 1 : -1);
+  };
+
   const selectedPack = currentSlide.packOptions[selectedPackIndex] || currentSlide.packOptions[0];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden select-none transition-colors duration-700">
-      {/* Top Brand Header Component */}
+    <div className="relative w-full min-h-screen overflow-hidden select-none">
+      {/* Dynamic Header Component */}
       <Header theme={currentSlide.themeKey} />
 
-      {/* Main Slide Canvas */}
-      <div className={`relative w-full min-h-screen flex items-center justify-center pt-24 pb-24 sm:pt-28 sm:pb-28 ${currentSlide.bgStyle} transition-colors duration-700`}>
-        {/* Organic Ambient Wave Lighting Layer */}
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-40">
-          <div className="absolute -top-[20%] -left-[10%] w-[80vw] h-[80vw] rounded-full bg-white/40 blur-[130px]" />
-          <div className="absolute -bottom-[25%] -right-[10%] w-[80vw] h-[80vw] rounded-full bg-black/10 blur-[140px]" />
+      {/* Main Hero Viewport Canvas */}
+      <div className="relative w-full min-h-screen flex flex-col justify-between pt-20 pb-8 sm:pt-24 sm:pb-10 overflow-hidden">
+        
+        {/* Liquid Sliding Background Layers */}
+        <AnimatePresence mode="popLayout" custom={direction}>
+          <motion.div
+            key={`bg-${currentSlide.id}`}
+            custom={direction}
+            variants={{
+              enter: (dir: number) => ({
+                opacity: 0,
+                x: dir > 0 ? "8%" : "-8%",
+                scale: 1.04,
+              }),
+              center: {
+                opacity: 1,
+                x: "0%",
+                scale: 1,
+              },
+              exit: (dir: number) => ({
+                opacity: 0,
+                x: dir > 0 ? "-8%" : "8%",
+                scale: 0.98,
+              }),
+            }}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ duration: 0.95, ease: FLUID_EASE }}
+            className={`absolute inset-0 bg-gradient-to-br ${currentSlide.bgGradient}`}
+          />
+        </AnimatePresence>
+
+        {/* Ambient Radial Glow Lighting Layer */}
+        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-30">
+          <div className="absolute top-[10%] left-[15%] w-[60vw] h-[60vw] rounded-full bg-white/40 blur-[130px]" />
+          <div className="absolute bottom-[5%] right-[10%] w-[55vw] h-[55vw] rounded-full bg-black/15 blur-[140px]" />
         </div>
 
-        {/* Content Viewport */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center justify-between min-h-[calc(100vh-12rem)]">
+        {/* Hero Visual Stage: Giant Centered Typography & Floating Borderless Product */}
+        <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex-1 flex items-center justify-center">
           
-          {/* Middle Stage: Giant Kinetic Background Typography & Floating Product */}
-          <div className="relative w-full flex-1 flex flex-col items-center justify-center my-auto py-4">
-            
-            {/* Giant Kinetic Background Text Layer */}
-            <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-0">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={`text-${currentSlide.id}`}
-                  initial={{ opacity: 0, scale: 0.94, y: direction * 25 }}
-                  animate={{ opacity: 1, scale: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 1.05, y: -direction * 25 }}
-                  transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
-                  className="flex flex-col items-center justify-center w-full leading-[0.82] tracking-tighter text-center"
-                >
-                  <span
-                    className={`font-black uppercase tracking-tight ${currentSlide.kineticColor} text-[clamp(2.75rem,11.5vw,10.25rem)] drop-shadow-xs`}
-                  >
-                    {currentSlide.kineticLine1}
-                  </span>
-                  <span
-                    className={`font-black uppercase tracking-tight ${currentSlide.kineticColor} text-[clamp(2.75rem,11.5vw,10.25rem)] drop-shadow-xs mt-1 sm:mt-2`}
-                  >
-                    {currentSlide.kineticLine2}
-                  </span>
-                </motion.div>
-              </AnimatePresence>
-            </div>
-
-            {/* Central Product Visual Stage with Parallax & Hover Physics */}
-            <div className="relative z-10 w-full flex flex-col lg:flex-row items-center justify-center gap-6 sm:gap-10">
-              
-              {/* Left Floating Badge: Pack Sizes Selector Pill */}
+          {/* 1. Giant Kinetic Background Typography (Bold, Massive, High-Contrast) */}
+          <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
+            <AnimatePresence mode="popLayout" custom={direction}>
               <motion.div
-                key={`badge-${currentSlide.id}`}
-                initial={{ opacity: 0, x: -35 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.15 }}
-                className="hidden lg:flex flex-col gap-2.5 z-20"
+                key={`text-${currentSlide.id}`}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? 140 : -140,
+                    scale: 0.95,
+                  }),
+                  center: {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                  },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? -140 : 140,
+                    scale: 1.05,
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.95, ease: FLUID_EASE, delay: 0.04 }}
+                className="flex flex-col items-center justify-center w-full leading-[0.8] tracking-tighter text-center select-none"
               >
-                <div
-                  className={`backdrop-blur-xl border p-3 rounded-2xl shadow-xl flex flex-col gap-2 ${currentSlide.specCardBg} ${currentSlide.specCardBorder}`}
+                <span
+                  className={`font-black uppercase tracking-tight ${currentSlide.kineticColor} text-[clamp(3.5rem,13.5vw,11.5rem)]`}
                 >
-                  <span className="text-[10px] font-bold uppercase tracking-wider opacity-60">
-                    Select Pack Size
+                  {currentSlide.kineticLine1}
+                </span>
+                <span
+                  className={`font-black uppercase tracking-tight ${currentSlide.kineticColor} text-[clamp(3.5rem,13.5vw,11.5rem)] mt-1 sm:mt-2`}
+                >
+                  {currentSlide.kineticLine2}
+                </span>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* 2. Floating Borderless Product Cutout (No frame/container, free floating with soft physics) */}
+          <div className="relative z-10 flex items-center justify-center">
+            <AnimatePresence mode="popLayout" custom={direction}>
+              <motion.div
+                key={`product-${currentSlide.id}`}
+                custom={direction}
+                variants={{
+                  enter: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? 180 : -180,
+                    scale: 0.82,
+                    rotate: dir > 0 ? 4 : -4,
+                  }),
+                  center: {
+                    opacity: 1,
+                    x: 0,
+                    scale: 1,
+                    rotate: 0,
+                  },
+                  exit: (dir: number) => ({
+                    opacity: 0,
+                    x: dir > 0 ? -180 : 180,
+                    scale: 0.82,
+                    rotate: dir > 0 ? -4 : 4,
+                  }),
+                }}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={{ duration: 0.9, ease: FLUID_EASE }}
+                className="relative cursor-pointer group"
+              >
+                {/* Continuous Soft Breathing Floating Motion */}
+                <motion.div
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{
+                    repeat: Infinity,
+                    duration: 4.8,
+                    ease: "easeInOut",
+                  }}
+                  className="relative w-[260px] h-[260px] sm:w-[350px] sm:h-[350px] md:w-[430px] md:h-[430px] lg:w-[500px] lg:h-[500px] flex items-center justify-center filter drop-shadow-[0_25px_35px_rgba(0,0,0,0.32)] drop-shadow-[0_45px_65px_rgba(0,0,0,0.18)]"
+                >
+                  <Image
+                    src={currentSlide.image}
+                    alt={currentSlide.productName}
+                    fill
+                    priority
+                    sizes="(max-width: 640px) 280px, (max-width: 1024px) 440px, 520px"
+                    className="object-contain transition-transform duration-500 group-hover:scale-105"
+                  />
+                </motion.div>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* 3. Overlay Detail Card (Bottom-Left: Clean, Compact Glassmorphic Card) */}
+          <div className="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 lg:bottom-10 lg:left-8 z-20 pointer-events-auto">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={`card-${currentSlide.id}`}
+                initial={{ opacity: 0, y: 18, scale: 0.97 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: -12, scale: 0.97 }}
+                transition={{ duration: 0.75, ease: FLUID_EASE, delay: 0.12 }}
+                className={`w-[calc(100vw-2rem)] sm:w-[340px] md:w-[380px] rounded-3xl p-5 sm:p-6 border shadow-[0_20px_50px_rgba(0,0,0,0.20)] flex flex-col gap-3 ${currentSlide.cardBg} ${currentSlide.cardBorder} ${currentSlide.textColor}`}
+              >
+                {/* Header Tag / Rating */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-bold uppercase tracking-wider opacity-80 flex items-center gap-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                    100% Pure Guarantee
                   </span>
-                  <div className="flex flex-col gap-1.5">
+                  <span className="text-[11px] font-extrabold px-2.5 py-0.5 rounded-full bg-white/40 border border-white/60">
+                    ★ 4.9 Purity Score
+                  </span>
+                </div>
+
+                {/* Product Name & Subtitle */}
+                <div>
+                  <h2 className="text-lg sm:text-xl font-black leading-tight tracking-tight">
+                    {currentSlide.productName}
+                  </h2>
+                  <p className="text-xs font-semibold opacity-80 mt-1">
+                    {currentSlide.productTagline}
+                  </p>
+                </div>
+
+                {/* Subtle Description */}
+                <p className="text-xs leading-relaxed opacity-75 line-clamp-2">
+                  {currentSlide.description}
+                </p>
+
+                {/* Clean Pack Selector & Price Row */}
+                <div className="pt-2 border-t border-black/10 flex items-center justify-between gap-2">
+                  <div className="flex gap-1.5">
                     {currentSlide.packOptions.map((opt, idx) => (
                       <button
                         key={opt.size}
                         onClick={() => setSelectedPackIndex(idx)}
-                        className={`cursor-pointer px-3.5 py-1.5 rounded-xl text-xs font-bold transition flex items-center justify-between gap-3 ${
+                        className={`cursor-pointer px-2.5 py-1 rounded-xl text-[11px] font-bold transition ${
                           selectedPackIndex === idx
                             ? currentSlide.accentBtn
                             : "bg-white/40 hover:bg-white/70"
-                        }`}
-                      >
-                        <span>{opt.size}</span>
-                        <span className="opacity-90">{opt.price}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Stone Ground / Purity Seal */}
-                <div
-                  className={`backdrop-blur-xl border px-3.5 py-2 rounded-xl text-xs font-semibold shadow-md flex items-center gap-2 ${currentSlide.specCardBg} ${currentSlide.specCardBorder}`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-amber-500" />
-                  <span>100% Pure Guarantee</span>
-                </div>
-              </motion.div>
-
-              {/* Central Floating Product Image Hero */}
-              <div className="relative flex items-center justify-center">
-                <AnimatePresence mode="wait">
-                  <motion.div
-                    key={`img-${currentSlide.id}`}
-                    initial={{ opacity: 0, scale: 0.88, y: 30 }}
-                    animate={{ opacity: 1, scale: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.9, y: -30 }}
-                    transition={{
-                      duration: 0.75,
-                      ease: [0.19, 1, 0.22, 1],
-                    }}
-                    className="relative group cursor-pointer"
-                  >
-                    {/* Radial Backlight behind the product */}
-                    <div className="absolute inset-0 rounded-full bg-white/35 blur-3xl scale-75 group-hover:scale-95 transition-transform duration-700 pointer-events-none" />
-
-                    {/* Product Presentation Card */}
-                    <div className="relative w-[260px] h-[260px] sm:w-[350px] sm:h-[350px] md:w-[410px] md:h-[410px] lg:w-[460px] lg:h-[460px] rounded-3xl overflow-hidden shadow-2xl border-2 border-white/60 bg-white/10 backdrop-blur-md transform group-hover:scale-[1.02] transition-transform duration-500">
-                      <Image
-                        src={currentSlide.image}
-                        alt={currentSlide.productName}
-                        fill
-                        priority
-                        sizes="(max-width: 640px) 280px, (max-width: 1024px) 420px, 480px"
-                        className="object-cover object-center"
-                      />
-
-                      {/* Glossy sheen overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-white/20 via-transparent to-black/10 pointer-events-none" />
-                    </div>
-
-                    {/* Mobile Pack Size Badge Overlay */}
-                    <div className="lg:hidden absolute bottom-3 left-3 backdrop-blur-md bg-white/80 text-stone-900 border border-white px-3 py-1 rounded-full text-xs font-bold shadow-md">
-                      {selectedPack.size} • {selectedPack.price}
-                    </div>
-                  </motion.div>
-                </AnimatePresence>
-              </div>
-
-              {/* Right Floating Frosted Spec Card */}
-              <motion.div
-                key={`spec-${currentSlide.id}`}
-                initial={{ opacity: 0, x: 35 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ duration: 0.6, delay: 0.2 }}
-                className="w-full max-w-sm lg:max-w-xs z-20"
-              >
-                <div
-                  className={`backdrop-blur-2xl border p-5 sm:p-6 rounded-3xl shadow-2xl flex flex-col gap-4 text-left ${currentSlide.specCardBg} ${currentSlide.specCardBorder}`}
-                >
-                  {/* Category & Rating */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-bold uppercase tracking-wider opacity-70 flex items-center gap-1">
-                      <Leaf className="w-3.5 h-3.5" /> Pure Selection
-                    </span>
-                    <span className="text-xs font-extrabold flex items-center gap-1 bg-white/60 px-2 py-0.5 rounded-full border border-white/80">
-                      ★ 4.9 Purity Score
-                    </span>
-                  </div>
-
-                  {/* Title & Tagline */}
-                  <div>
-                    <h2 className="text-lg sm:text-xl font-black leading-tight tracking-tight">
-                      {currentSlide.productName}
-                    </h2>
-                    <p className="text-xs font-semibold opacity-80 mt-1">
-                      {currentSlide.productTagline}
-                    </p>
-                  </div>
-
-                  {/* Description snippet */}
-                  <p className="text-xs leading-relaxed opacity-75 line-clamp-3">
-                    {currentSlide.description}
-                  </p>
-
-                  {/* Feature Badges */}
-                  <div className="flex flex-wrap gap-1.5 pt-1">
-                    {currentSlide.badges.map((b) => (
-                      <span
-                        key={b}
-                        className="text-[10px] font-bold px-2.5 py-1 rounded-lg bg-white/50 border border-white/80 shadow-2xs"
-                      >
-                        ✓ {b}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* Mobile Pack Size Selector if small screen */}
-                  <div className="lg:hidden flex gap-2 pt-1">
-                    {currentSlide.packOptions.map((opt, idx) => (
-                      <button
-                        key={opt.size}
-                        onClick={() => setSelectedPackIndex(idx)}
-                        className={`flex-1 py-1.5 px-2 rounded-xl text-xs font-bold transition text-center ${
-                          selectedPackIndex === idx
-                            ? currentSlide.accentBtn
-                            : "bg-white/40 border border-white/60"
                         }`}
                       >
                         {opt.size}
@@ -410,63 +430,54 @@ export function ProductSliderHero() {
                     ))}
                   </div>
 
-                  {/* Price & Action Buttons */}
-                  <div className="pt-3 border-t border-black/10 flex flex-col gap-2.5">
-                    <div className="flex items-baseline justify-between">
-                      <span className="text-xs opacity-70 font-medium">Selected Price:</span>
-                      <div className="flex items-baseline gap-1.5">
-                        <span className="text-2xl font-black tracking-tight">
-                          {selectedPack.price}
-                        </span>
-                        <span className="text-[11px] opacity-75 font-semibold">
-                          ({selectedPack.size})
-                        </span>
-                      </div>
-                    </div>
+                  <span className="text-lg sm:text-xl font-black tracking-tight">
+                    {selectedPack.price}
+                  </span>
+                </div>
 
-                    <div className="flex gap-2">
-                      <button
-                        onClick={handleAddToCart}
-                        className={`cursor-pointer flex-1 py-3 rounded-2xl font-bold text-xs tracking-wide shadow-md transition duration-200 flex items-center justify-center gap-2 ${currentSlide.accentBtn}`}
-                      >
-                        {isAdded ? (
-                          <>
-                            <Check className="w-4 h-4" />
-                            <span>Added to Cart!</span>
-                          </>
-                        ) : (
-                          <>
-                            <ShoppingBag className="w-4 h-4" />
-                            <span>Add to Cart</span>
-                          </>
-                        )}
-                      </button>
+                {/* Action Buttons: Add to Cart & Info */}
+                <div className="flex gap-2 pt-1">
+                  <button
+                    onClick={handleAddToCart}
+                    className={`cursor-pointer flex-1 py-3 px-4 rounded-2xl font-bold text-xs tracking-wide shadow-md transition duration-200 flex items-center justify-center gap-2 ${currentSlide.accentBtn}`}
+                  >
+                    {isAdded ? (
+                      <>
+                        <Check className="w-4 h-4" />
+                        <span>Added to Cart!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ShoppingBag className="w-4 h-4" />
+                        <span>Add to Cart ({selectedPack.price})</span>
+                      </>
+                    )}
+                  </button>
 
-                      <button
-                        onClick={() => setDetailsModalOpen(true)}
-                        className="cursor-pointer px-3.5 py-3 rounded-2xl font-semibold text-xs border border-white/80 bg-white/40 hover:bg-white/80 shadow-2xs transition"
-                        title="View Purity Specs & Lab Report"
-                      >
-                        <Info className="w-4 h-4" />
-                      </button>
-                    </div>
-                  </div>
+                  <button
+                    onClick={() => setDetailsModalOpen(true)}
+                    className="cursor-pointer p-3 rounded-2xl border border-white/70 bg-white/40 hover:bg-white/80 shadow-xs transition"
+                    title="View Purity Specifications & Lab Reports"
+                  >
+                    <Info className="w-4 h-4" />
+                  </button>
                 </div>
               </motion.div>
-            </div>
+            </AnimatePresence>
           </div>
+        </div>
 
-          {/* Bottom Interactive Navigation & Progress Bar Scrubber */}
-          <div className="w-full max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 sm:pt-6 z-20">
+        {/* 4. Clean Bottom Scrubber & Controls */}
+        <div className="relative z-20 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-4">
+          <div className="w-full flex flex-col sm:flex-row items-center justify-between gap-4 p-3 sm:p-4 rounded-3xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-lg">
             
-            {/* Play/Pause & Arrow Cluster */}
-            <div className="flex items-center gap-2.5">
-              {/* Play / Pause Toggle Button */}
+            {/* Left Controls: Play/Pause & Slide Indicator */}
+            <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsPlaying((prev) => !prev)}
-                className="cursor-pointer p-3 rounded-full bg-white/70 hover:bg-white border border-white/90 shadow-md transition duration-200"
+                className="cursor-pointer p-2.5 rounded-full bg-white/80 hover:bg-white border border-white shadow-sm transition duration-200"
                 aria-label={isPlaying ? "Pause 4s Auto Slider" : "Resume Auto Slider"}
-                title={isPlaying ? "Pause automatic slide change" : "Resume automatic slide change"}
+                title={isPlaying ? "Pause 4s auto timer" : "Resume auto timer"}
               >
                 {isPlaying ? (
                   <Pause className="w-4 h-4 text-stone-900" />
@@ -475,80 +486,63 @@ export function ProductSliderHero() {
                 )}
               </button>
 
-              {/* Prev Slide Arrow */}
-              <button
-                onClick={prevSlide}
-                className="cursor-pointer p-3 rounded-full bg-white/55 hover:bg-white border border-white/80 shadow-md transition duration-200"
-                aria-label="Previous Slide"
-              >
-                <ChevronLeft className="w-4 h-4 text-stone-900" />
-              </button>
-
-              {/* Next Slide Arrow */}
-              <button
-                onClick={nextSlide}
-                className="cursor-pointer p-3 rounded-full bg-white/55 hover:bg-white border border-white/80 shadow-md transition duration-200"
-                aria-label="Next Slide"
-              >
-                <ChevronRight className="w-4 h-4 text-stone-900" />
-              </button>
-
-              <span className="ml-1 text-xs font-mono font-bold opacity-75">
-                0{currentSlideIndex + 1} / 0{SLIDES.length}
-              </span>
+              <div className="flex items-center gap-2">
+                <span className="font-mono text-xs font-black tracking-tight text-stone-900">
+                  0{currentSlideIndex + 1} / 0{SLIDES.length}
+                </span>
+                <span className="hidden md:inline-block text-xs font-bold text-stone-700 opacity-80">
+                  • {currentSlide.kineticLine1} {currentSlide.kineticLine2}
+                </span>
+              </div>
             </div>
 
-            {/* Continuous 4-Second Liquid Progress Bar Scrubber */}
-            <div className="flex-1 w-full sm:max-w-md flex items-center gap-2.5">
-              {SLIDES.map((slide, idx) => {
-                const isActive = idx === currentSlideIndex;
-                const isPast = idx < currentSlideIndex;
-
-                return (
-                  <button
-                    key={slide.id}
-                    onClick={() => goToSlide(idx, idx > currentSlideIndex ? 1 : -1)}
-                    className="cursor-pointer flex-1 group flex flex-col gap-1 text-left focus:outline-none"
-                  >
-                    {/* Slide Title Tag */}
-                    <div className="flex items-center justify-between text-[11px] font-bold tracking-tight">
-                      <span className={`transition-opacity ${isActive ? "opacity-100" : "opacity-50"}`}>
-                        0{idx + 1} {slide.kineticLine1}
-                      </span>
-                    </div>
-
-                    {/* Scrubber Segment Track */}
-                    <div className="relative w-full h-2 rounded-full bg-black/15 overflow-hidden backdrop-blur-xs border border-white/30">
-                      <div
-                        className={`absolute top-0 bottom-0 left-0 rounded-full transition-all duration-75 ${
-                          currentSlide.theme === "terracotta"
-                            ? "bg-white"
-                            : "bg-stone-900"
-                        }`}
-                        style={{
-                          width: isActive
-                            ? `${progress}%`
-                            : isPast
-                            ? "100%"
-                            : "0%",
-                        }}
-                      />
-                    </div>
-                  </button>
-                );
-              })}
+            {/* Center: Single Unified Smooth Progress Scrubber Bar (fills over 4s cycle) */}
+            <div
+              ref={scrubberRef}
+              onClick={handleScrubberClick}
+              className="flex-1 w-full sm:mx-4 h-2.5 rounded-full bg-black/15 overflow-hidden backdrop-blur-sm border border-white/50 cursor-pointer relative group"
+              title="Click along the timeline to jump to slides"
+            >
+              {/* Single continuous fill line */}
+              <div
+                className={`h-full rounded-full transition-all duration-75 ${currentSlide.progressBarColor}`}
+                style={{
+                  width: `${progress}%`,
+                }}
+              />
             </div>
 
-            {/* Purity Guarantee Badge on Right */}
-            <div className="hidden sm:flex items-center gap-1.5 text-xs font-bold opacity-80 bg-white/40 px-3.5 py-1.5 rounded-full border border-white/60">
-              <ShieldCheck className="w-4 h-4" />
-              <span>Lab Verified Pure</span>
+            {/* Right Controls: Prev/Next Smooth Arrows & Trust Badge */}
+            <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5">
+                <button
+                  onClick={prevSlide}
+                  className="cursor-pointer p-2 rounded-full bg-white/70 hover:bg-white border border-white shadow-xs transition"
+                  aria-label="Previous Slide"
+                  title="Previous slide"
+                >
+                  <ChevronLeft className="w-4 h-4 text-stone-900" />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="cursor-pointer p-2 rounded-full bg-white/70 hover:bg-white border border-white shadow-xs transition"
+                  aria-label="Next Slide"
+                  title="Next slide"
+                >
+                  <ChevronRight className="w-4 h-4 text-stone-900" />
+                </button>
+              </div>
+
+              <div className="hidden lg:flex items-center gap-1 text-[11px] font-bold text-stone-800 bg-white/60 px-3 py-1.5 rounded-full border border-white/80">
+                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
+                <span>Lab Verified Pure</span>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Learn More & Lab Certificate Modal Drawer */}
+      {/* Purity & Lab Certificate Modal */}
       <AnimatePresence>
         {detailsModalOpen && (
           <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
@@ -556,6 +550,7 @@ export function ProductSliderHero() {
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              transition={{ duration: 0.3, ease: FLUID_EASE }}
               className="w-full max-w-lg rounded-3xl bg-white border border-stone-200 p-6 sm:p-7 shadow-2xl text-stone-900"
             >
               <div className="flex items-center justify-between pb-4 border-b border-stone-200">
@@ -604,27 +599,27 @@ export function ProductSliderHero() {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-between text-stone-500 pt-1">
-                  <span>Shelf Life: <strong>{currentSlide.learnMoreDetails.shelfLife}</strong></span>
-                  <div className="flex gap-1.5">
-                    {currentSlide.learnMoreDetails.certifications.map((c) => (
-                      <span key={c} className="bg-emerald-50 text-emerald-800 border border-emerald-200 px-2 py-0.5 rounded text-[10px] font-bold">
-                        {c}
+                <div className="pt-2">
+                  <span className="font-bold text-stone-700 block mb-2">Recognized Accreditations:</span>
+                  <div className="flex flex-wrap gap-2">
+                    {currentSlide.learnMoreDetails.certifications.map((cert) => (
+                      <span
+                        key={cert}
+                        className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200"
+                      >
+                        ✓ {cert}
                       </span>
                     ))}
                   </div>
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-stone-200 flex gap-2">
+              <div className="pt-3 border-t border-stone-200 flex justify-end">
                 <button
-                  onClick={() => {
-                    handleAddToCart();
-                    setDetailsModalOpen(false);
-                  }}
-                  className="w-full py-3 rounded-xl font-bold text-xs text-white bg-emerald-800 hover:bg-emerald-900 shadow-md transition"
+                  onClick={() => setDetailsModalOpen(false)}
+                  className="cursor-pointer px-5 py-2.5 rounded-xl bg-stone-900 text-white font-bold text-xs hover:bg-stone-800 transition"
                 >
-                  Order {currentSlide.productName} ({selectedPack.size})
+                  Close Specifications
                 </button>
               </div>
             </motion.div>
