@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 
 export default function ShopPage() {
-  const [selectedCategory, setSelectedCategory] = useState<"all" | "flours" | "teas">("all");
+  const [selectedCategory, setSelectedCategory] = useState<"all" | "flours" | "spices" | "teas">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"featured" | "price-asc" | "price-desc" | "rating">("featured");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
@@ -120,6 +120,16 @@ export default function ShopPage() {
                   }`}
                 >
                   Diet &amp; Chakki Flours ({PRODUCTS.filter((p) => p.category === "flours").length})
+                </button>
+                <button
+                  onClick={() => setSelectedCategory("spices")}
+                  className={`px-4 py-2 rounded-xl text-xs font-bold transition shrink-0 cursor-pointer ${
+                    selectedCategory === "spices"
+                      ? "bg-[#8D2D1B] text-white shadow-sm"
+                      : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+                  }`}
+                >
+                  Pure Spices ({PRODUCTS.filter((p) => p.category === "spices").length})
                 </button>
                 <button
                   onClick={() => setSelectedCategory("teas")}

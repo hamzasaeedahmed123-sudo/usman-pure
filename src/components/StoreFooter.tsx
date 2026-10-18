@@ -11,6 +11,7 @@ import {
   RotateCcw,
   MessageCircle,
 } from "lucide-react";
+import { PRODUCTS } from "@/data/products";
 
 export function StoreFooter() {
   return (
@@ -82,27 +83,22 @@ export function StoreFooter() {
             </h4>
             <ul className="space-y-2.5 text-stone-400">
               <li>
-                <a href="/shop" className="hover:text-amber-400 transition">
-                  All Products (11)
+                <a href="/products" className="hover:text-amber-400 transition">
+                  All Products ({PRODUCTS.length})
                 </a>
               </li>
               <li>
-                <a href="/category/flours" className="hover:text-amber-400 transition">
-                  Stone-Ground Atta
+                <a href="/flour" className="hover:text-amber-400 transition">
+                  Stone-Ground Flours
                 </a>
               </li>
               <li>
-                <a href="/product/prod-3" className="hover:text-amber-400 transition">
-                  Weight Loss Flour
+                <a href="/spices" className="hover:text-amber-400 transition">
+                  Pure Organic Spices
                 </a>
               </li>
               <li>
-                <a href="/product/prod-4" className="hover:text-amber-400 transition">
-                  Diabetic Control Flour
-                </a>
-              </li>
-              <li>
-                <a href="/category/teas" className="hover:text-amber-400 transition">
+                <a href="/herbals" className="hover:text-amber-400 transition">
                   Organic Herbal Teas
                 </a>
               </li>

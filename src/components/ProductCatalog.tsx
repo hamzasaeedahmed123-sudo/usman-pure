@@ -21,16 +21,16 @@ export function ProductCatalog({
   activeFilter = "all",
   setActiveFilter,
 }: {
-  activeFilter?: "all" | "flours" | "teas";
-  setActiveFilter?: (filter: "all" | "flours" | "teas") => void;
+  activeFilter?: "all" | "flours" | "spices" | "teas";
+  setActiveFilter?: (filter: "all" | "flours" | "spices" | "teas") => void;
 }) {
-  const [internalFilter, setInternalFilter] = useState<"all" | "flours" | "teas">("all");
+  const [internalFilter, setInternalFilter] = useState<"all" | "flours" | "spices" | "teas">("all");
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
   const [addedIds, setAddedIds] = useState<{ [key: string]: boolean }>({});
   const [cartCount, setCartCount] = useState(0);
 
   const currentFilter = setActiveFilter ? activeFilter : internalFilter;
-  const changeFilter = (f: "all" | "flours" | "teas") => {
+  const changeFilter = (f: "all" | "flours" | "spices" | "teas") => {
     if (setActiveFilter) setActiveFilter(f);
     else setInternalFilter(f);
   };
@@ -94,6 +94,16 @@ export function ProductCatalog({
             }`}
           >
             Stone-Ground Flours ({PRODUCTS.filter((p) => p.category === "flours").length})
+          </button>
+          <button
+            onClick={() => changeFilter("spices")}
+            className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-bold transition duration-200 cursor-pointer ${
+              currentFilter === "spices"
+                ? "bg-[#8D2D1B] text-white shadow-md shadow-rose-950/20"
+                : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+            }`}
+          >
+            Cold-Pounded Spices ({PRODUCTS.filter((p) => p.category === "spices").length})
           </button>
           <button
             onClick={() => changeFilter("teas")}

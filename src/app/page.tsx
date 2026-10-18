@@ -16,7 +16,7 @@ import { NewsletterSection } from "@/components/NewsletterSection";
 import { StoreFooter } from "@/components/StoreFooter";
 
 export default function Home() {
-  const [activeCatalogFilter, setActiveCatalogFilter] = useState<"all" | "flours" | "teas">("all");
+  const [activeCatalogFilter, setActiveCatalogFilter] = useState<"all" | "flours" | "spices" | "teas">("all");
 
   return (
     <div className="relative w-full bg-stone-100 text-stone-900 selection:bg-amber-500/20 selection:text-amber-900">

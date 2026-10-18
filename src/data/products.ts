@@ -1,7 +1,7 @@
 export interface Product {
   id: string;
   title: string;
-  category: "flours" | "teas";
+  category: "flours" | "teas" | "spices";
   categoryLabel: string;
   price: number;
   originalPrice: number;
@@ -20,6 +20,7 @@ export interface Product {
 }
 
 export const PRODUCTS: Product[] = [
+  // 1. FLOURS (5 items scraped from usmanzpure.com)
   {
     id: "prod-1",
     title: "Basic – Flour For General Health",
@@ -43,32 +44,6 @@ export const PRODUCTS: Product[] = [
       "Zero Maida & Zero Bleach",
       "High Dietary Fiber for Digestion",
       "Rich in Natural B-Vitamins & Minerals",
-    ],
-    inStock: true,
-  },
-  {
-    id: "prod-2",
-    title: "Chamomile Tea",
-    category: "teas",
-    categoryLabel: "Pure Herbal Infusion",
-    price: 800,
-    originalPrice: 1000,
-    priceFormatted: "₨800",
-    originalPriceFormatted: "₨1,000",
-    discountBadge: "Save 20%",
-    image: "/images/products/prod-2.jpg",
-    link: "https://usmanzpure.com/product/chamomile-tea/",
-    rating: 5.0,
-    reviewCount: 64,
-    weight: "50g",
-    tagline: "Calming Floral Infusion for Restful Sleep & Stress Relief",
-    description:
-      "Hand-harvested whole chamomile flowers dried naturally under shade. Delivers an apple-like gentle aroma that eases anxiety, soothes upset stomachs, and supports deep, restorative sleep.",
-    benefits: [
-      "Naturally 100% Caffeine-Free",
-      "Promotes Deep, Restful Sleep",
-      "Soothes Digestive Discomfort",
-      "Natural Anti-Inflammatory Properties",
     ],
     inStock: true,
   },
@@ -173,6 +148,34 @@ export const PRODUCTS: Product[] = [
       "Zero Bloating or Digestive Distress",
       "Pliable Dough for Easy Rolling",
       "High in Natural Prebiotics",
+    ],
+    inStock: true,
+  },
+
+  // 2. HERBAL TEAS (6 items scraped from usmanzpure.com)
+  {
+    id: "prod-2",
+    title: "Chamomile Tea",
+    category: "teas",
+    categoryLabel: "Pure Herbal Infusion",
+    price: 800,
+    originalPrice: 1000,
+    priceFormatted: "₨800",
+    originalPriceFormatted: "₨1,000",
+    discountBadge: "Save 20%",
+    image: "/images/products/prod-2.jpg",
+    link: "https://usmanzpure.com/product/chamomile-tea/",
+    rating: 5.0,
+    reviewCount: 64,
+    weight: "50g",
+    tagline: "Calming Floral Infusion for Restful Sleep & Stress Relief",
+    description:
+      "Hand-harvested whole chamomile flowers dried naturally under shade. Delivers an apple-like gentle aroma that eases anxiety, soothes upset stomachs, and supports deep, restorative sleep.",
+    benefits: [
+      "Naturally 100% Caffeine-Free",
+      "Promotes Deep, Restful Sleep",
+      "Soothes Digestive Discomfort",
+      "Natural Anti-Inflammatory Properties",
     ],
     inStock: true,
   },
@@ -306,6 +309,164 @@ export const PRODUCTS: Product[] = [
     ],
     inStock: true,
   },
+
+  // 3. ORGANIC SPICES (Usman's Pure Signature Line)
+  {
+    id: "prod-12",
+    title: "Hand-Pounded Kashmiri Red Chili Powder",
+    category: "spices",
+    categoryLabel: "Cold Stone-Pounded Spice",
+    price: 650,
+    originalPrice: 850,
+    priceFormatted: "₨650",
+    originalPriceFormatted: "₨850",
+    discountBadge: "Save 23%",
+    image: "/spices-jar.png",
+    link: "https://usmanzpure.com/product/kashmiri-chili/",
+    rating: 5.0,
+    reviewCount: 58,
+    weight: "200g Glass Jar",
+    tagline: "Vibrant Ruby Red Color & Mild Warmth With Zero Artificial Dyes",
+    description:
+      "Sun-ripened whole Kashmiri chilies cold-pounded in traditional stone mortars without friction heat. Locks in natural capsanthin pigments and essential oils. Tested 100% free of synthetic Sudan dyes and lead chromate.",
+    benefits: [
+      "Cold-Pounded Without Friction Heat",
+      "Zero Sudan Red Dyes or Artificial Colors",
+      "Rich Natural Red Hue with Mild Heat",
+      "Aroma-Lock Glass Jar Packaging",
+    ],
+    inStock: true,
+  },
+  {
+    id: "prod-13",
+    title: "Organic Lakadong Turmeric (Haldi) — 7% Curcumin",
+    category: "spices",
+    categoryLabel: "Cold Stone-Pounded Spice",
+    price: 550,
+    originalPrice: 700,
+    priceFormatted: "₨550",
+    originalPriceFormatted: "₨700",
+    discountBadge: "Save 21%",
+    image: "/images/spices-product.jpg",
+    link: "https://usmanzpure.com/product/organic-turmeric/",
+    rating: 4.9,
+    reviewCount: 62,
+    weight: "200g Glass Jar",
+    tagline: "Potent Anti-Inflammatory Golden Spice with Exceptionally High Curcumin",
+    description:
+      "Organically cultivated turmeric rhizomes shade-cured and slow-milled on stone chakkis to retain over 7% natural curcumin. Earthy fragrance, brilliant golden color, and zero chalk or starch adulterants.",
+    benefits: [
+      "High Potency >7% Natural Curcumin",
+      "Powerful Cellular Antioxidant & Anti-Inflammatory",
+      "100% Unadulterated — Zero Chalk or Starch",
+      "Lab Tested for Zero Heavy Metal Traces",
+    ],
+    inStock: true,
+  },
+  {
+    id: "prod-14",
+    title: "Royal Whole Garam Masala Blend",
+    category: "spices",
+    categoryLabel: "Royal Whole Spices",
+    price: 850,
+    originalPrice: 1100,
+    priceFormatted: "₨850",
+    originalPriceFormatted: "₨1,100",
+    discountBadge: "Chef Choice • Save 22%",
+    image: "/spices-jar.png",
+    link: "https://usmanzpure.com/product/garam-masala/",
+    rating: 5.0,
+    reviewCount: 47,
+    weight: "150g Glass Jar",
+    tagline: "Aromatic Blend of 12 Premium Whole Spices for Authentic Flavor",
+    description:
+      "A royal heritage combination of Ceylon cinnamon, green cardamom, black cardamom, cloves, star anise, mace, nutmeg, cumin, and black pepper. Unroasted and unbroken to preserve fragrant volatile essential oils until cooking.",
+    benefits: [
+      "12 Hand-Selected Whole Spices",
+      "Preserves Intact Volatile Essential Oils",
+      "Zero Spent or Solvent-Extracted Spices",
+      "Deep, Complex Mughlai Aroma",
+    ],
+    inStock: true,
+  },
+  {
+    id: "prod-15",
+    title: "Stone-Ground Roasted Cumin Powder (Bhuna Zeera)",
+    category: "spices",
+    categoryLabel: "Cold Stone-Pounded Spice",
+    price: 480,
+    originalPrice: 600,
+    priceFormatted: "₨480",
+    originalPriceFormatted: "₨600",
+    discountBadge: "Save 20%",
+    image: "/images/spices-cutout.png",
+    link: "https://usmanzpure.com/product/roasted-cumin/",
+    rating: 4.9,
+    reviewCount: 38,
+    weight: "150g Glass Jar",
+    tagline: "Slow-Roasted & Freshly Ground for Intense Smoky Earthy Flavor",
+    description:
+      "Plump whole cumin seeds slow-roasted on iron griddles and crushed in stone mills. Brings unmatched smoky richness to raitas, salads, lentil soups, and daily curries while boosting digestion.",
+    benefits: [
+      "Freshly Roasted & Stone-Ground",
+      "Aids Gastric Secretion & Digestion",
+      "Intense Smoky Herbal Fragrance",
+      "100% Pure Seed — Zero Dust or Husk",
+    ],
+    inStock: true,
+  },
+  {
+    id: "prod-16",
+    title: "Organic Coriander Powder (Pisa Dhania)",
+    category: "spices",
+    categoryLabel: "Cold Stone-Pounded Spice",
+    price: 420,
+    originalPrice: 550,
+    priceFormatted: "₨420",
+    originalPriceFormatted: "₨550",
+    discountBadge: "Save 23%",
+    image: "/spices-jar.png",
+    link: "https://usmanzpure.com/product/coriander-powder/",
+    rating: 4.8,
+    reviewCount: 31,
+    weight: "200g Glass Jar",
+    tagline: "Cold-Ground Whole Green Coriander Seeds for Bright Citrusy Aroma",
+    description:
+      "Premium green coriander seeds harvested at peak oil concentration and stone-milled into a fine, light-tan aromatic powder. Imparts body and delicate citrus notes to gravies without bitter aftertaste.",
+    benefits: [
+      "Natural Digestive & Cooling Properties",
+      "Bright Citrusy Fresh Aroma",
+      "Zero Sawdust or Flour Adulteration",
+      "Packed in Airtight Glass Canisters",
+    ],
+    inStock: true,
+  },
+  {
+    id: "prod-17",
+    title: "Himalayan Pink Rock Salt (Fine Chakki Ground)",
+    category: "spices",
+    categoryLabel: "Pure Mineral Salt",
+    price: 350,
+    originalPrice: 450,
+    priceFormatted: "₨350",
+    originalPriceFormatted: "₨450",
+    discountBadge: "Save 22%",
+    image: "/images/spices-product.jpg",
+    link: "https://usmanzpure.com/product/pink-salt/",
+    rating: 5.0,
+    reviewCount: 89,
+    weight: "800g Eco Pouch",
+    tagline: "Ancient Khewra Mineral Salt with 84 Essential Trace Elements",
+    description:
+      "Unrefined raw crystalline rock salt mined directly from prime ancient Khewra salt beds. Stone-milled to a fine table consistency. 100% free of anti-caking micro-chemical agents, bleaches, and synthetic iodine.",
+    benefits: [
+      "84 Natural Minerals & Electrolytes",
+      "Zero Anti-Caking Chemicals (E535/E536)",
+      "Unbleached Natural Pink Crystals",
+      "Superior Smooth Alkaline Taste",
+    ],
+    inStock: true,
+  },
 ];
 
 export interface BundleItem {
@@ -368,5 +529,22 @@ export const MEGA_BUNDLES: BundleItem[] = [
     ],
     description:
       "Complete monthly wellness for parents and kids. High mineral stone-ground rotis for everyday energy, plus soothing chamomile for peaceful sleep.",
+  },
+  {
+    id: "bundle-4",
+    title: "Royal Organic Spice Kitchen Box",
+    badge: "Purity Box • Save ₨620",
+    price: 2300,
+    originalPrice: 2920,
+    savings: 620,
+    image: "/spices-jar.png",
+    includes: [
+      "Hand-Pounded Kashmiri Red Chili (200g Jar)",
+      "Organic Lakadong Turmeric 7% Curcumin (200g Jar)",
+      "Royal Whole Garam Masala Blend (150g Jar)",
+      "Himalayan Pink Rock Salt (800g Pouch)",
+    ],
+    description:
+      "Transform your cooking with 100% unadulterated cold-pounded spices. Zero artificial dyes, zero lead chromate, zero starch fillers.",
   },
 ];

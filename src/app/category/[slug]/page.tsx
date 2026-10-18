@@ -1,7 +1,7 @@
 import { CategoryPageView } from "./CategoryPageView";
 
 export function generateStaticParams() {
-  return [{ slug: "flours" }, { slug: "teas" }];
+  return [{ slug: "flours" }, { slug: "teas" }, { slug: "spices" }];
 }
 
 interface PageProps {

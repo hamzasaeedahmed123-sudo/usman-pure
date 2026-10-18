@@ -29,7 +29,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
   const categoryMeta: {
     [key: string]: {
       title: string;
-      categoryKey: "flours" | "teas";
+      categoryKey: "flours" | "teas" | "spices";
       badge: string;
       description: string;
       highlights: string[];
@@ -61,6 +61,19 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
         "Packed in UV-Shielded Aroma-Lock Pouches",
       ],
     },
+    spices: {
+      title: "Cold Stone-Pounded Organic Spices",
+      categoryKey: "spices",
+      badge: "100% Zero Dyes & Zero Sudanese Red",
+      description:
+        "Whole unadulterated spices slow-pounded on stone mortars at cold temperatures. Retains 100% volatile natural essential oils without heating or artificial coloring.",
+      highlights: [
+        "Cold Stone-Pounded (<35°C processing)",
+        "Zero Sudan Dyes, Lead Chromate or Sawdust Fillers",
+        "Aroma-Locked Sealed Containers",
+        "Direct Single-Origin Certified Farm Sourcing",
+      ],
+    },
   };
 
   const currentMeta = categoryMeta[slug];
@@ -87,7 +100,16 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
 
   return (
     <div className="min-h-screen bg-stone-50 flex flex-col justify-between">
-      <Header isSolid theme={currentMeta.categoryKey === "flours" ? "amber" : "green"} />
+      <Header
+        isSolid
+        theme={
+          currentMeta.categoryKey === "flours"
+            ? "amber"
+            : currentMeta.categoryKey === "spices"
+            ? "terracotta"
+            : "green"
+        }
+      />
 
       <main className="pt-28 sm:pt-32 flex-1">
         {/* Breadcrumb */}

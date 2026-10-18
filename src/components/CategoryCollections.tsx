@@ -1,51 +1,46 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 
-export function CategoryCollections({ onSelectCategory }: { onSelectCategory?: (category: "all" | "flours" | "teas") => void }) {
+interface CategoryCollectionsProps {
+  onSelectCategory?: (cat: "all" | "flours" | "spices" | "teas") => void;
+}
+
+export function CategoryCollections({ onSelectCategory }: CategoryCollectionsProps = {}) {
   const collections = [
     {
-      id: "flours",
-      title: "Diet & Health Flours",
-      subtitle: "Weight Loss, Diabetic Care & Kids Immunity",
+      id: "flour",
+      title: "Diet & Chakki Flours",
+      subtitle: "Weight Loss, Diabetic Care & Kids Nutrition",
       itemCount: "5 Specialized Blends",
       image: "/images/products/prod-3.jpg",
       badge: "Best Seller",
-      filterKey: "flours" as const,
-      color: "from-amber-950/80 via-stone-900/60 to-transparent",
+      href: "/flour",
+      color: "from-amber-950/85 via-stone-900/60 to-transparent",
     },
     {
-      id: "teas",
+      id: "spices",
+      title: "Cold Stone-Pounded Spices",
+      subtitle: "Kashmiri Chili, Turmeric & Whole Garam Masala",
+      itemCount: "6 Pure Spices",
+      image: "/spices-jar.png",
+      badge: "100% Zero Dyes",
+      href: "/spices",
+      color: "from-[#661D0F]/90 via-stone-900/60 to-transparent",
+    },
+    {
+      id: "herbals",
       title: "Pure Organic Herbal Teas",
-      subtitle: "Rosella, Chamomile, Olive Leaf & Wild Herbs",
+      subtitle: "Rosella, Chamomile, Olive Leaf & Wild Botanicals",
       itemCount: "6 Pure Infusions",
       image: "/images/products/prod-9.jpg",
-      badge: "100% Natural",
-      filterKey: "teas" as const,
-      color: "from-emerald-950/80 via-stone-900/60 to-transparent",
-    },
-    {
-      id: "bundles",
-      title: "Discounted Mega Bundles",
-      subtitle: "Full Health Transformation Combos",
-      itemCount: "Save up to ₨800",
-      image: "/images/products/prod-4.png",
-      badge: "Save More",
-      filterKey: "all" as const,
-      color: "from-stone-950/80 via-stone-900/60 to-transparent",
+      badge: "100% Caffeine Free",
+      href: "/herbals",
+      color: "from-emerald-950/85 via-stone-900/60 to-transparent",
     },
   ];
-
-  const handleClick = (filterKey: "all" | "flours" | "teas") => {
-    if (onSelectCategory) {
-      onSelectCategory(filterKey);
-    }
-    const target = document.getElementById("product-catalog");
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    }
-  };
 
   return (
     <section className="py-14 sm:py-20 bg-stone-50 border-b border-stone-200">
@@ -53,7 +48,7 @@ export function CategoryCollections({ onSelectCategory }: { onSelectCategory?: (
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
           <div>
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-stone-200 text-stone-800">
-              <Sparkles className="w-3.5 h-3.5 text-amber-700" /> Curated Categories
+              <Sparkles className="w-3.5 h-3.5 text-amber-700" /> Dedicated Store Sections
             </div>
             <h2 className="mt-3 text-2xl sm:text-3xl md:text-4xl font-extrabold text-stone-900 tracking-tight">
               Explore Our Pure Collections
@@ -66,9 +61,9 @@ export function CategoryCollections({ onSelectCategory }: { onSelectCategory?: (
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {collections.map((item) => (
-            <div
+            <Link
               key={item.id}
-              onClick={() => handleClick(item.filterKey)}
+              href={item.href}
               className="group relative h-96 rounded-3xl overflow-hidden cursor-pointer shadow-md hover:shadow-2xl transition duration-500 border border-stone-200/80 bg-white flex flex-col justify-end p-6 sm:p-8"
             >
               {/* Product Background Image */}
@@ -105,11 +100,11 @@ export function CategoryCollections({ onSelectCategory }: { onSelectCategory?: (
                 </p>
 
                 <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-white group-hover:translate-x-1.5 transition duration-300">
-                  <span>Shop Collection</span>
+                  <span>Explore {item.title}</span>
                   <ArrowRight className="w-4 h-4 text-amber-400" />
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>

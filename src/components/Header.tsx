@@ -71,9 +71,10 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
 
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "All Products", href: "/shop", badge: "11 Items" },
-    { label: "Diet Flour", href: "/category/flours", badge: "Stone Ground" },
-    { label: "Herbal Teas", href: "/category/teas", badge: "Pure Herbs" },
+    { label: "All Products", href: "/products", badge: "17 Items" },
+    { label: "Flour", href: "/flour", badge: "Stone Ground" },
+    { label: "Spices", href: "/spices", badge: "Cold Pounded" },
+    { label: "Herbal Teas", href: "/herbals", badge: "Pure Herbs" },
     { label: "Mega Bundles", href: "/bundles", badge: "Save ₨800" },
     { label: "About Us", href: "/about" },
     { label: "Contact", href: "/contact" },
@@ -222,7 +223,7 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
 
               {/* Primary Call to Action */}
               <Link
-                href="/shop"
+                href="/products"
                 className={`hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shadow-sm transition duration-200 ${themeClasses.accent}`}
               >
                 <ShieldCheck className="w-3.5 h-3.5" />
@@ -284,7 +285,7 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
 
                 <div className="pt-2 mt-1 border-t border-black/10 flex flex-col gap-2">
                   <Link
-                    href="/shop"
+                    href="/products"
                     onClick={() => setMobileMenuOpen(false)}
                     className={`w-full text-center py-2.5 rounded-xl font-bold text-xs shadow-sm ${themeClasses.accent}`}
                   >
