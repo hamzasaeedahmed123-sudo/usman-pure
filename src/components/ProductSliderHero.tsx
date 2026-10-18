@@ -1,11 +1,9 @@
 "use client";
 
-import { useState, useEffect, useRef, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
-  Play,
-  Pause,
   ShoppingBag,
   Sparkles,
   ShieldCheck,
@@ -150,12 +148,10 @@ const AUTO_SLIDE_DURATION = 4000; // Exact 4-second cycle
 export function ProductSliderHero() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
-  const [progress, setProgress] = useState(0);
   const [selectedPackIndex, setSelectedPackIndex] = useState(1);
   const [isAdded, setIsAdded] = useState(false);
   const [detailsModalOpen, setDetailsModalOpen] = useState(false);
   const [direction, setDirection] = useState<number>(1); // 1 = forward, -1 = backward
-  const scrubberRef = useRef<HTMLDivElement>(null);
 
   const currentSlide = SLIDES[currentSlideIndex];
 
@@ -168,7 +164,6 @@ export function ProductSliderHero() {
   const goToSlide = useCallback((newIndex: number, newDir: number = 1) => {
     setDirection(newDir);
     setCurrentSlideIndex(newIndex);
-    setProgress(0);
   }, []);
 
   const nextSlide = useCallback(() => {
@@ -179,22 +174,13 @@ export function ProductSliderHero() {
     goToSlide((currentSlideIndex - 1 + SLIDES.length) % SLIDES.length, -1);
   }, [currentSlideIndex, goToSlide]);
 
-  // Exact 4-second continuous liquid timeline progress scrubber
+  // Exact 4-second auto slide cycle
   useEffect(() => {
     if (!isPlaying) return;
 
-    const intervalTime = 20; // 20ms precision tick
-    const increment = (intervalTime / AUTO_SLIDE_DURATION) * 100;
-
     const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          nextSlide();
-          return 0;
-        }
-        return prev + increment;
-      });
-    }, intervalTime);
+      nextSlide();
+    }, AUTO_SLIDE_DURATION);
 
     return () => clearInterval(timer);
   }, [isPlaying, nextSlide]);
@@ -218,14 +204,6 @@ export function ProductSliderHero() {
     setTimeout(() => setIsAdded(false), 2200);
   };
 
-  const handleScrubberClick = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!scrubberRef.current) return;
-    const rect = scrubberRef.current.getBoundingClientRect();
-    const clickRatio = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-    const targetSlide = Math.min(SLIDES.length - 1, Math.floor(clickRatio * SLIDES.length));
-    goToSlide(targetSlide, targetSlide >= currentSlideIndex ? 1 : -1);
-  };
-
   const selectedPack = currentSlide.packOptions[selectedPackIndex] || currentSlide.packOptions[0];
 
   return (
@@ -234,7 +212,7 @@ export function ProductSliderHero() {
       <Header theme={currentSlide.themeKey} />
 
       {/* Main Hero Viewport Canvas */}
-      <div className="relative w-full min-h-screen flex flex-col justify-between pt-20 pb-8 sm:pt-24 sm:pb-10 overflow-hidden">
+      <div className="relative w-full min-h-screen flex flex-col justify-center items-center pt-16 pb-8 overflow-hidden">
         
         {/* Liquid Sliding Background Layers */}
         <AnimatePresence mode="popLayout" custom={direction}>
@@ -462,48 +440,6 @@ export function ProductSliderHero() {
                 </div>
               </motion.div>
             </AnimatePresence>
-          </div>
-        </div>
-
-        {/* 4. Sleek Bottom Timeline Scrubber & Minimal Controls */}
-        <div className="relative z-20 w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pt-3">
-          <div className="w-full flex items-center justify-between gap-3 sm:gap-4 p-2 sm:p-2.5 px-3 sm:px-4 rounded-2xl sm:rounded-full bg-white/40 backdrop-blur-xl border border-white/60 shadow-md">
-            
-            {/* Left Control: ONLY Play/Pause Toggle */}
-            <button
-              onClick={() => setIsPlaying((prev) => !prev)}
-              className="cursor-pointer p-2 sm:p-2.5 rounded-full bg-white/80 hover:bg-white border border-white/90 shadow-2xs transition duration-200 flex-shrink-0"
-              aria-label={isPlaying ? "Pause 4s Auto Slider" : "Resume Auto Slider"}
-              title={isPlaying ? "Pause 4s auto timer" : "Resume auto timer"}
-            >
-              {isPlaying ? (
-                <Pause className="w-3.5 h-3.5 text-stone-900" />
-              ) : (
-                <Play className="w-3.5 h-3.5 text-stone-900 fill-stone-900" />
-              )}
-            </button>
-
-            {/* Center: Single Unified Smooth Progress Scrubber Bar */}
-            <div
-              ref={scrubberRef}
-              onClick={handleScrubberClick}
-              className="flex-1 h-2 sm:h-2.5 rounded-full bg-black/15 overflow-hidden backdrop-blur-sm border border-white/50 cursor-pointer relative group"
-              title="Click along the timeline to jump to slides"
-            >
-              {/* Single continuous fill line */}
-              <div
-                className={`h-full rounded-full transition-all duration-75 ${currentSlide.progressBarColor}`}
-                style={{
-                  width: `${progress}%`,
-                }}
-              />
-            </div>
-
-            {/* Extreme Right: Small, Compact Lab Verified Pure Badge */}
-            <div className="flex items-center gap-1.5 text-[10px] sm:text-[11px] font-bold text-stone-800 bg-white/70 backdrop-blur-md px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full border border-white/80 shadow-2xs whitespace-nowrap flex-shrink-0">
-              <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
-              <span>Lab Verified Pure</span>
-            </div>
           </div>
         </div>
       </div>
