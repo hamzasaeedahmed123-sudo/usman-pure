@@ -1,0 +1,20 @@
+{
+  "project": "usman-pure",
+  "version": "1.0.0",
+  "framework": "GSD-OpenGSD",
+  "loop": "Ralph",
+  "paths": {
+    "specs": ".planning",
+    "phases": ".planning/phases",
+    "codebase": ".planning/codebase",
+    "research": ".planning/research",
+    "prd": "prd.json",
+    "progress": "progress.txt",
+    "loopScript": "ralph-loop.sh"
+  },
+  "settings": {
+    "autoCommit": true,
+    "qualityChecks": ["npm run lint", "npm run build"],
+    "maxIterationsDefault": 10
+  }
+}

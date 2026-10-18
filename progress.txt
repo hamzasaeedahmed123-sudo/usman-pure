@@ -1,0 +1,20 @@
+# Ralph Progress Log
+Started: Sun Oct 18 2026
+---
+
+## Codebase Patterns
+- Framework: Next.js 15 App Router with TypeScript
+- Styling: Tailwind CSS classes
+- Spec location: `.planning/`
+- Story definition: `prd.json`
+- Stop condition: `<promise>COMPLETE</promise>`
+- Verification rule: Run `npm run lint` and `npm run build` before committing
+
+## 2026-10-18 - US-000 (Initial Setup)
+- Initialized Next.js project with App Router, TypeScript, and Tailwind CSS.
+- Initialized GSD framework structure in `.planning/`.
+- Configured Ralph Loop files (`ralph-loop.sh`, `prd.json`, `progress.txt`, `CLAUDE.md`).
+- **Learnings for future iterations:**
+  - When running scripts on Windows PowerShell, prefer `npm.cmd` and `npx.cmd`.
+  - Ralph Loop scripts run in Git Bash or WSL with `bash ./ralph-loop.sh`.
+---

@@ -1,0 +1,61 @@
+{
+  "project": "usman-pure",
+  "branchName": "ralph/feature-foundation",
+  "description": "Next.js GSD Foundation & Core Application Setup",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Validate development environment and CLI dependencies",
+      "description": "As a developer, I need to ensure jq, gh, and git are available and validated in the environment.",
+      "acceptanceCriteria": [
+        "Script verifies availability of git, jq, and gh",
+        "Clear diagnostic output provided if any tool is missing",
+        "Typecheck and lint pass cleanly"
+      ],
+      "priority": 1,
+      "passes": false,
+      "notes": "Prerequisite for Ralph autonomous loop execution"
+    },
+    {
+      "id": "US-002",
+      "title": "Create Modern Header Navigation and Brand Shell",
+      "description": "As a visitor, I want a clean, responsive header with branding and navigation links.",
+      "acceptanceCriteria": [
+        "Responsive navigation header located in src/components/Header.tsx",
+        "Dark mode compatible styling using Tailwind CSS",
+        "Mobile hamburger menu toggle for small screens",
+        "Typecheck and lint pass cleanly"
+      ],
+      "priority": 2,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-003",
+      "title": "Build Hero Section with Feature Cards",
+      "description": "As a visitor, I want to see an engaging hero section highlighting project capabilities.",
+      "acceptanceCriteria": [
+        "Hero component with dynamic typography and call-to-action buttons",
+        "Feature grid showcasing GSD Spec-Driven Development and Ralph Loop Autonomous workflows",
+        "Clean responsive layout matching modern design aesthetics",
+        "Typecheck and lint pass cleanly"
+      ],
+      "priority": 3,
+      "passes": false,
+      "notes": ""
+    },
+    {
+      "id": "US-004",
+      "title": "Add System Status & Autonomous Loop Dashboard Card",
+      "description": "As a developer, I want to see real-time status of Ralph Loop tasks and GSD milestones directly in the app.",
+      "acceptanceCriteria": [
+        "Status component displaying completed vs pending stories from prd.json",
+        "Visual badges for story passes: true / passes: false",
+        "Typecheck and lint pass cleanly"
+      ],
+      "priority": 4,
+      "passes": false,
+      "notes": ""
+    }
+  ]
+}
