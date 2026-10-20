@@ -7,18 +7,17 @@ import { notFound } from "next/navigation";
 import { Header } from "@/components/Header";
 import { StoreFooter } from "@/components/StoreFooter";
 import { TickerMarquee } from "@/components/TickerMarquee";
+import { TrustBadges } from "@/components/TrustBadges";
 import { PRODUCTS, Product } from "@/data/products";
 import {
-  Star,
   ShoppingBag,
   Check,
   Eye,
   X,
   ChevronRight,
-  ShieldCheck,
-  RotateCcw,
   Truck,
-  Sparkles,
+  RotateCcw,
+  ShieldCheck,
 } from "lucide-react";
 
 interface CategoryViewProps {
@@ -88,10 +87,23 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
   const handleAddToCart = (product: Product, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setAddedIds((prev) => ({ ...prev, [product.id]: true }));
-    const cartEl = document.getElementById("cart-badge-count");
-    if (cartEl) {
-      const current = parseInt(cartEl.innerText || "0", 10) + 1;
-      cartEl.innerText = current.toString();
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("usman-add-to-cart", {
+          detail: {
+            product: {
+              id: product.id,
+              title: product.title,
+              image: product.image,
+              price: product.price,
+              category: product.category,
+            },
+            packSize: product.weight,
+            price: product.price,
+            quantity: 1,
+          },
+        })
+      );
     }
     setTimeout(() => {
       setAddedIds((prev) => ({ ...prev, [product.id]: false }));
@@ -111,7 +123,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
         }
       />
 
-      <main className="pt-28 sm:pt-32 flex-1">
+      <main className="flex-1">
         {/* Breadcrumb */}
         <div className="bg-white border-b border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center gap-2 text-xs text-stone-500">
@@ -119,7 +131,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
               Home
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-            <Link href="/shop" className="hover:text-amber-800 transition">
+            <Link href="/products" className="hover:text-amber-800 transition">
               Collections
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
@@ -133,16 +145,16 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
         <div
           className={`py-12 sm:py-16 text-white border-b ${
             currentMeta.categoryKey === "flours"
-              ? "bg-stone-900 border-stone-800"
+              ? "bg-[#1E1510] border-stone-800"
               : "bg-emerald-950 border-emerald-900"
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-3xl">
-              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-400/20 text-amber-300 border border-amber-400/30 mb-3">
-                <Sparkles className="w-3.5 h-3.5" /> {currentMeta.badge}
-              </span>
-              <h1 className="text-3xl sm:text-5xl font-black tracking-tight text-white">
+              <div className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
+                {currentMeta.badge}
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-serif font-bold tracking-tight text-white">
                 {currentMeta.title}
               </h1>
               <p className="mt-3 text-stone-300 text-sm sm:text-base leading-relaxed">
@@ -153,7 +165,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
                 {currentMeta.highlights.map((h, i) => (
                   <span
                     key={i}
-                    className="text-xs font-bold px-3 py-1 rounded-lg bg-white/10 border border-white/15 flex items-center gap-1.5"
+                    className="text-xs font-medium px-3 py-1 rounded-md bg-white/10 border border-white/15 flex items-center gap-1.5"
                   >
                     <Check className="w-3.5 h-3.5 text-amber-400" /> {h}
                   </span>
@@ -167,11 +179,11 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
           <div className="flex items-center justify-between mb-8 pb-4 border-b border-stone-200">
             <div>
-              <h2 className="text-xl font-bold text-stone-900">Available Products</h2>
+              <h2 className="text-xl font-serif font-bold text-stone-900">Available Products</h2>
               <p className="text-xs text-stone-500">Showing {categoryProducts.length} items</p>
             </div>
             <Link
-              href="/shop"
+              href="/products"
               className="text-xs font-bold text-amber-800 hover:text-amber-900 transition flex items-center gap-1"
             >
               <span>View All Products</span>
@@ -179,104 +191,81 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
             {categoryProducts.map((product) => {
               const isAdded = addedIds[product.id];
               return (
                 <div
                   key={product.id}
-                  className="group relative flex flex-col bg-white rounded-2xl border border-stone-200 shadow-xs hover:shadow-xl hover:border-amber-400/80 transition-all duration-300 overflow-hidden"
+                  className="group relative flex flex-col bg-white rounded-sm shadow-xs hover:shadow-ambient transition-all duration-300 overflow-hidden"
                 >
-                  <div className="relative w-full aspect-square bg-stone-50 overflow-hidden p-6 border-b border-stone-100 flex items-center justify-center">
+                  <div className="relative w-full aspect-square bg-stone-50 overflow-hidden p-2 sm:p-4 border-b border-stone-100 flex items-center justify-center">
                     <Link href={`/product/${product.id}`} className="absolute inset-0">
                       <Image
                         src={product.image}
                         alt={product.title}
                         fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                        className="object-contain p-4 group-hover:scale-105 transition-transform duration-500"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                        className="object-contain p-2 sm:p-4 group-hover:scale-105 transition-transform duration-500"
                       />
                     </Link>
 
-                    <div className="absolute top-3 left-3 z-10 flex flex-col gap-1 pointer-events-none">
-                      <span className="px-2.5 py-1 rounded-md text-[11px] font-extrabold uppercase bg-rose-600 text-white shadow-xs">
-                        {product.discountBadge}
-                      </span>
-                      <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-stone-900/80 text-white">
-                        {product.weight}
+                    <div className="absolute top-2 left-2 sm:top-3 sm:left-3 z-10 pointer-events-none">
+                      <span className="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-[2px] text-[10px] sm:text-xs font-medium uppercase tracking-[0.18em] bg-[#F6F1E9] text-[#8B3A22]">
+                        Sale
                       </span>
                     </div>
 
-                    <div className="absolute inset-x-4 bottom-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex justify-center">
+                    <div className="hidden sm:flex absolute inset-x-4 bottom-3 z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 justify-center">
                       <button
                         onClick={() => setQuickViewProduct(product)}
-                        className="w-full py-2 px-3 rounded-lg bg-white/95 text-stone-900 text-xs font-bold shadow-md hover:bg-stone-900 hover:text-white transition flex items-center justify-center gap-1.5 backdrop-blur-xs cursor-pointer"
+                        className="w-full py-2 px-3 rounded-lg bg-white/95 text-stone-900 text-xs font-bold shadow-ambient hover:bg-[#1E1510] hover:text-white transition flex items-center justify-center gap-1.5 backdrop-blur-xs cursor-pointer"
                       >
                         <Eye className="w-3.5 h-3.5" /> Quick View
                       </button>
                     </div>
                   </div>
 
-                  <div className="p-5 flex-1 flex flex-col justify-between">
+                  <div className="p-3 md:p-5 flex-1 flex flex-col justify-between">
                     <div>
-                      <div className="text-[11px] uppercase tracking-wider font-bold text-amber-800 mb-1">
-                        {product.categoryLabel}
+                      <div className="text-xs font-semibold uppercase tracking-wider text-amber-900 mb-1">
+                        {product.weight}
                       </div>
                       <Link href={`/product/${product.id}`}>
-                        <h3 className="text-base font-bold text-stone-900 leading-snug line-clamp-2 hover:text-amber-800 transition min-h-[44px]">
+                        <h3 className="text-base sm:text-lg font-bold font-serif text-stone-900 leading-snug line-clamp-2 hover:text-amber-800 transition min-h-[2.75rem]">
                           {product.title}
                         </h3>
                       </Link>
-
-                      <div className="flex items-center gap-1.5 mt-2">
-                        <div className="flex items-center text-amber-400">
-                          {[...Array(5)].map((_, i) => (
-                            <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                          ))}
-                        </div>
-                        <span className="text-xs font-bold text-stone-700">
-                          {product.rating.toFixed(1)}
-                        </span>
-                        <span className="text-[11px] text-stone-400">
-                          ({product.reviewCount})
-                        </span>
-                      </div>
                     </div>
 
-                    <div className="mt-5 pt-4 border-t border-stone-100 flex items-center justify-between gap-2">
-                      <div>
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-lg font-black text-stone-900">
-                            {product.priceFormatted}
-                          </span>
-                          <span className="text-xs text-stone-400 line-through">
-                            {product.originalPriceFormatted}
-                          </span>
-                        </div>
-                        <span className="text-[10px] font-bold text-emerald-700 uppercase">
-                          Cash on Delivery
+                    <div className="mt-3 pt-3 sm:mt-5 sm:pt-4 border-t border-stone-100 flex flex-col gap-2.5">
+                      <div className="flex items-baseline gap-1.5 sm:gap-2 flex-wrap">
+                        <span className="text-lg sm:text-xl font-extrabold font-sans text-stone-900">
+                          {product.priceFormatted}
+                        </span>
+                        <span className="text-sm font-normal font-sans text-stone-500 line-through ml-1.5">
+                          {product.originalPriceFormatted}
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-1.5">
-                        <Link
-                          href={`/checkout?product=${product.id}&pack=standard&qty=1`}
-                          className="h-10 px-3 rounded-xl text-xs font-bold bg-stone-900 hover:bg-amber-800 text-white flex items-center gap-1 transition shadow-xs"
-                        >
-                          <Truck className="w-3.5 h-3.5 text-amber-400" />
-                          <span>Order</span>
-                        </Link>
-                        <button
-                          onClick={(e) => handleAddToCart(product, e)}
-                          className={`h-10 px-3 rounded-xl text-xs font-bold flex items-center gap-1 transition-all duration-200 cursor-pointer border ${
-                            isAdded
-                              ? "bg-emerald-600 border-emerald-600 text-white"
-                              : "bg-stone-100 hover:bg-stone-200 border-stone-200 text-stone-800"
-                          }`}
-                        >
-                          {isAdded ? <Check className="w-3.5 h-3.5" /> : <ShoppingBag className="w-3.5 h-3.5" />}
-                        </button>
-                      </div>
+                      <button
+                        onClick={(e) => handleAddToCart(product, e)}
+                        className={`w-full py-3 px-3 text-sm font-bold tracking-wide rounded-xl flex items-center justify-center gap-2 transition-all duration-200 cursor-pointer min-h-[48px] shadow-ambient ${
+                          isAdded
+                            ? "bg-emerald-600 text-white"
+                            : "bg-[#1E1510] hover:bg-[#8B3A22] text-[#F6F1E9]"
+                        }`}
+                      >
+                        {isAdded ? (
+                          <>
+                            <Check className="w-4 h-4 stroke-[2.5]" /> Added
+                          </>
+                        ) : (
+                          <>
+                            <ShoppingBag className="w-4 h-4" /> Add to Cart
+                          </>
+                        )}
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -286,37 +275,9 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
         </div>
 
         {/* Trust Badges */}
-        <div className="bg-white border-t border-stone-200 py-12">
+        <div className="bg-stone-50/60 border-t border-stone-200 py-6 md:py-10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              <div className="p-6 rounded-2xl bg-stone-50 border border-stone-200 flex items-start gap-4">
-                <RotateCcw className="w-8 h-8 text-amber-800 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold text-stone-900">14-Day Money Back Guarantee</h4>
-                  <p className="text-xs text-stone-600 mt-1">
-                    If not 100% satisfied with purity or taste, return with zero hassle.
-                  </p>
-                </div>
-              </div>
-              <div className="p-6 rounded-2xl bg-stone-50 border border-stone-200 flex items-start gap-4">
-                <Truck className="w-8 h-8 text-amber-800 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold text-stone-900">Nationwide Cash on Delivery</h4>
-                  <p className="text-xs text-stone-600 mt-1">
-                    Doorstep COD across Lahore, Karachi, Islamabad, and every town in Pakistan.
-                  </p>
-                </div>
-              </div>
-              <div className="p-6 rounded-2xl bg-stone-50 border border-stone-200 flex items-start gap-4">
-                <ShieldCheck className="w-8 h-8 text-amber-800 shrink-0 mt-0.5" />
-                <div>
-                  <h4 className="text-sm font-bold text-stone-900">100% Stone-Ground Purity</h4>
-                  <p className="text-xs text-stone-600 mt-1">
-                    Cold-milled under 40°C. Zero maida, zero bleach, zero chemical preservatives.
-                  </p>
-                </div>
-              </div>
-            </div>
+            <TrustBadges />
           </div>
         </div>
       </main>
@@ -328,7 +289,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
           onClick={() => setQuickViewProduct(null)}
         >
           <div
-            className="relative w-full max-w-2xl bg-white rounded-3xl shadow-2xl overflow-hidden border border-stone-200 p-6 sm:p-8"
+            className="relative w-full max-w-2xl bg-white rounded-sm shadow-ambient overflow-hidden p-6 sm:p-8"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -339,7 +300,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
             </button>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 items-center">
-              <div className="relative aspect-square w-full rounded-2xl bg-stone-50 border border-stone-200 p-6 flex items-center justify-center">
+              <div className="relative aspect-square w-full rounded-sm bg-stone-50 p-6 flex items-center justify-center">
                 <Image
                   src={quickViewProduct.image}
                   alt={quickViewProduct.title}
@@ -347,32 +308,21 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
                   sizes="320px"
                   className="object-contain p-4"
                 />
-                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-md text-xs font-extrabold uppercase bg-rose-600 text-white">
+                <span className="absolute top-3 left-3 px-2.5 py-1 rounded-[2px] text-xs font-medium uppercase bg-[#F6F1E9] text-[#8B3A22]">
                   {quickViewProduct.discountBadge}
                 </span>
               </div>
 
               <div>
-                <span className="text-xs font-extrabold uppercase tracking-wider text-amber-800">
+                <span className="text-xs font-medium uppercase tracking-wider text-amber-800">
                   {quickViewProduct.categoryLabel} • {quickViewProduct.weight}
                 </span>
-                <h3 className="text-xl font-black text-stone-900 mt-1">
+                <h3 className="text-xl font-semibold text-stone-900 mt-1">
                   {quickViewProduct.title}
                 </h3>
 
-                <div className="flex items-center gap-1.5 mt-2">
-                  <div className="flex items-center text-amber-400">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-4 h-4 fill-current" />
-                    ))}
-                  </div>
-                  <span className="text-xs font-bold text-stone-700">
-                    {quickViewProduct.rating.toFixed(1)} ({quickViewProduct.reviewCount} Reviews)
-                  </span>
-                </div>
-
                 <div className="flex items-baseline gap-3 mt-4">
-                  <span className="text-2xl font-black text-stone-900">
+                  <span className="text-2xl font-semibold text-stone-900">
                     {quickViewProduct.priceFormatted}
                   </span>
                   <span className="text-sm text-stone-400 line-through">
@@ -387,7 +337,7 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
                 <div className="mt-6 pt-4 border-t border-stone-200 flex flex-col gap-2.5">
                   <Link
                     href={`/checkout?product=${quickViewProduct.id}&pack=standard&qty=1`}
-                    className="w-full py-3 px-4 rounded-xl text-sm font-extrabold bg-stone-900 hover:bg-amber-900 text-white flex items-center justify-center gap-2 transition cursor-pointer shadow-md text-center"
+                    className="w-full py-3 px-4 rounded-[3px] text-[11px] font-medium bg-[#1E1510] hover:bg-[#8B3A22] text-[#F6F1E9] flex items-center justify-center gap-2 transition cursor-pointer text-center uppercase tracking-[0.18em] duration-200 ease-out"
                   >
                     <Truck className="w-4 h-4 text-amber-400" /> Order Now — Cash on Delivery ({quickViewProduct.priceFormatted})
                   </Link>
@@ -398,14 +348,14 @@ export function CategoryPageView({ slug }: CategoryViewProps) {
                         handleAddToCart(quickViewProduct);
                         setQuickViewProduct(null);
                       }}
-                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold border border-stone-300 hover:bg-stone-100 text-stone-800 flex items-center justify-center gap-1.5 transition cursor-pointer"
+                      className="flex-1 py-2.5 px-3 rounded-md text-xs font-bold border border-stone-300 hover:bg-stone-100 text-stone-800 flex items-center justify-center gap-1.5 transition cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5" /> Add to Basket
                     </button>
 
                     <Link
                       href={`/product/${quickViewProduct.id}`}
-                      className="flex-1 py-2.5 px-3 rounded-xl text-xs font-bold bg-amber-100 hover:bg-amber-200 text-amber-900 flex items-center justify-center gap-1 transition text-center"
+                      className="flex-1 py-2.5 px-3 rounded-[3px] text-[11px] font-medium flex items-center justify-center gap-1 transition text-center bg-transparent border border-[#1E1510]/25 text-[#1E1510] hover:border-[#1E1510] hover:bg-[#1E1510] hover:text-[#F6F1E9] uppercase tracking-[0.18em] transition-colors duration-200 ease-out"
                     >
                       View Details &rarr;
                     </Link>

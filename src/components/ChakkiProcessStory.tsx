@@ -1,17 +1,17 @@
 "use client";
 
 import Image from "next/image";
-import { Check, X, ShieldAlert, Award, Sparkles } from "lucide-react";
+import { Check, X, ShieldAlert, Award } from "lucide-react";
 
 export function ChakkiProcessStory() {
   return (
     <section className="py-16 sm:py-24 bg-stone-50 border-b border-stone-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center max-w-3xl mx-auto mb-14">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-amber-100 text-amber-900 mb-3">
-            <Sparkles className="w-3.5 h-3.5" /> Traditional Milling Science
+          <div className="text-xs font-semibold uppercase tracking-wider text-amber-900 mb-2">
+            Traditional Milling Science
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-stone-900 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl font-serif font-bold text-stone-900 tracking-tight">
             Why Cold Stone-Chakki Milling Matters
           </h2>
           <p className="mt-3 text-stone-600 text-sm sm:text-base leading-relaxed">
@@ -22,17 +22,17 @@ export function ChakkiProcessStory() {
         {/* Comparison Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
           {/* Usman's Pure Stone Chakki */}
-          <div className="rounded-3xl bg-white border-2 border-emerald-600/40 p-6 sm:p-8 shadow-xl relative overflow-hidden">
+          <div className="rounded-sm bg-white border-2 border-emerald-600/40 p-6 sm:p-8 shadow-ambient relative overflow-hidden">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-stone-100">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md">
+                <span className="tag-quiet">
                   Our Method
                 </span>
-                <h3 className="text-xl sm:text-2xl font-black text-stone-900 mt-2">
+                <h3 className="text-xl sm:text-2xl font-semibold text-stone-900 mt-2">
                   Usman&apos;s Cold Stone Chakki
                 </h3>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
+              <div className="w-12 h-12 rounded-sm bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold">
                 <Award className="w-6 h-6" />
               </div>
             </div>
@@ -61,8 +61,8 @@ export function ChakkiProcessStory() {
                     <Check className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-stone-900">{item.title}</h4>
-                    <p className="text-xs text-stone-600 mt-0.5 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-base font-bold text-stone-900">{item.title}</h4>
+                    <p className="text-[14px] text-stone-700 mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}
@@ -70,17 +70,17 @@ export function ChakkiProcessStory() {
           </div>
 
           {/* Commercial Industrial Mills */}
-          <div className="rounded-3xl bg-stone-100/80 border border-stone-300/80 p-6 sm:p-8 shadow-sm relative">
+          <div className="rounded-sm bg-stone-100/80 p-6 sm:p-8 shadow-sm relative">
             <div className="flex items-center justify-between mb-6 pb-4 border-b border-stone-200">
               <div>
-                <span className="text-[11px] font-extrabold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md">
+                <span className="text-xs font-semibold uppercase tracking-wider text-rose-700 bg-rose-50 px-2.5 py-1 rounded-md">
                   Commercial Factories
                 </span>
-                <h3 className="text-xl sm:text-2xl font-black text-stone-700 mt-2">
+                <h3 className="text-xl sm:text-2xl font-semibold text-stone-700 mt-2">
                   High-Speed Roller Mills
                 </h3>
               </div>
-              <div className="w-12 h-12 rounded-2xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
+              <div className="w-12 h-12 rounded-sm bg-rose-100 text-rose-700 flex items-center justify-center font-bold">
                 <ShieldAlert className="w-6 h-6" />
               </div>
             </div>
@@ -109,8 +109,8 @@ export function ChakkiProcessStory() {
                     <X className="w-3.5 h-3.5 stroke-[3]" />
                   </div>
                   <div>
-                    <h4 className="text-sm font-bold text-stone-700">{item.title}</h4>
-                    <p className="text-xs text-stone-500 mt-0.5 leading-relaxed">{item.desc}</p>
+                    <h4 className="text-base font-bold text-stone-800">{item.title}</h4>
+                    <p className="text-[14px] text-stone-700 mt-0.5 leading-relaxed">{item.desc}</p>
                   </div>
                 </div>
               ))}

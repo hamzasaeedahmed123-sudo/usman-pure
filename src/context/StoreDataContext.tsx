@@ -1,0 +1,374 @@
+"use client";
+
+import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
+import { Product, PRODUCTS as DEFAULT_PRODUCTS } from "@/data/products";
+
+export interface OrderItem {
+  id: string;
+  name: string;
+  pack: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
+
+export type OrderStatus = "Pending" | "Processing" | "Delivered" | "Cancelled";
+
+export interface Order {
+  id: string;
+  orderNumber: string;
+  customerName: string;
+  customerEmail: string;
+  phone: string;
+  address: string;
+  city: string;
+  items: OrderItem[];
+  totalAmount: number;
+  status: OrderStatus;
+  paymentMethod: "Cash on Delivery (COD)" | "JazzCash" | "Easypaisa" | "Bank Transfer";
+  date: string;
+  notes?: string;
+}
+
+export interface CMSContent {
+  announcementBarText: string;
+  announcementSubText: string;
+  announcementBg: string;
+  heroSlides: {
+    flour: {
+      title: string;
+      subtitle: string;
+      fullTitle: string;
+      benefit: string;
+      price: string;
+      weight: string;
+    };
+    herbals: {
+      title: string;
+      subtitle: string;
+      fullTitle: string;
+      benefit: string;
+      price: string;
+      weight: string;
+    };
+    spices: {
+      title: string;
+      subtitle: string;
+      fullTitle: string;
+      benefit: string;
+      price: string;
+      weight: string;
+    };
+  };
+  promotions: {
+    doctorsChoiceEnabled: boolean;
+    dietBannerEnabled: boolean;
+    megaBundlesEnabled: boolean;
+    consultationBannerEnabled: boolean;
+  };
+}
+
+export const DEFAULT_CMS: CMSContent = {
+  announcementBarText: "100% Traditional Stone-Ground • Zero Maida • Freshly Milled",
+  announcementSubText: "Free Nationwide Shipping on Orders Rs 2,000+ • Cash on Delivery",
+  announcementBg: "#2A1F17",
+  heroSlides: {
+    flour: {
+      title: "MULTIGRAIN",
+      subtitle: "FLOUR",
+      fullTitle: "Chakki Multigrain Flour",
+      benefit: "Cold-milled under 40°C with 100% vital dietary fiber & zero maida.",
+      price: "Rs 2,450",
+      weight: "10kg",
+    },
+    herbals: {
+      title: "HERBAL",
+      subtitle: "TEAS",
+      fullTitle: "Organic Herbal Tea",
+      benefit: "Hand-harvested blossoms & olive leaf for daily caffeine-free detox.",
+      price: "Rs 1,250",
+      weight: "250g",
+    },
+    spices: {
+      title: "ORGANIC",
+      subtitle: "SPICES",
+      fullTitle: "Organic Spices",
+      benefit: "Slow stone-pounded aroma lock with zero dyes and zero additives.",
+      price: "Rs 950",
+      weight: "500g",
+    },
+  },
+  promotions: {
+    doctorsChoiceEnabled: true,
+    dietBannerEnabled: true,
+    megaBundlesEnabled: true,
+    consultationBannerEnabled: true,
+  },
+};
+
+export const INITIAL_ORDERS: Order[] = [];
+
+interface StoreDataContextType {
+  products: Product[];
+  orders: Order[];
+  cmsContent: CMSContent;
+  isLoaded: boolean;
+  addProduct: (product: Omit<Product, "id">) => void;
+  updateProduct: (id: string, updates: Partial<Product>) => void;
+  deleteProduct: (id: string) => void;
+  addOrder: (order: Omit<Order, "id" | "date"> & { id?: string; date?: string; orderNumber?: string }) => Order;
+  updateOrderStatus: (orderId: string, status: OrderStatus) => void;
+  deleteOrder: (orderId: string) => void;
+  updateCMS: (updates: Partial<CMSContent>) => void;
+  resetToDefaults: () => void;
+}
+
+const StoreDataContext = createContext<StoreDataContextType | undefined>(undefined);
+
+const STORAGE_KEYS = {
+  PRODUCTS: "usman_admin_products",
+  ORDERS: "usman_admin_orders",
+  CMS: "usman_admin_cms",
+};
+
+export function StoreDataProvider({ children }: { children: ReactNode }) {
+  const [products, setProducts] = useState<Product[]>(DEFAULT_PRODUCTS);
+  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  const [cmsContent, setCmsContent] = useState<CMSContent>(DEFAULT_CMS);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  // Load persisted store data on mount
+  useEffect(() => {
+    try {
+      const storedProducts = localStorage.getItem(STORAGE_KEYS.PRODUCTS);
+      if (storedProducts) {
+        const parsed = JSON.parse(storedProducts);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setProducts(parsed);
+        }
+      }
+
+      const storedOrders = localStorage.getItem(STORAGE_KEYS.ORDERS);
+      if (storedOrders) {
+        const parsed = JSON.parse(storedOrders);
+        if (Array.isArray(parsed)) {
+          // Check if stored orders are exclusively the legacy hardcoded mock orders
+          const isLegacyMock =
+            parsed.length > 0 &&
+            parsed.every((o) => o.id && o.id.startsWith("ord-1084"));
+
+          if (isLegacyMock) {
+            setOrders([]);
+            localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify([]));
+          } else {
+            setOrders(parsed);
+          }
+        }
+      }
+
+      const storedCMS = localStorage.getItem(STORAGE_KEYS.CMS);
+      if (storedCMS) {
+        const parsed = JSON.parse(storedCMS);
+        if (parsed && parsed.heroSlides) {
+          setCmsContent(parsed);
+        }
+      }
+    } catch (e) {
+      console.error("Error reading stored admin data", e);
+    } finally {
+      setIsLoaded(true);
+    }
+  }, []);
+
+  // Listen for real-time order placements across tabs and components
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const handleOrderPlaced = (e: Event) => {
+      const customEvent = e as CustomEvent<Order>;
+      if (customEvent.detail && customEvent.detail.id) {
+        setOrders((prev) => {
+          if (prev.some((o) => o.id === customEvent.detail.id)) return prev;
+          return [customEvent.detail, ...prev];
+        });
+      }
+    };
+
+    const handleStorageChange = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEYS.ORDERS && e.newValue) {
+        try {
+          const parsed = JSON.parse(e.newValue);
+          if (Array.isArray(parsed)) {
+            setOrders(parsed);
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+
+    window.addEventListener("usman-order-placed", handleOrderPlaced);
+    window.addEventListener("storage", handleStorageChange);
+    return () => {
+      window.removeEventListener("usman-order-placed", handleOrderPlaced);
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []);
+
+  // Sync to localStorage
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEYS.PRODUCTS, JSON.stringify(products));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [products, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(orders));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [orders, isLoaded]);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    try {
+      localStorage.setItem(STORAGE_KEYS.CMS, JSON.stringify(cmsContent));
+      // Dispatch custom event so live components can react immediately
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("usman-cms-updated", { detail: cmsContent }));
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  }, [cmsContent, isLoaded]);
+
+  const addProduct = (newProd: Omit<Product, "id">) => {
+    const id = `prod-${Date.now().toString(36)}`;
+    const fullProduct: Product = {
+      ...newProd,
+      id,
+    };
+    setProducts((prev) => [fullProduct, ...prev]);
+  };
+
+  const updateProduct = (id: string, updates: Partial<Product>) => {
+    setProducts((prev) =>
+      prev.map((p) => {
+        if (p.id === id) {
+          return {
+            ...p,
+            ...updates,
+            priceFormatted: updates.price !== undefined ? `₨${updates.price.toLocaleString()}` : p.priceFormatted,
+            originalPriceFormatted:
+              updates.originalPrice !== undefined
+                ? `₨${updates.originalPrice.toLocaleString()}`
+                : p.originalPriceFormatted,
+          };
+        }
+        return p;
+      })
+    );
+  };
+
+  const deleteProduct = (id: string) => {
+    setProducts((prev) => prev.filter((p) => p.id !== id));
+  };
+
+  const addOrder = (orderData: Omit<Order, "id" | "date"> & { id?: string; date?: string; orderNumber?: string }): Order => {
+    const id = orderData.id || `ord-${Date.now().toString(36)}`;
+    const orderNumber = orderData.orderNumber || `UP-${Math.floor(10000 + Math.random() * 90000)}`;
+    const newOrder: Order = {
+      ...orderData,
+      id,
+      orderNumber,
+      date: orderData.date || new Date().toISOString(),
+      status: orderData.status || "Pending",
+    };
+
+    setOrders((prev) => {
+      const updated = [newOrder, ...prev.filter((o) => o.id !== id)];
+      if (typeof window !== "undefined") {
+        try {
+          localStorage.setItem(STORAGE_KEYS.ORDERS, JSON.stringify(updated));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      return updated;
+    });
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("usman-order-placed", { detail: newOrder }));
+    }
+
+    return newOrder;
+  };
+
+  const updateOrderStatus = (orderId: string, status: OrderStatus) => {
+    setOrders((prev) =>
+      prev.map((o) => (o.id === orderId ? { ...o, status } : o))
+    );
+  };
+
+  const deleteOrder = (orderId: string) => {
+    setOrders((prev) => prev.filter((o) => o.id !== orderId));
+  };
+
+  const updateCMS = (updates: Partial<CMSContent>) => {
+    setCmsContent((prev) => ({
+      ...prev,
+      ...updates,
+      heroSlides: {
+        ...prev.heroSlides,
+        ...(updates.heroSlides || {}),
+      },
+      promotions: {
+        ...prev.promotions,
+        ...(updates.promotions || {}),
+      },
+    }));
+  };
+
+  const resetToDefaults = () => {
+    setProducts(DEFAULT_PRODUCTS);
+    setOrders(INITIAL_ORDERS);
+    setCmsContent(DEFAULT_CMS);
+    localStorage.removeItem(STORAGE_KEYS.PRODUCTS);
+    localStorage.removeItem(STORAGE_KEYS.ORDERS);
+    localStorage.removeItem(STORAGE_KEYS.CMS);
+  };
+
+  return (
+    <StoreDataContext.Provider
+      value={{
+        products,
+        orders,
+        cmsContent,
+        isLoaded,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        addOrder,
+        updateOrderStatus,
+        deleteOrder,
+        updateCMS,
+        resetToDefaults,
+      }}
+    >
+      {children}
+    </StoreDataContext.Provider>
+  );
+}
+
+export function useStoreData() {
+  const context = useContext(StoreDataContext);
+  if (!context) {
+    throw new Error("useStoreData must be used within a StoreDataProvider");
+  }
+  return context;
+}

@@ -1,66 +1,92 @@
-"use client";
-
-import { useState } from "react";
-import { ProductSliderHero } from "@/components/ProductSliderHero";
+import type { Metadata } from "next";
+import { HeroSlider } from "@/components/home/HeroSlider";
 import { TickerMarquee } from "@/components/TickerMarquee";
 import { CategoryCollections } from "@/components/CategoryCollections";
 import { ProductCatalog } from "@/components/ProductCatalog";
-import { FeaturedSpotlight } from "@/components/FeaturedSpotlight";
+import { DoctorsChoiceBanner } from "@/components/DoctorsChoiceBanner";
 import { MegaBundles } from "@/components/MegaBundles";
-import { SpotlightDiabetic } from "@/components/SpotlightDiabetic";
 import { DietConsultationBanner } from "@/components/DietConsultationBanner";
-import { ChakkiProcessStory } from "@/components/ChakkiProcessStory";
 import { TrustGuarantee } from "@/components/TrustGuarantee";
 import { CustomerReviews } from "@/components/CustomerReviews";
 import { NewsletterSection } from "@/components/NewsletterSection";
 import { StoreFooter } from "@/components/StoreFooter";
+import { AmbientThemeWrapper } from "@/components/theme/AmbientThemeWrapper";
+
+export const metadata: Metadata = {
+  title: "Usman's Pure | 100% Pure Chakki Atta Online Pakistan (Fresh Stone-Ground)",
+  description:
+    "Buy fresh 100% pure stone-ground chakki atta online in Pakistan. Unadulterated, zero maida, whole wheat flour, diabetic atta & multigrain flour. Doorstep Cash on Delivery.",
+  keywords: [
+    "atta",
+    "chakki atta",
+    "pure atta",
+    "whole wheat flour pakistan",
+    "chakki atta price in pakistan",
+    "buy atta online lahore",
+    "pure chakki atta karachi",
+    "diabetic atta pakistan",
+    "multigrain flour",
+    "gandum ka atta",
+    "stone ground flour",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    title: "Usman's Pure | 100% Pure Chakki Atta Online Pakistan (Fresh Stone-Ground)",
+    description:
+      "Buy fresh 100% pure stone-ground chakki atta online in Pakistan. Unadulterated, zero maida, whole wheat flour, diabetic atta & multigrain flour. Doorstep Cash on Delivery.",
+    url: "https://usmanspure.com",
+    type: "website",
+    images: [
+      {
+        url: "/images/products/prod-3.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Usman's Pure - 100% Pure Chakki Atta Online Pakistan",
+      },
+    ],
+  },
+};
 
 export default function Home() {
-  const [activeCatalogFilter, setActiveCatalogFilter] = useState<"all" | "flours" | "spices" | "teas">("all");
-
   return (
-    <div className="relative w-full bg-stone-100 text-stone-900 selection:bg-amber-500/20 selection:text-amber-900">
-      {/* 1. Hero Section Slider (Preserved strictly as built) */}
-      <ProductSliderHero />
+    <AmbientThemeWrapper className="min-h-screen selection:bg-amber-500/20 selection:text-amber-900">
+      {/* Primary Semantic H1 for Googlebot Search Dominance */}
+      <h1 className="sr-only">100% Pure Stone-Ground Chakki Atta &amp; Organics in Pakistan</h1>
 
-      {/* 2. Virsa-Style Scrolling Marquee Ticker */}
+      {/* 1. Hero Section Slider */}
+      <HeroSlider />
+
+      {/* 2. Scrolling Marquee Ticker */}
       <TickerMarquee />
 
-      {/* 3. Virsa-Style Category Collections ("Our Collections") */}
-      <CategoryCollections onSelectCategory={(cat) => setActiveCatalogFilter(cat)} />
+      {/* 3. Category Collections ("Our Collections") */}
+      <CategoryCollections />
 
-      {/* 4. Complete Product Catalog Listing All 11 Products from usmanzpure.com */}
-      <ProductCatalog
-        activeFilter={activeCatalogFilter}
-        setActiveFilter={setActiveCatalogFilter}
-      />
+      {/* 4. Featured Products (Fresh Stone-Milled Whole Wheat Flour & Multi-Grain Blends) */}
+      <ProductCatalog />
 
-      {/* 5. Virsa-Style Featured Product Spotlight: Fat2Fuel Weight Loss Flour */}
-      <FeaturedSpotlight />
+      {/* 5. Prominent Doctor's Choice / Clinical Wellness Editorial CTA Banner */}
+      <DoctorsChoiceBanner />
 
-      {/* 6. Virsa-Style Mega Bundles Section */}
+      {/* 6. Curated Mega Bundles Section */}
       <MegaBundles />
 
-      {/* 7. Virsa-Style Second Spotlight: FENUGREEK Plus Diabetic Control Flour */}
-      <SpotlightDiabetic />
-
-      {/* 8. Virsa-Style Personalized Diet Plan & Health Guidance Banner */}
+      {/* 7. Personalized Diet Plan & Health Guidance Banner */}
       <DietConsultationBanner />
 
-      {/* 9. Cold Stone-Chakki Traditional Sourcing vs Commercial Mills */}
-      <ChakkiProcessStory />
-
-      {/* 10. Virsa-Style 14-Day Guarantee & Nationwide COD Multi-column */}
+      {/* 8. 14-Day Guarantee & Nationwide COD Multi-column */}
       <TrustGuarantee />
 
-      {/* 11. Customer Voices & Testimonials */}
+      {/* 9. Customer Voices & Testimonials */}
       <CustomerReviews />
 
-      {/* 12. Email Newsletter Subscription */}
+      {/* 10. Email Newsletter Subscription */}
       <NewsletterSection />
 
-      {/* 13. Comprehensive Virsa-Style E-Commerce Footer */}
+      {/* 11. E-Commerce Footer */}
       <StoreFooter />
-    </div>
+    </AmbientThemeWrapper>
   );
 }

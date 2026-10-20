@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import {
   Phone,
   Mail,
@@ -11,46 +12,119 @@ import {
   RotateCcw,
   MessageCircle,
 } from "lucide-react";
-import { PRODUCTS } from "@/data/products";
 
 export function StoreFooter() {
   return (
-    <footer className="bg-stone-950 text-stone-300 text-xs border-t border-stone-800">
-      {/* Top Banner inside Footer */}
-      <div className="border-b border-stone-800/80 py-8 bg-stone-900/40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-center md:text-left">
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <Truck className="w-6 h-6 text-amber-400 shrink-0" />
-              <div>
-                <h5 className="font-bold text-white text-sm">Nationwide Cash on Delivery</h5>
-                <p className="text-[11px] text-stone-400">Doorstep delivery to every city across Pakistan</p>
+    <footer className="bg-[#1C1613] text-[#EDE4D8] border-t border-[#3A2D25] pt-0 pb-8">
+      {/* Top Trust & Value Feature Strip */}
+      <div className="border-b border-[#3A2D25] py-4 sm:py-5 bg-[#16110E]/80">
+        <div className="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-3 divide-x divide-[#3A2D25] text-center">
+            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-3 px-2 sm:px-4">
+              <Truck className="w-5 h-5 sm:w-6 sm:h-6 text-[#D8B486] shrink-0" />
+              <div className="text-center sm:text-left">
+                <h5 className="font-bold text-white text-xs sm:text-sm leading-tight tracking-tight">
+                  Nationwide COD
+                </h5>
+                <p className="text-[11px] sm:text-xs text-[#A89887] mt-0.5 leading-tight">
+                  Pay at doorstep
+                </p>
               </div>
             </div>
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <RotateCcw className="w-6 h-6 text-amber-400 shrink-0" />
-              <div>
-                <h5 className="font-bold text-white text-sm">14-Day Money Back Guarantee</h5>
-                <p className="text-[11px] text-stone-400">100% satisfaction or immediate hassle-free refund</p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-3 px-2 sm:px-4">
+              <RotateCcw className="w-5 h-5 sm:w-6 sm:h-6 text-[#D8B486] shrink-0" />
+              <div className="text-center sm:text-left">
+                <h5 className="font-bold text-white text-xs sm:text-sm leading-tight tracking-tight">
+                  14-Day Return
+                </h5>
+                <p className="text-[11px] sm:text-xs text-[#A89887] mt-0.5 leading-tight">
+                  Zero Hassle
+                </p>
               </div>
             </div>
-            <div className="flex items-center justify-center md:justify-start gap-3">
-              <ShieldCheck className="w-6 h-6 text-amber-400 shrink-0" />
-              <div>
-                <h5 className="font-bold text-white text-sm">100% Stone-Ground Purity</h5>
-                <p className="text-[11px] text-stone-400">Zero maida, zero chemical bleaching, lab-verified</p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center sm:justify-start gap-1.5 sm:gap-3 px-2 sm:px-4">
+              <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6 text-[#D8B486] shrink-0" />
+              <div className="text-center sm:text-left">
+                <h5 className="font-bold text-white text-xs sm:text-sm leading-tight tracking-tight">
+                  100% Pure
+                </h5>
+                <p className="text-[11px] sm:text-xs text-[#A89887] mt-0.5 leading-tight">
+                  Cold-Milled
+                </p>
               </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Main Multi-column Footer */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
-          {/* Brand Bio (2 cols on lg) */}
-          <div className="lg:col-span-2">
-            <div className="relative w-48 h-12 mb-4">
+      {/* Main Multi-Column Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 sm:pt-16 pb-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 lg:gap-10">
+          
+          {/* Column 1 (Far Left - GET IN TOUCH - Prominent & Big) */}
+          <div className="lg:col-span-4 flex flex-col justify-between">
+            <div>
+              <h4 className="text-sm font-bold uppercase tracking-wider text-[#D8B486] mb-4">
+                GET IN TOUCH
+              </h4>
+
+              <div className="space-y-4">
+                {/* Phone / UAN - Large, bold and tap-to-call */}
+                <div>
+                  <a
+                    href="tel:+923000000000"
+                    className="flex items-center gap-3 text-lg sm:text-xl font-bold text-white hover:text-[#D8B486] transition-colors group"
+                  >
+                    <Phone className="w-6 h-6 text-[#D8B486] shrink-0 group-hover:scale-110 transition-transform" />
+                    <span>+92 300 0000000</span>
+                  </a>
+                  <span className="text-xs text-[#A89887] ml-9 block mt-0.5">
+                    Toll-Free UAN &amp; Order Helpline
+                  </span>
+                </div>
+
+                {/* Email Address */}
+                <div>
+                  <a
+                    href="mailto:info@usmanzpure.com"
+                    className="flex items-center gap-3 text-base sm:text-lg font-semibold text-[#EDE4D8] hover:text-white transition-colors"
+                  >
+                    <Mail className="w-5 h-5 text-[#D8B486] shrink-0" />
+                    <span>info@usmanzpure.com</span>
+                  </a>
+                </div>
+
+                {/* Physical Location */}
+                <div className="flex items-start gap-3 text-sm sm:text-base font-medium text-[#D3C7B8]">
+                  <MapPin className="w-5 h-5 text-[#D8B486] shrink-0 mt-0.5" />
+                  <span>Lahore &amp; Faisalabad, Pakistan (Nationwide Doorstep Delivery)</span>
+                </div>
+
+                {/* Operating Hours */}
+                <div className="flex items-center gap-3 text-sm text-[#A89887]">
+                  <Clock className="w-4 h-4 text-[#D8B486] shrink-0" />
+                  <span>Mon – Sat: 9:00 AM – 8:00 PM</span>
+                </div>
+              </div>
+
+              {/* Direct WhatsApp CTA Button */}
+              <a
+                href="https://wa.me/923000000000"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-5 rounded-xl font-bold text-sm bg-[#25D366] text-white flex items-center gap-2.5 shadow-md hover:bg-[#20ba59] hover:shadow-lg transition-all duration-200 w-fit mt-5 cursor-pointer"
+              >
+                <MessageCircle className="w-5 h-5 fill-white" />
+                <span>Chat on WhatsApp</span>
+              </a>
+            </div>
+          </div>
+
+          {/* Column 2 (Middle Left - Brand Story & About) */}
+          <div className="lg:col-span-3">
+            <div className="relative w-48 h-12 mb-3">
               <Image
                 src="/logo.png"
                 alt="Usman's Pure Products"
@@ -59,141 +133,119 @@ export function StoreFooter() {
                 className="object-contain object-left invert brightness-200"
               />
             </div>
-            <p className="text-stone-400 text-xs leading-relaxed max-w-sm mt-3">
-              Usman&apos;s Pure Products is dedicated to reviving ancient dietary traditions. We specialize in slow-milled stone-chakki flours and pure organic herbal infusions crafted with zero preservatives, chemicals, or roller-mill adulterants.
+            <h5 className="font-serif font-bold text-base text-white">
+              Usman&apos;s Pure Products
+            </h5>
+            <p className="text-xs sm:text-sm text-[#C8BBAF] leading-relaxed max-w-sm mt-3">
+              Reviving pure stone-ground culinary traditions across Pakistan. Fresh whole-grain chakki flours, raw botanical herbal teas, and cold stone-pounded masalas milled under 40°C with zero additives.
             </p>
-
-            <div className="mt-6 flex items-center gap-3">
-              <a
-                href="https://wa.me/923000000000"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl bg-emerald-700 hover:bg-emerald-600 text-white font-bold text-xs transition"
-              >
-                <MessageCircle className="w-4 h-4" />
-                <span>WhatsApp Support</span>
-              </a>
-            </div>
+            <p className="text-xs text-[#8C7D6F] mt-3">
+              100% Unadulterated &bull; Chemical-Free &bull; Tested for Purity
+            </p>
           </div>
 
-          {/* Shop Links */}
-          <div>
-            <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-4">
-              Shop Collections
+          {/* Column 3 (Middle Right - Shop Collections - Compact) */}
+          <div className="lg:col-span-2">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#D8B486] mb-3">
+              SHOP
             </h4>
-            <ul className="space-y-2.5 text-stone-400">
+            <ul className="text-xs sm:text-sm text-[#B3A596] space-y-2">
               <li>
-                <a href="/products" className="hover:text-amber-400 transition">
-                  All Products ({PRODUCTS.length})
-                </a>
+                <Link href="/products" className="hover:text-white transition-colors block">
+                  All Products
+                </Link>
               </li>
               <li>
-                <a href="/flour" className="hover:text-amber-400 transition">
+                <Link href="/flour" className="hover:text-white transition-colors block">
                   Stone-Ground Flours
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/spices" className="hover:text-amber-400 transition">
+                <Link href="/spices" className="hover:text-white transition-colors block">
                   Pure Organic Spices
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/herbals" className="hover:text-amber-400 transition">
+                <Link href="/herbals" className="hover:text-white transition-colors block">
                   Organic Herbal Teas
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/bundles" className="hover:text-amber-400 transition">
+                <Link href="/bundles" className="hover:text-white transition-colors block">
                   Mega Bundles
-                </a>
+                </Link>
+              </li>
+              <li>
+                <Link href="/doctors-choice" className="hover:text-white transition-colors block">
+                  Doctor&apos;s Choice
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Customer Care */}
-          <div>
-            <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-4">
-              Customer Care
+          {/* Column 4 (Far Right - Customer Care - Compact) */}
+          <div className="lg:col-span-3">
+            <h4 className="text-xs font-bold uppercase tracking-wider text-[#D8B486] mb-3">
+              CUSTOMER CARE
             </h4>
-            <ul className="space-y-2.5 text-stone-400">
+            <ul className="text-xs sm:text-sm text-[#B3A596] space-y-2">
               <li>
-                <a href="/about" className="hover:text-amber-400 transition">
+                <Link href="/about" className="hover:text-white transition-colors block">
                   14-Day Return Guarantee
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/cart" className="hover:text-amber-400 transition">
+                <Link href="/reviews" className="hover:text-white transition-colors block">
+                  Verified Customer Reviews (500+)
+                </Link>
+              </li>
+              <li>
+                <Link href="/faqs" className="hover:text-white transition-colors block">
+                  Frequently Asked Questions (FAQ)
+                </Link>
+              </li>
+              <li>
+                <Link href="/cart" className="hover:text-white transition-colors block">
                   Cash on Delivery Info
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/about" className="hover:text-amber-400 transition">
+                <Link href="/about" className="hover:text-white transition-colors block">
                   Lab Test Standards
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/contact" className="hover:text-amber-400 transition">
-                  Customized Diet Plans
-                </a>
-              </li>
-              <li>
-                <a href="/about" className="hover:text-amber-400 transition">
-                  About Usman&apos;s Pure
-                </a>
-              </li>
-              <li>
-                <a href="/contact" className="hover:text-amber-400 transition">
+                <Link href="/contact" className="hover:text-white transition-colors block">
                   Contact Support Desk
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* Contact Details */}
-          <div>
-            <h4 className="font-bold text-white uppercase tracking-wider text-xs mb-4">
-              Get in Touch
-            </h4>
-            <ul className="space-y-3 text-stone-400">
-              <li className="flex items-start gap-2.5">
-                <Phone className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>+92 300 0000000 / UAN Support</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <Mail className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>info@usmanzpure.com</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>Lahore &amp; Faisalabad, Pakistan (Nationwide Delivery)</span>
-              </li>
-              <li className="flex items-start gap-2.5">
-                <Clock className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-                <span>Mon – Sat: 9:00 AM – 8:00 PM</span>
-              </li>
-            </ul>
-          </div>
         </div>
 
-        {/* Bottom Payment Badges & Copyright */}
-        <div className="mt-12 pt-8 border-t border-stone-800 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-stone-500 text-[11px] text-center sm:text-left">
-            © 2026 Usman&apos;s Pure Products. All rights reserved. Pure Food. Real Nutrition.
+        {/* Bottom Bar: Copyright Notice & Payment Badges */}
+        <div className="mt-12 pt-8 border-t border-[#3A2D25] flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-xs text-[#8C7D6F] text-center sm:text-left">
+            © 2026 Usman&apos;s Pure Products. All rights reserved. Pure Food &bull; Real Nutrition.
           </p>
 
-          <div className="flex items-center gap-3">
-            <span className="px-2.5 py-1 rounded bg-stone-900 border border-stone-800 text-[10px] font-bold text-stone-400">
+          <div className="flex flex-wrap items-center justify-center sm:justify-end gap-2 sm:gap-2.5">
+            <span className="px-3 py-1.5 rounded-lg bg-[#251E1A] border border-[#3A2D25] text-xs font-semibold text-[#B3A596]">
               Cash on Delivery (COD)
             </span>
-            <span className="px-2.5 py-1 rounded bg-stone-900 border border-stone-800 text-[10px] font-bold text-stone-400">
+            <span className="px-3 py-1.5 rounded-lg bg-[#251E1A] border border-[#3A2D25] text-xs font-semibold text-[#B3A596]">
               Online Bank Transfer
             </span>
-            <span className="px-2.5 py-1 rounded bg-stone-900 border border-stone-800 text-[10px] font-bold text-stone-400">
+            <span className="px-3 py-1.5 rounded-lg bg-[#251E1A] border border-[#3A2D25] text-xs font-semibold text-[#B3A596]">
               JazzCash / EasyPaisa
             </span>
           </div>
         </div>
+
       </div>
     </footer>
   );
 }
+
+export default StoreFooter;

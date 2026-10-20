@@ -4,7 +4,6 @@ import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import {
   ArrowRight,
-  Sparkles,
   Terminal,
   CheckCircle2,
   ShieldCheck,
@@ -229,7 +228,7 @@ export function Hero() {
           <span className="text-zinc-300">Usman&apos;s Pure Storefront</span>
           <span className="text-zinc-600">•</span>
           <span className="text-emerald-400 font-semibold flex items-center gap-1.5">
-            <Sparkles className="w-3.5 h-3.5" /> 100% Cold-Pressed & Lab-Tested
+            <ShieldCheck className="w-3.5 h-3.5" /> 100% Cold-Pressed & Lab-Tested
           </span>
         </div>
 

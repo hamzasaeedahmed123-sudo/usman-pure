@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { MessageCircle, CheckCircle2, UserCheck, Stethoscope, Sparkles } from "lucide-react";
+import { MessageCircle, CheckCircle2, UserCheck } from "lucide-react";
 
 export function DietConsultationBanner() {
   return (
@@ -14,11 +14,11 @@ export function DietConsultationBanner() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
           {/* Left Text Content (7 cols) */}
           <div className="lg:col-span-7">
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wider bg-emerald-800/80 text-emerald-200 border border-emerald-700 mb-4">
-              <Stethoscope className="w-3.5 h-3.5" /> Free Nutrition Consultation
+            <div className="text-xs font-semibold uppercase tracking-wider text-amber-400 mb-2">
+              Free Nutrition Consultation
             </div>
 
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-black tracking-tight text-white leading-tight">
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-serif font-bold tracking-tight text-white leading-tight">
               Customized Diet Plan &amp; Health Guidance by Usman&apos;s Pure
             </h2>
 
@@ -47,7 +47,7 @@ export function DietConsultationBanner() {
                 href="https://wa.me/923000000000?text=Hi%20Usman's%20Pure,%20I%20would%20like%20a%20Customized%20Diet%20Plan%20consultation."
                 target="_blank"
                 rel="noopener noreferrer"
-                className="py-4 px-8 rounded-2xl bg-amber-400 hover:bg-amber-300 text-stone-950 font-black text-sm flex items-center justify-center gap-3 transition shadow-lg shadow-amber-400/20 active:scale-98"
+                className="py-4 px-8 rounded-sm bg-amber-400 hover:bg-amber-300 text-stone-950 font-semibold text-sm flex items-center justify-center gap-3 transition shadow-ambient shadow-amber-400/20 active:scale-98"
               >
                 <MessageCircle className="w-5 h-5 fill-current" />
                 <span>Get Customized Diet Plan on WhatsApp</span>
@@ -62,9 +62,9 @@ export function DietConsultationBanner() {
 
           {/* Right Image/Card Preview (5 cols) */}
           <div className="lg:col-span-5">
-            <div className="relative rounded-3xl bg-emerald-900/50 border border-emerald-800/80 p-6 sm:p-8 backdrop-blur-sm shadow-2xl">
+            <div className="relative rounded-sm bg-emerald-900/50 border border-emerald-800/80 p-6 sm:p-8 backdrop-blur-sm shadow-ambient">
               <div className="flex items-center gap-4 mb-6 pb-6 border-b border-emerald-800/60">
-                <div className="w-14 h-14 rounded-2xl bg-amber-400 text-stone-950 font-black text-lg flex items-center justify-center shadow-md">
+                <div className="w-14 h-14 rounded-sm bg-amber-400 text-stone-950 font-semibold text-lg flex items-center justify-center shadow-ambient">
                   UP
                 </div>
                 <div>
@@ -74,7 +74,7 @@ export function DietConsultationBanner() {
               </div>
 
               <div className="space-y-4">
-                <div className="p-4 rounded-2xl bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
+                <div className="p-4 rounded-sm bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
                   <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold shrink-0">
                     1
                   </span>
@@ -86,7 +86,7 @@ export function DietConsultationBanner() {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
+                <div className="p-4 rounded-sm bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
                   <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold shrink-0">
                     2
                   </span>
@@ -98,7 +98,7 @@ export function DietConsultationBanner() {
                   </div>
                 </div>
 
-                <div className="p-4 rounded-2xl bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
+                <div className="p-4 rounded-sm bg-emerald-950/70 border border-emerald-800/60 flex items-start gap-3">
                   <span className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 flex items-center justify-center text-xs font-bold shrink-0">
                     3
                   </span>

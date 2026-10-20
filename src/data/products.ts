@@ -321,7 +321,7 @@ export const PRODUCTS: Product[] = [
     priceFormatted: "₨650",
     originalPriceFormatted: "₨850",
     discountBadge: "Save 23%",
-    image: "/spices-jar.png",
+    image: "/images/spices-product.jpg",
     link: "https://usmanzpure.com/product/kashmiri-chili/",
     rating: 5.0,
     reviewCount: 58,

@@ -106,7 +106,7 @@ export default function CartPage() {
     <div className="min-h-screen bg-stone-50 flex flex-col justify-between">
       <Header isSolid theme="amber" />
 
-      <main className="pt-28 sm:pt-32 flex-1">
+      <main className="flex-1">
         {/* Breadcrumb */}
         <div className="bg-white border-b border-stone-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center gap-2 text-xs text-stone-500">
@@ -114,8 +114,8 @@ export default function CartPage() {
               Home
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
-            <Link href="/shop" className="hover:text-amber-800 transition">
-              Shop
+            <Link href="/products" className="hover:text-amber-800 transition">
+              Products
             </Link>
             <ChevronRight className="w-3.5 h-3.5 text-stone-400" />
             <span className="font-bold text-stone-900">Your Basket &amp; Checkout</span>
@@ -125,48 +125,48 @@ export default function CartPage() {
         <TickerMarquee />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
-          <h1 className="text-3xl sm:text-4xl font-black text-stone-900 tracking-tight mb-8">
+          <h1 className="text-3xl sm:text-4xl font-semibold text-stone-900 tracking-tight mb-8">
             Shopping Cart &amp; Cash on Delivery Checkout
           </h1>
 
           {orderPlaced ? (
-            <div className="bg-white rounded-3xl border border-stone-200 p-8 sm:p-12 text-center max-w-2xl mx-auto shadow-sm">
+            <div className="bg-white rounded-sm border border-stone-200 p-8 sm:p-12 text-center max-w-2xl mx-auto shadow-sm">
               <CheckCircle2 className="w-16 h-16 text-emerald-600 mx-auto mb-4" />
-              <h2 className="text-2xl sm:text-3xl font-black text-stone-900">
+              <h2 className="text-2xl sm:text-3xl font-semibold text-stone-900">
                 Order Confirmed with Cash on Delivery!
               </h2>
               <p className="mt-2 text-sm text-stone-600 leading-relaxed max-w-md mx-auto">
                 Thank you, <strong>{checkoutForm.name || "Valued Customer"}</strong>! Your order totaling{" "}
                 <strong>₨{grandTotal.toLocaleString()}</strong> has been scheduled for stone-milling and nationwide dispatch.
               </p>
-              <div className="mt-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 text-xs text-amber-900 max-w-md mx-auto">
+              <div className="mt-6 p-4 rounded-sm bg-amber-50 border border-amber-200 text-xs text-amber-900 max-w-md mx-auto">
                 Our courier will call or SMS your phone (<strong>{checkoutForm.phone || "provided number"}</strong>) prior to doorstep arrival.
               </div>
               <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
                 <Link
-                  href="/shop"
-                  className="px-6 py-3 rounded-xl bg-stone-900 text-white font-bold text-xs hover:bg-stone-800 transition"
+                  href="/products"
+                  className="px-6 py-3 rounded-[3px] bg-[#1E1510] text-[#F6F1E9] font-medium text-[11px] hover:bg-[#8B3A22] transition uppercase tracking-[0.18em] duration-200 ease-out"
                 >
                   Continue Shopping
                 </Link>
                 <button
                   onClick={handleWhatsAppOrder}
-                  className="px-6 py-3 rounded-xl bg-emerald-700 text-white font-bold text-xs hover:bg-emerald-800 transition flex items-center justify-center gap-2"
+                  className="px-6 py-3 rounded-md bg-emerald-700 text-white font-bold text-xs hover:bg-emerald-800 transition flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4" /> Open Order on WhatsApp
                 </button>
               </div>
             </div>
           ) : cartItems.length === 0 ? (
-            <div className="bg-white rounded-3xl border border-stone-200 p-12 text-center max-w-md mx-auto">
+            <div className="bg-white rounded-sm border border-stone-200 p-12 text-center max-w-md mx-auto">
               <ShoppingBag className="w-14 h-14 text-stone-300 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-stone-900">Your pure basket is empty</h3>
               <p className="mt-1 text-xs text-stone-500">
                 Explore our fresh stone-ground flours and organic herbal teas.
               </p>
               <Link
-                href="/shop"
-                className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-stone-900 text-white text-xs font-bold hover:bg-amber-800 transition shadow-sm"
+                href="/products"
+                className="mt-6 inline-flex items-center gap-2 px-6 py-3 rounded-[3px] bg-[#1E1510] text-[#F6F1E9] text-[11px] font-medium hover:bg-[#8B3A22] transition uppercase tracking-[0.18em] duration-200 ease-out"
               >
                 <span>Browse All Products</span>
                 <ArrowRight className="w-4 h-4" />
@@ -177,11 +177,11 @@ export default function CartPage() {
               {/* Left Column: Cart Items & COD Form (7 cols) */}
               <div className="lg:col-span-7 space-y-8">
                 {/* Free Shipping Alert Banner */}
-                <div className="p-4 rounded-2xl bg-white border border-stone-200 shadow-xs">
+                <div className="p-4 rounded-sm bg-white border border-stone-200 shadow-xs">
                   <div className="flex items-center justify-between text-xs font-bold mb-2">
                     <span className="text-stone-900">
                       {amountToFreeShipping === 0 ? (
-                        <span className="text-emerald-700 font-extrabold flex items-center gap-1">
+                        <span className="text-emerald-700 font-medium flex items-center gap-1">
                           ✓ You have unlocked FREE Nationwide Delivery!
                         </span>
                       ) : (
@@ -201,7 +201,7 @@ export default function CartPage() {
                 </div>
 
                 {/* Items List */}
-                <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xs">
+                <div className="bg-white rounded-sm border border-stone-200 p-6 sm:p-8 shadow-xs">
                   <h3 className="text-lg font-bold text-stone-900 mb-4 pb-3 border-b border-stone-100">
                     Your Items ({cartItems.length})
                   </h3>
@@ -213,7 +213,7 @@ export default function CartPage() {
                         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-6 border-b border-stone-100 last:border-b-0 last:pb-0"
                       >
                         <div className="flex items-center gap-4">
-                          <div className="relative w-16 h-16 rounded-xl bg-stone-50 border border-stone-200 p-2 shrink-0 overflow-hidden">
+                          <div className="relative w-16 h-16 rounded-md bg-stone-50 border border-stone-200 p-2 shrink-0 overflow-hidden">
                             <Image
                               src={item.image}
                               alt={item.name}
@@ -227,7 +227,7 @@ export default function CartPage() {
                               {item.name}
                             </h4>
                             <div className="text-xs text-stone-500 mt-0.5">{item.pack}</div>
-                            <div className="text-xs font-black text-stone-900 mt-1">
+                            <div className="text-xs font-semibold text-stone-900 mt-1">
                               ₨{item.price.toLocaleString()} each
                             </div>
                           </div>
@@ -235,7 +235,7 @@ export default function CartPage() {
 
                         <div className="flex items-center justify-between sm:justify-end w-full sm:w-auto gap-4">
                           {/* Quantity Counter */}
-                          <div className="flex items-center border border-stone-200 rounded-xl bg-stone-50 px-2 py-1 gap-3">
+                          <div className="flex items-center border border-stone-200 rounded-md bg-stone-50 px-2 py-1 gap-3">
                             <button
                               onClick={() => updateQuantity(item.id, -1)}
                               className="w-6 h-6 rounded-md bg-white border border-stone-200 text-stone-700 font-bold hover:bg-stone-200 flex items-center justify-center text-xs cursor-pointer"
@@ -253,7 +253,7 @@ export default function CartPage() {
                             </button>
                           </div>
 
-                          <div className="text-sm font-black text-stone-900 min-w-[70px] text-right">
+                          <div className="text-sm font-semibold text-stone-900 min-w-[70px] text-right">
                             ₨{(item.price * item.quantity).toLocaleString()}
                           </div>
 
@@ -271,7 +271,7 @@ export default function CartPage() {
                 </div>
 
                 {/* Cash on Delivery Address Form */}
-                <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xs">
+                <div className="bg-white rounded-sm border border-stone-200 p-6 sm:p-8 shadow-xs">
                   <h3 className="text-lg font-bold text-stone-900 mb-1">
                     Cash on Delivery Delivery Details
                   </h3>
@@ -291,7 +291,7 @@ export default function CartPage() {
                           value={checkoutForm.name}
                           onChange={(e) => setCheckoutForm({ ...checkoutForm, name: e.target.value })}
                           placeholder="e.g. Usman Tariq"
-                          className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
+                          className="w-full px-4 py-2.5 rounded-md bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
                         />
                       </div>
 
@@ -305,7 +305,7 @@ export default function CartPage() {
                           value={checkoutForm.phone}
                           onChange={(e) => setCheckoutForm({ ...checkoutForm, phone: e.target.value })}
                           placeholder="e.g. 0300 1234567"
-                          className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
+                          className="w-full px-4 py-2.5 rounded-md bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
                         />
                       </div>
                     </div>
@@ -318,7 +318,7 @@ export default function CartPage() {
                         <select
                           value={checkoutForm.city}
                           onChange={(e) => setCheckoutForm({ ...checkoutForm, city: e.target.value })}
-                          className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-bold text-stone-800 focus:outline-none focus:border-amber-600 transition cursor-pointer"
+                          className="w-full px-4 py-2.5 rounded-md bg-stone-50 border border-stone-200 text-xs font-bold text-stone-800 focus:outline-none focus:border-amber-600 transition cursor-pointer"
                         >
                           <option value="Lahore">Lahore</option>
                           <option value="Karachi">Karachi</option>
@@ -338,7 +338,7 @@ export default function CartPage() {
                         <label className="block text-xs font-bold text-stone-700 mb-1 uppercase tracking-wider">
                           Delivery Method
                         </label>
-                        <div className="px-4 py-2.5 rounded-xl bg-stone-100 border border-stone-200 text-xs font-bold text-stone-800 flex items-center justify-between">
+                        <div className="px-4 py-2.5 rounded-md bg-stone-100 border border-stone-200 text-xs font-bold text-stone-800 flex items-center justify-between">
                           <span>Doorstep Cash on Delivery (COD)</span>
                           <span className="text-emerald-700">✓ Active</span>
                         </div>
@@ -355,7 +355,7 @@ export default function CartPage() {
                         value={checkoutForm.address}
                         onChange={(e) => setCheckoutForm({ ...checkoutForm, address: e.target.value })}
                         placeholder="House / Flat #, Street, Phase / Sector, Landmark"
-                        className="w-full px-4 py-2.5 rounded-xl bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
+                        className="w-full px-4 py-2.5 rounded-md bg-stone-50 border border-stone-200 text-xs font-medium text-stone-900 focus:outline-none focus:border-amber-600 transition"
                       />
                     </div>
                   </form>
@@ -364,7 +364,7 @@ export default function CartPage() {
 
               {/* Right Column: Order Summary (5 cols) */}
               <div className="lg:col-span-5">
-                <div className="bg-white rounded-3xl border border-stone-200 p-6 sm:p-8 shadow-xs sticky top-28 space-y-6">
+                <div className="bg-white rounded-sm border border-stone-200 p-6 sm:p-8 shadow-xs sticky top-28 space-y-6">
                   <h3 className="text-lg font-bold text-stone-900 pb-3 border-b border-stone-100">
                     Order Summary
                   </h3>
@@ -379,7 +379,7 @@ export default function CartPage() {
                       <span>Nationwide Delivery:</span>
                       <span className="font-bold">
                         {shippingFee === 0 ? (
-                          <span className="text-emerald-700 uppercase font-extrabold">FREE</span>
+                          <span className="text-emerald-700 uppercase font-medium">FREE</span>
                         ) : (
                           <span>₨{shippingFee}</span>
                         )}
@@ -393,7 +393,7 @@ export default function CartPage() {
 
                     <div className="pt-3 border-t border-stone-200 flex items-baseline justify-between">
                       <span className="text-sm font-bold text-stone-900">Total Payable:</span>
-                      <span className="text-2xl font-black text-stone-900">
+                      <span className="text-2xl font-semibold text-stone-900">
                         ₨{grandTotal.toLocaleString()}
                       </span>
                     </div>
@@ -404,7 +404,7 @@ export default function CartPage() {
                     <button
                       type="submit"
                       form="cod-form"
-                      className="w-full py-4 rounded-xl bg-stone-900 hover:bg-amber-800 text-white font-black text-sm flex items-center justify-center gap-2 transition cursor-pointer shadow-md active:scale-98"
+                      className="w-full py-4 rounded-[3px] bg-[#1E1510] hover:bg-[#8B3A22] text-[#F6F1E9] font-medium text-[11px] flex items-center justify-center gap-2 transition cursor-pointer uppercase tracking-[0.18em] duration-200 ease-out"
                     >
                       <span>Confirm Cash on Delivery Order</span>
                       <ArrowRight className="w-4 h-4" />
@@ -413,7 +413,7 @@ export default function CartPage() {
                     <button
                       type="button"
                       onClick={handleWhatsAppOrder}
-                      className="w-full py-3 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
+                      className="w-full py-3 rounded-md bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs flex items-center justify-center gap-2 transition cursor-pointer"
                     >
                       <MessageCircle className="w-4 h-4" />
                       <span>Order Directly via WhatsApp</span>

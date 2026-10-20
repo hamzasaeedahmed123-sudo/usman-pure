@@ -1,0 +1,441 @@
+"use client";
+
+import React, { useState } from "react";
+import Image from "next/image";
+import { useStoreData } from "@/context/StoreDataContext";
+import { Product } from "@/data/products";
+import {
+  Plus,
+  Search,
+  Filter,
+  Trash2,
+  Edit2,
+  Check,
+  X,
+  Package,
+  AlertCircle,
+  CheckCircle2,
+  ExternalLink,
+} from "lucide-react";
+
+export default function AdminProductsPage() {
+  const { products, addProduct, updateProduct, deleteProduct } = useStoreData();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editPrice, setEditPrice] = useState<number>(0);
+  const [addModalOpen, setAddModalOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string>("");
+
+  // New product form state
+  const [newTitle, setNewTitle] = useState("");
+  const [newCategory, setNewCategory] = useState<"flours" | "teas" | "spices">("flours");
+  const [newPrice, setNewPrice] = useState(1200);
+  const [newOriginalPrice, setNewOriginalPrice] = useState(1500);
+  const [newWeight, setNewWeight] = useState("5kg");
+  const [newTagline, setNewTagline] = useState("100% Pure & Stone-Ground");
+  const [newDescription, setNewDescription] = useState("");
+  const [newBenefits, setNewBenefits] = useState("Stone-Ground Chakki\nZero Preservatives\n100% Pure Organics");
+
+  const showToast = (msg: string) => {
+    setToastMessage(msg);
+    setTimeout(() => setToastMessage(""), 3000);
+  };
+
+  const filteredProducts = products.filter((p) => {
+    const matchesSearch =
+      p.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory = selectedCategory === "all" || p.category === selectedCategory;
+    return matchesSearch && matchesCategory;
+  });
+
+  const handleStartEdit = (product: Product) => {
+    setEditingId(product.id);
+    setEditPrice(product.price);
+  };
+
+  const handleSaveInlinePrice = (id: string) => {
+    updateProduct(id, { price: editPrice });
+    setEditingId(null);
+    showToast("Product price updated successfully!");
+  };
+
+  const handleToggleStock = (id: string, currentStatus: boolean) => {
+    updateProduct(id, { inStock: !currentStatus });
+    showToast(`Product marked as ${!currentStatus ? "In Stock" : "Out of Stock"}.`);
+  };
+
+  const handleDelete = (id: string, title: string) => {
+    if (confirm(`Are you sure you want to delete "${title}"?`)) {
+      deleteProduct(id);
+      showToast(`"${title}" removed from catalog.`);
+    }
+  };
+
+  const handleCreateProduct = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newTitle.trim()) return;
+
+    const benefitsArray = newBenefits
+      .split("\n")
+      .map((b) => b.trim())
+      .filter((b) => b.length > 0);
+
+    const categoryLabels = {
+      flours: "Stone-Ground Chakki Flour",
+      teas: "Artisanal Pure Herbal Tea",
+      spices: "Cold Stone-Pounded Spices",
+    };
+
+    const newProd: Omit<Product, "id"> = {
+      title: newTitle.trim(),
+      category: newCategory,
+      categoryLabel: categoryLabels[newCategory],
+      price: Number(newPrice),
+      originalPrice: Number(newOriginalPrice),
+      priceFormatted: `₨${Number(newPrice).toLocaleString()}`,
+      originalPriceFormatted: `₨${Number(newOriginalPrice).toLocaleString()}`,
+      discountBadge: "Fresh Batch",
+      image:
+        newCategory === "flours"
+          ? "/images/products/prod-1.jpg"
+          : newCategory === "teas"
+          ? "/images/products/prod-2.jpg"
+          : "/images/products/prod-4.jpg",
+      link: "/products",
+      rating: 5.0,
+      reviewCount: 1,
+      weight: newWeight,
+      tagline: newTagline,
+      description: newDescription || "100% pure stone-milled product with zero chemical additives.",
+      benefits: benefitsArray,
+      inStock: true,
+    };
+
+    addProduct(newProd);
+    setAddModalOpen(false);
+    showToast(`"${newTitle}" added to store inventory!`);
+
+    // Reset form
+    setNewTitle("");
+    setNewDescription("");
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Toast Notification */}
+      {toastMessage && (
+        <div className="fixed bottom-6 right-6 z-50 p-4 rounded-2xl bg-[#1C1613] text-white text-xs font-bold shadow-2xl flex items-center gap-2 animate-in fade-in slide-in-from-bottom-2 duration-200">
+          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+          <span>{toastMessage}</span>
+        </div>
+      )}
+
+      {/* 1. Header & Actions */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white/70 backdrop-blur-md p-6 rounded-3xl border border-stone-200/80 shadow-xs">
+        <div>
+          <h1 className="text-2xl sm:text-3xl font-black text-stone-900 tracking-tight">
+            Products & Inventory Management
+          </h1>
+          <p className="text-xs sm:text-sm text-stone-600 mt-1">
+            Manage prices, stock levels, variants, and product descriptions across all 3 pure categories.
+          </p>
+        </div>
+
+        <button
+          onClick={() => setAddModalOpen(true)}
+          className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#1C1613] hover:bg-black text-white text-xs font-bold transition shadow-xs cursor-pointer self-start sm:self-auto"
+        >
+          <Plus className="w-4 h-4" />
+          <span>Add New Product</span>
+        </button>
+      </div>
+
+      {/* 2. Filters & Search Bar */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 bg-white/80 p-4 rounded-2xl border border-stone-200/80 shadow-xs">
+        {/* Search */}
+        <div className="relative flex-1 max-w-md">
+          <Search className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Search products by title or description..."
+            className="w-full pl-10 pr-4 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs placeholder-stone-400 focus:outline-none focus:ring-2 focus:ring-amber-900/40"
+          />
+        </div>
+
+        {/* Category Pills */}
+        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+          {[
+            { id: "all", label: "All Items" },
+            { id: "flours", label: "Chakki Flours" },
+            { id: "teas", label: "Herbal Teas" },
+            { id: "spices", label: "Pure Spices" },
+          ].map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => setSelectedCategory(cat.id)}
+              className={`px-3 py-1.5 rounded-xl text-xs font-bold transition cursor-pointer whitespace-nowrap ${
+                selectedCategory === cat.id
+                  ? "bg-[#1C1613] text-white shadow-2xs"
+                  : "bg-stone-100 text-stone-700 hover:bg-stone-200"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 3. Products Table */}
+      <div className="bg-white/80 backdrop-blur-md rounded-3xl border border-stone-200/80 shadow-xs overflow-hidden">
+        <div className="p-4 px-6 border-b border-stone-100 flex items-center justify-between text-xs text-stone-500 font-bold">
+          <span>Showing {filteredProducts.length} Products</span>
+          <span>Click on Price to Edit Inline</span>
+        </div>
+
+        <div className="overflow-x-auto">
+          <table className="w-full text-left text-xs">
+            <thead className="bg-stone-50/80 text-stone-500 uppercase tracking-wider font-bold border-b border-stone-100">
+              <tr>
+                <th className="py-3 px-6">Product</th>
+                <th className="py-3 px-6">Category</th>
+                <th className="py-3 px-6">Weight / Size</th>
+                <th className="py-3 px-6">Price (₨)</th>
+                <th className="py-3 px-6">Status</th>
+                <th className="py-3 px-6 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-100">
+              {filteredProducts.map((p) => {
+                const isEditing = editingId === p.id;
+                return (
+                  <tr key={p.id} className="hover:bg-stone-50/60 transition group">
+                    {/* Product Info */}
+                    <td className="py-3.5 px-6">
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-12 h-12 rounded-xl bg-stone-100 border border-stone-200/80 p-1 shrink-0 overflow-hidden">
+                          <Image
+                            src={p.image}
+                            alt={p.title}
+                            fill
+                            className="object-contain p-0.5"
+                          />
+                        </div>
+                        <div className="min-w-0">
+                          <p className="font-bold text-stone-900 truncate max-w-xs">{p.title}</p>
+                          <p className="text-[11px] text-stone-500 truncate max-w-xs">{p.tagline}</p>
+                        </div>
+                      </div>
+                    </td>
+
+                    {/* Category */}
+                    <td className="py-3.5 px-6">
+                      <span className="capitalize font-semibold text-stone-700 bg-stone-100 px-2.5 py-1 rounded-lg">
+                        {p.category}
+                      </span>
+                    </td>
+
+                    {/* Weight */}
+                    <td className="py-3.5 px-6 font-bold text-stone-900">
+                      {p.weight}
+                    </td>
+
+                    {/* Price with Inline Edit */}
+                    <td className="py-3.5 px-6">
+                      {isEditing ? (
+                        <div className="flex items-center gap-1.5">
+                          <span className="font-bold">₨</span>
+                          <input
+                            type="number"
+                            value={editPrice}
+                            onChange={(e) => setEditPrice(Number(e.target.value))}
+                            className="w-20 px-2 py-1 rounded-lg bg-stone-100 border border-amber-900 font-bold text-xs"
+                            autoFocus
+                          />
+                          <button
+                            onClick={() => handleSaveInlinePrice(p.id)}
+                            className="p-1 rounded bg-emerald-600 text-white hover:bg-emerald-700"
+                            title="Save"
+                          >
+                            <Check className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="p-1 rounded bg-stone-300 text-stone-700 hover:bg-stone-400"
+                            title="Cancel"
+                          >
+                            <X className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => handleStartEdit(p)}
+                          className="flex items-center gap-1.5 font-black text-stone-900 hover:text-amber-900 group/price cursor-pointer"
+                          title="Click to edit price"
+                        >
+                          <span>{p.priceFormatted}</span>
+                          <Edit2 className="w-3 h-3 text-stone-400 opacity-0 group-hover/price:opacity-100 transition-opacity" />
+                        </button>
+                      )}
+                    </td>
+
+                    {/* In Stock Toggle */}
+                    <td className="py-3.5 px-6">
+                      <button
+                        onClick={() => handleToggleStock(p.id, p.inStock)}
+                        className={`px-3 py-1 rounded-full text-[10px] font-bold cursor-pointer transition ${
+                          p.inStock
+                            ? "bg-emerald-100 text-emerald-900 hover:bg-emerald-200"
+                            : "bg-red-100 text-red-900 hover:bg-red-200"
+                        }`}
+                      >
+                        {p.inStock ? "In Stock" : "Out of Stock"}
+                      </button>
+                    </td>
+
+                    {/* Actions */}
+                    <td className="py-3.5 px-6 text-right">
+                      <div className="flex items-center justify-end gap-2">
+                        <button
+                          onClick={() => handleDelete(p.id, p.title)}
+                          className="p-1.5 rounded-lg text-stone-400 hover:text-red-700 hover:bg-red-50 transition cursor-pointer"
+                          title="Delete Product"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      {/* 4. Add Product Modal */}
+      {addModalOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-xs">
+          <div className="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl max-h-[90vh] overflow-y-auto">
+            <div className="flex items-center justify-between pb-4 border-b border-stone-100 mb-5">
+              <div>
+                <h3 className="text-xl font-black text-stone-900 tracking-tight">Add New Product</h3>
+                <p className="text-xs text-stone-500">Create a stone-ground organic product entry</p>
+              </div>
+              <button
+                onClick={() => setAddModalOpen(false)}
+                className="p-1.5 rounded-xl hover:bg-stone-100 text-stone-500 cursor-pointer"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateProduct} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">Product Title</label>
+                <input
+                  type="text"
+                  required
+                  value={newTitle}
+                  onChange={(e) => setNewTitle(e.target.value)}
+                  placeholder="e.g. Pure Stone-Ground Diabetic Atta"
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs focus:ring-2 focus:ring-amber-900/40"
+                />
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Category</label>
+                  <select
+                    value={newCategory}
+                    onChange={(e) => setNewCategory(e.target.value as any)}
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs"
+                  >
+                    <option value="flours">Chakki Flour</option>
+                    <option value="teas">Herbal Tea</option>
+                    <option value="spices">Pure Spices</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Weight / Variant</label>
+                  <input
+                    type="text"
+                    value={newWeight}
+                    onChange={(e) => setNewWeight(e.target.value)}
+                    placeholder="e.g. 5kg, 250g, 500g"
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Selling Price (₨)</label>
+                  <input
+                    type="number"
+                    required
+                    value={newPrice}
+                    onChange={(e) => setNewPrice(Number(e.target.value))}
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 mb-1">Original Price (₨)</label>
+                  <input
+                    type="number"
+                    value={newOriginalPrice}
+                    onChange={(e) => setNewOriginalPrice(Number(e.target.value))}
+                    className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">Product Description</label>
+                <textarea
+                  rows={2}
+                  value={newDescription}
+                  onChange={(e) => setNewDescription(e.target.value)}
+                  placeholder="Detailed description of process, purity, and organic stone-ground benefits..."
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs"
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-stone-700 mb-1">
+                  Key Benefits (One per line)
+                </label>
+                <textarea
+                  rows={3}
+                  value={newBenefits}
+                  onChange={(e) => setNewBenefits(e.target.value)}
+                  className="w-full px-3.5 py-2 rounded-xl bg-stone-50 border border-stone-200 text-stone-900 text-xs font-mono"
+                />
+              </div>
+
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100">
+                <button
+                  type="button"
+                  onClick={() => setAddModalOpen(false)}
+                  className="px-4 py-2 rounded-xl text-stone-600 font-bold text-xs hover:bg-stone-100 cursor-pointer"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  className="px-5 py-2 rounded-xl bg-[#1C1613] hover:bg-black text-white font-bold text-xs shadow-xs cursor-pointer"
+                >
+                  Save Product to Catalog
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}

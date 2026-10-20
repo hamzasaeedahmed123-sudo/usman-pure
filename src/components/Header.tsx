@@ -8,15 +8,18 @@ import {
   Search,
   Menu,
   X,
-  Sparkles,
   ShieldCheck,
   ChevronDown,
+  ChevronRight,
   Trash2,
   Check,
   ArrowRight,
   Truck,
 } from "lucide-react";
 import { PRODUCTS } from "@/data/products";
+import { useCart } from "@/context/CartContext";
+import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
+import { AuthHeaderButton } from "@/components/auth/AuthHeaderButton";
 
 interface HeaderProps {
   theme?: "amber" | "green" | "terracotta";
@@ -27,25 +30,8 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [searchModalOpen, setSearchModalOpen] = useState(false);
-  const [cartDrawerOpen, setCartDrawerOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
-
-  const [cartItems, setCartItems] = useState([
-    {
-      id: "prod-3",
-      name: "Fat2Fuel Advance Multigrain Flour",
-      pack: "5kg Family Pack",
-      price: 1150,
-      quantity: 1,
-    },
-    {
-      id: "prod-9",
-      name: "Rosella Tea (Organic Hibiscus)",
-      pack: "50g Stand-up Pouch",
-      price: 1000,
-      quantity: 1,
-    },
-  ]);
+  const { openCart, totalCount } = useCart();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -63,21 +49,18 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
       }
       if (e.key === "Escape") {
         setSearchModalOpen(false);
-        setCartDrawerOpen(false);
       }
     };
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  const [productsDropdownOpen, setProductsDropdownOpen] = useState(false);
+
   const navLinks = [
     { label: "Home", href: "/" },
-    { label: "All Products", href: "/products", badge: "17 Items" },
-    { label: "Flour", href: "/flour", badge: "Stone Ground" },
-    { label: "Spices", href: "/spices", badge: "Cold Pounded" },
-    { label: "Herbal Teas", href: "/herbals", badge: "Pure Herbs" },
-    { label: "Mega Bundles", href: "/bundles", badge: "Save ₨800" },
-    { label: "About Us", href: "/about" },
+    { label: "All Products", href: "/products", hasDropdown: true },
+    { label: "Bundles", href: "/bundles" },
     { label: "Contact", href: "/contact" },
   ];
 
@@ -87,130 +70,207 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
       p.categoryLabel.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
-  const cartTotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
-
   // Theme styling for header elements
+  const slideThemeKey: "flour" | "herbals" | "spices" =
+    theme === "green" ? "herbals" : theme === "terracotta" ? "spices" : "flour";
+
   const themeClasses = {
     amber: {
-      bar: "bg-[#452D17] text-[#F9F3EA]",
+      bar: "bg-[#2A1F17] text-white",
       glass: isSolid
         ? "bg-[#FAF5EC] border-[#D8C2A0]/80 text-[#3F2A17] shadow-md"
         : isScrolled
         ? "bg-[#FAF5EC]/90 border-[#D8C2A0]/70 text-[#3F2A17] shadow-lg shadow-[#3F2A17]/5"
         : "bg-white/45 border-white/60 text-[#3F2A17]",
       accent: "bg-[#54361C] hover:bg-[#3D2511] text-[#FAF5EC]",
-      pill: "bg-[#EFE2CE] text-[#54361C] border-[#D8C2A0]",
-      badge: "bg-[#54361C] text-[#FAF5EC]",
+      pill: "bg-[#F5EFE6]/70 border-[#E5DACB]/80 text-[#3D2817]",
+      badge: "bg-[#EBDDCB]/70 border-[#DCC7AD]/80 text-[#3D2817]",
+      cartBtn: "bg-[#F5EFE6]/70 hover:bg-[#F5EFE6] border-[#E5DACB]/80 text-[#3D2817]",
+      tag: "100% Stone-Ground",
     },
     green: {
-      bar: "bg-[#114427] text-[#EEF9F2]",
+      bar: "bg-[#0E381C] text-white",
       glass: isSolid
         ? "bg-[#EDF8F1] border-[#B5DFCA]/80 text-[#124227] shadow-md"
         : isScrolled
         ? "bg-[#EDF8F1]/90 border-[#B5DFCA]/70 text-[#124227] shadow-lg shadow-[#124227]/5"
         : "bg-white/45 border-white/60 text-[#124227]",
       accent: "bg-[#145330] hover:bg-[#0D3B22] text-[#EEF9F2]",
-      pill: "bg-[#DCF0E5] text-[#145330] border-[#B5DFCA]",
-      badge: "bg-[#145330] text-[#EEF9F2]",
+      pill: "bg-[#EAF3EC]/70 border-[#C5DEC9]/80 text-[#0E351B]",
+      badge: "bg-[#D4E8D8]/70 border-[#BFDDC3]/80 text-[#0E351B]",
+      cartBtn: "bg-[#EAF3EC]/70 hover:bg-[#EAF3EC] border-[#C5DEC9]/80 text-[#0E351B]",
+      tag: "Pure Botanical",
     },
     terracotta: {
-      bar: "bg-[#661D0F] text-[#FDF4EF]",
+      bar: "bg-[#541B10] text-white",
       glass: isSolid
         ? "bg-[#FCF1EC] border-[#E8BFB2]/80 text-[#681E10] shadow-md"
         : isScrolled
         ? "bg-[#FCF1EC]/90 border-[#E8BFB2]/70 text-[#681E10] shadow-lg shadow-[#681E10]/5"
         : "bg-white/50 border-white/60 text-[#681E10]",
       accent: "bg-[#8D2D1B] hover:bg-[#6D2012] text-[#FDF4EF]",
-      pill: "bg-[#F7DDD5] text-[#8D2D1B] border-[#E8BFB2]",
-      badge: "bg-[#8D2D1B] text-[#FDF4EF]",
+      pill: "bg-[#F9ECE4]/70 border-[#E8C8B5]/80 text-[#4E1E0F]",
+      badge: "bg-[#F3D5C5]/70 border-[#ECC0AA]/80 text-[#4E1E0F]",
+      cartBtn: "bg-[#F9ECE4]/70 hover:bg-[#F9ECE4] border-[#E8C8B5]/80 text-[#4E1E0F]",
+      tag: "Cold Stone-Pounded",
     },
   }[theme];
 
   return (
     <>
-      <header className="fixed top-0 inset-x-0 z-50 transition-all duration-300">
-        {/* Top Purity Ribbon */}
-        <div
-          className={`${themeClasses.bar} transition-colors duration-500 py-1.5 px-4 text-center text-[11px] sm:text-xs font-medium flex items-center justify-center gap-2 tracking-wide`}
-        >
-          <Sparkles className="w-3.5 h-3.5 opacity-90 animate-pulse text-amber-300" />
-          <span>
-            100% Certified Organic • Traditional Stone-Ground • Zero Preservatives
-          </span>
-          <span className="hidden md:inline-block opacity-60">|</span>
-          <span className="hidden md:inline-flex items-center gap-1 font-semibold underline underline-offset-2">
-            Free Nationwide Shipping on Orders ₨2,500+
-          </span>
-        </div>
+      <header className="relative w-full z-40 transition-all duration-300">
+        {/* Top Announcement Bar */}
+        <AnnouncementBar theme={theme} />
 
         {/* Main Frosted Glass Navbar */}
         <div
-          className={`mx-auto transition-all duration-300 backdrop-blur-xl border-b ${themeClasses.glass} px-4 sm:px-8 ${
-            isScrolled || isSolid ? "py-2.5" : "py-3.5"
-          }`}
+          className={`mx-auto transition-all duration-300 backdrop-blur-xl border-b ${themeClasses.glass}`}
         >
-          <div className="max-w-7xl mx-auto flex items-center justify-between">
-            {/* Official Brand Logo */}
-            <Link
-              href="/"
-              className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none"
-              aria-label="USMAN'S PURE PRODUCTS"
-            >
-              <div className="relative w-40 sm:w-52 h-10 sm:h-12 flex items-center">
-                <Image
-                  src="/logo.png"
-                  alt="USMAN'S PURE PRODUCTS"
-                  fill
-                  sizes="(max-width: 640px) 160px, 210px"
-                  className="object-contain object-left group-hover:scale-[1.02] transition-transform duration-300"
-                  priority
-                />
-              </div>
-              <span className="sr-only">USMAN&apos;S PURE PRODUCTS</span>
-            </Link>
+          <div className="w-full max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between gap-4 h-20 relative z-50">
+            {/* Left Section (Logo + Stone-Ground Badge) */}
+            <div className="flex items-center gap-3 shrink-0">
+              <Link
+                href="/"
+                className="flex items-center gap-2.5 sm:gap-3 group focus:outline-none shrink-0"
+                aria-label="USMAN'S PURE PRODUCTS"
+              >
+                <div className="relative w-32 sm:w-40 h-8 sm:h-9 flex items-center">
+                  <Image
+                    src="/logo.png"
+                    alt="USMAN'S PURE PRODUCTS"
+                    fill
+                    sizes="(max-width: 640px) 128px, 160px"
+                    className="object-contain object-left group-hover:scale-[1.02] transition-transform duration-300"
+                    priority
+                  />
+                </div>
+                <span className="sr-only">USMAN&apos;S PURE PRODUCTS</span>
+              </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden lg:flex items-center gap-1 bg-white/60 border border-white/80 rounded-full px-4 py-1.5 backdrop-blur-md shadow-xs">
-              {navLinks.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="px-3.5 py-1.5 rounded-full text-xs font-semibold hover:bg-black/5 transition duration-200 flex items-center gap-1.5 group tracking-tight text-stone-800"
+              <span className={`hidden xl:inline-flex px-3 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap uppercase tracking-wider backdrop-blur-md shadow-2xs border transition-colors duration-500 ease-in-out ${themeClasses.badge}`}>
+                {themeClasses.tag}
+              </span>
+            </div>
+
+            {/* Center Section: Navigation Pill */}
+            <nav className={`hidden lg:flex backdrop-blur-md border shadow-sm rounded-full px-5 py-2 items-center gap-4 lg:gap-6 text-xs lg:text-sm font-medium shrink-1 min-w-0 transition-colors duration-500 ease-in-out ${themeClasses.pill}`}>
+              <Link
+                href="/"
+                className="hover:text-stone-950 transition-colors whitespace-nowrap"
+              >
+                Home
+              </Link>
+
+              <Link
+                href="/doctors-choice"
+                className="hover:text-stone-950 transition-colors inline-flex items-center whitespace-nowrap"
+              >
+                <span>Doctor&apos;s Choice</span>
+                <span className="text-[10px] bg-emerald-700 text-white px-1.5 py-0.5 rounded-full font-bold ml-1 leading-none shadow-2xs">
+                  Verified
+                </span>
+              </Link>
+
+              <div
+                className="relative"
+                onMouseEnter={() => setProductsDropdownOpen(true)}
+                onMouseLeave={() => setProductsDropdownOpen(false)}
+              >
+                <button
+                  onClick={() => setProductsDropdownOpen((prev) => !prev)}
+                  className="hover:text-stone-950 transition-colors flex items-center gap-1 cursor-pointer whitespace-nowrap"
                 >
-                  <span>{item.label}</span>
-                  {item.badge && (
-                    <span
-                      className={`text-[9px] font-bold px-1.5 py-0.5 rounded-full border ${themeClasses.pill}`}
+                  <span>All Products</span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${
+                      productsDropdownOpen ? "rotate-180" : ""
+                    }`}
+                  />
+                </button>
+
+                {productsDropdownOpen && (
+                  <div className="absolute top-full left-0 mt-2 w-52 bg-white/95 backdrop-blur-xl border border-stone-200/80 rounded-2xl shadow-xl p-2 z-50 animate-in fade-in slide-in-from-top-1 duration-150 text-stone-900">
+                    <Link
+                      href="/products"
+                      onClick={() => setProductsDropdownOpen(false)}
+                      className="block px-3.5 py-2 text-xs font-bold uppercase tracking-wider text-stone-400 hover:text-stone-900 border-b border-stone-100"
                     >
-                      {item.badge}
-                    </span>
-                  )}
-                </Link>
-              ))}
+                      All Catalog &rarr;
+                    </Link>
+                    <div className="py-1">
+                      <Link
+                        href="/flour"
+                        onClick={() => setProductsDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-stone-50 text-stone-800"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#8C6D46]" />
+                        <span>1. Chakki Flour</span>
+                      </Link>
+                      <Link
+                        href="/herbals"
+                        onClick={() => setProductsDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-stone-50 text-stone-800"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#2D5A3E]" />
+                        <span>2. Herbal Teas</span>
+                      </Link>
+                      <Link
+                        href="/spices"
+                        onClick={() => setProductsDropdownOpen(false)}
+                        className="flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-semibold hover:bg-stone-50 text-stone-800"
+                      >
+                        <span className="w-2 h-2 rounded-full bg-[#9E3E26]" />
+                        <span>3. Pure Spices</span>
+                      </Link>
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              <Link
+                href="/bundles"
+                className="hover:text-stone-950 transition-colors inline-flex items-center font-bold whitespace-nowrap"
+              >
+                <span>Mega Bundles</span>
+                <span className="text-[10px] bg-amber-600 text-white px-1.5 py-0.5 rounded-full font-bold ml-1 leading-none shadow-2xs">
+                  Save
+                </span>
+              </Link>
+
+              <Link
+                href="/about"
+                className="hover:text-stone-950 transition-colors whitespace-nowrap"
+              >
+                About Us
+              </Link>
+
+              <Link
+                href="/contact"
+                className="hover:text-stone-950 transition-colors whitespace-nowrap"
+              >
+                Contact
+              </Link>
             </nav>
 
-            {/* Header Utilities */}
-            <div className="flex items-center gap-2.5 sm:gap-3">
+            {/* Right Section (Cart Icon + Log In + Sign Up): Group together with gap-2.5 shrink-0 */}
+            <div className="flex items-center gap-2.5 shrink-0">
               {/* Quick Search Trigger */}
               <button
                 onClick={() => setSearchModalOpen(true)}
                 aria-label="Search Pure Products"
-                className="cursor-pointer hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/60 border border-white/80 hover:bg-white text-xs font-medium shadow-xs transition"
+                className="cursor-pointer hidden xl:flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/60 border border-white/80 hover:bg-white text-xs font-medium shadow-xs transition"
               >
                 <Search className="w-3.5 h-3.5 opacity-70" />
-                <span className="opacity-80">Search store...</span>
-                <kbd className="hidden md:inline-block font-mono text-[10px] bg-black/5 px-1.5 py-0.5 rounded">
+                <span className="opacity-80">Search</span>
+                <kbd className="font-mono text-[9px] bg-black/5 px-1 py-0.2 rounded">
                   ⌘K
                 </kbd>
               </button>
 
               {/* Shopping Cart Button */}
               <button
-                onClick={() => setCartDrawerOpen(true)}
-                className="cursor-pointer relative p-2.5 rounded-full bg-white/70 hover:bg-white border border-white/80 shadow-xs transition duration-200"
+                onClick={() => openCart()}
+                className={`cursor-pointer relative w-10 h-10 rounded-full border shadow-xs flex items-center justify-center transition-colors duration-500 ease-in-out ${themeClasses.cartBtn}`}
                 aria-label="View Shopping Cart"
               >
                 <ShoppingBag className="w-4 h-4" />
@@ -218,23 +278,17 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
                   id="cart-badge-count"
                   className={`absolute -top-1 -right-1 flex items-center justify-center w-4 h-4 rounded-full text-[10px] font-bold shadow-xs ${themeClasses.badge}`}
                 >
-                  {cartItems.length}
+                  {totalCount}
                 </span>
               </button>
 
-              {/* Primary Call to Action */}
-              <Link
-                href="/products"
-                className={`hidden sm:inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-xs font-bold shadow-sm transition duration-200 ${themeClasses.accent}`}
-              >
-                <ShieldCheck className="w-3.5 h-3.5" />
-                <span>Shop Pure</span>
-              </Link>
+              {/* User Authentication Actions / Admin Menu */}
+              <AuthHeaderButton slideTheme={slideThemeKey} />
 
               {/* Mobile Hamburger Button */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden p-2 rounded-full bg-white/70 hover:bg-white border border-white/80 transition"
+                className={`lg:hidden w-10 h-10 rounded-full border flex items-center justify-center transition-colors duration-500 ease-in-out cursor-pointer ${themeClasses.cartBtn}`}
                 aria-label="Toggle Navigation Menu"
               >
                 {mobileMenuOpen ? (
@@ -249,7 +303,7 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
           {/* Mobile Slide-down Drawer */}
           {mobileMenuOpen && (
             <div className="lg:hidden mt-3 pt-3 border-t border-black/10 animate-in fade-in slide-in-from-top-2 duration-200 bg-white/95 rounded-2xl p-4 shadow-xl">
-              <div className="px-2 pb-2.5 mb-1 border-b border-black/10 flex items-center justify-between">
+              <div className="px-2 pb-2.5 mb-2 border-b border-black/10 flex items-center justify-between">
                 <div className="relative w-36 h-9 flex items-center">
                   <Image
                     src="/logo.png"
@@ -259,43 +313,133 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
                     className="object-contain object-left"
                   />
                 </div>
-                <span className="text-[10px] font-bold text-stone-600 uppercase tracking-widest">
+                <span className="text-xs font-bold text-stone-700 uppercase tracking-widest">
                   Menu
                 </span>
               </div>
               <div className="flex flex-col gap-1 pb-2">
-                {navLinks.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold hover:bg-stone-100 transition text-stone-900"
-                  >
-                    <span>{item.label}</span>
-                    {item.badge ? (
-                      <span
-                        className={`text-[10px] font-bold px-2 py-0.5 rounded-full border ${themeClasses.pill}`}
-                      >
-                        {item.badge}
-                      </span>
-                    ) : (
-                      <ChevronDown className="w-4 h-4 opacity-50 -rotate-90" />
-                    )}
-                  </Link>
-                ))}
+                {/* 1. Home */}
+                <Link
+                  href="/"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold hover:bg-stone-100 transition text-stone-900 min-h-[48px]"
+                >
+                  <span>Home</span>
+                </Link>
 
-                <div className="pt-2 mt-1 border-t border-black/10 flex flex-col gap-2">
+                {/* 2. Doctor's Choice */}
+                <Link
+                  href="/doctors-choice"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold hover:bg-stone-100 transition text-stone-900 min-h-[48px]"
+                >
+                  <div className="flex items-center">
+                    <span>Doctor&apos;s Choice</span>
+                    <span className="text-[10px] bg-emerald-700 text-white px-1.5 py-0.5 rounded-full font-bold ml-1.5 leading-none">
+                      Verified
+                    </span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 opacity-40" />
+                </Link>
+
+                {/* 3. All Products with Sub-items */}
+                <div className="flex flex-col">
+                  <div className="flex items-center justify-between px-4 py-2.5 rounded-xl text-base font-semibold text-stone-900">
+                    <Link
+                      href="/products"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="hover:underline"
+                    >
+                      All Products
+                    </Link>
+                  </div>
+                  <div className="ml-4 pl-3 border-l-2 border-stone-200 flex flex-col gap-1 py-1">
+                    <Link
+                      href="/flour"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 text-stone-800"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#8C6D46]" />
+                      <span>1. Chakki Flour</span>
+                    </Link>
+                    <Link
+                      href="/herbals"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 text-stone-800"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#2D5A3E]" />
+                      <span>2. Herbal Teas</span>
+                    </Link>
+                    <Link
+                      href="/spices"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium hover:bg-stone-100 text-stone-800"
+                    >
+                      <span className="w-2 h-2 rounded-full bg-[#9E3E26]" />
+                      <span>3. Pure Spices</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* 4. Mega Bundles */}
+                <Link
+                  href="/bundles"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold hover:bg-stone-100 transition text-stone-900 min-h-[48px]"
+                >
+                  <div className="flex items-center">
+                    <span>Mega Bundles</span>
+                    <span className="text-[10px] bg-amber-600 text-white px-1.5 py-0.5 rounded-full font-bold ml-1.5 leading-none">
+                      Save
+                    </span>
+                  </div>
+                  <ChevronRight className="w-4 h-4 opacity-40" />
+                </Link>
+
+                {/* 5. About Us */}
+                <Link
+                  href="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold hover:bg-stone-100 transition text-stone-900 min-h-[48px]"
+                >
+                  <span>About Us</span>
+                  <ChevronRight className="w-4 h-4 opacity-40" />
+                </Link>
+
+                {/* 6. Contact */}
+                <Link
+                  href="/contact"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between px-4 py-3 rounded-xl text-base font-semibold hover:bg-stone-100 transition text-stone-900 min-h-[48px]"
+                >
+                  <span>Contact</span>
+                  <ChevronRight className="w-4 h-4 opacity-40" />
+                </Link>
+
+                {/* Mobile Auth Links / Profile */}
+                <AuthHeaderButton isMobile={true} />
+
+                <div className="pt-3 mt-1 border-t border-black/10 flex flex-col gap-2.5">
+                  <button
+                    onClick={() => {
+                      setMobileMenuOpen(false);
+                      setSearchModalOpen(true);
+                    }}
+                    className="w-full text-center py-3.5 rounded-xl font-bold text-sm bg-stone-100 hover:bg-stone-200 text-stone-800 transition flex items-center justify-center gap-2 min-h-[48px]"
+                  >
+                    <Search className="w-4 h-4" /> Search Products
+                  </button>
                   <Link
                     href="/products"
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`w-full text-center py-2.5 rounded-xl font-bold text-xs shadow-sm ${themeClasses.accent}`}
+                    className={`w-full text-center py-3.5 rounded-xl font-bold text-sm shadow-sm flex items-center justify-center min-h-[48px] ${themeClasses.accent}`}
                   >
                     Explore Pure Catalog
                   </Link>
                   <Link
                     href="/cart"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="w-full text-center py-2.5 rounded-xl font-bold text-xs bg-emerald-700 text-white shadow-sm flex items-center justify-center gap-1.5"
+                    className="w-full text-center py-3.5 rounded-xl font-bold text-sm bg-emerald-700 text-white shadow-sm flex items-center justify-center gap-1.5 min-h-[48px]"
                   >
                     <ShoppingBag className="w-4 h-4" /> View Cart &amp; Checkout
                   </Link>
@@ -376,99 +520,8 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
           </div>
         </div>
       )}
-
-      {/* Slide-over Mini Cart Drawer */}
-      {cartDrawerOpen && (
-        <div
-          className="fixed inset-0 z-50 flex justify-end bg-black/40 backdrop-blur-xs animate-in fade-in duration-200"
-          onClick={() => setCartDrawerOpen(false)}
-        >
-          <div
-            className="w-full max-w-md h-full bg-white/95 backdrop-blur-2xl border-l border-white/60 p-6 flex flex-col justify-between shadow-2xl text-stone-900"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div>
-              <div className="flex items-center justify-between pb-4 border-b border-stone-200">
-                <div className="flex items-center gap-2">
-                  <ShoppingBag className="w-5 h-5 text-amber-800" />
-                  <span className="font-bold text-base tracking-tight">
-                    Your Pure Basket
-                  </span>
-                  <span className="text-xs text-stone-500 font-mono">
-                    ({cartItems.length} items)
-                  </span>
-                </div>
-                <button
-                  onClick={() => setCartDrawerOpen(false)}
-                  className="p-1.5 rounded-lg text-stone-400 hover:text-stone-800 hover:bg-stone-100 cursor-pointer"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="mt-4 space-y-3 max-h-[60vh] overflow-y-auto">
-                {cartItems.map((item) => (
-                  <div
-                    key={item.id}
-                    className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/80 flex items-center justify-between"
-                  >
-                    <div>
-                      <div className="text-sm font-bold text-stone-900">
-                        {item.name}
-                      </div>
-                      <div className="text-xs text-stone-500 font-medium">
-                        {item.pack} • Qty: {item.quantity}
-                      </div>
-                      <div className="text-xs font-black text-stone-900 mt-1">
-                        ₨{(item.price * item.quantity).toLocaleString()}
-                      </div>
-                    </div>
-                    <button
-                      onClick={() =>
-                        setCartItems(cartItems.filter((i) => i.id !== item.id))
-                      }
-                      className="p-1.5 text-stone-400 hover:text-red-500 transition cursor-pointer"
-                      aria-label="Remove item"
-                    >
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="pt-4 border-t border-stone-200 space-y-3">
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-stone-500 font-medium">Order Subtotal:</span>
-                <span className="text-xl font-black text-stone-900">
-                  ₨{cartTotal.toLocaleString()}
-                </span>
-              </div>
-              <div className="flex flex-col gap-2">
-                <Link
-                  href="/checkout"
-                  onClick={() => setCartDrawerOpen(false)}
-                  className="w-full py-3.5 rounded-xl font-bold text-sm text-white bg-stone-900 hover:bg-amber-900 shadow-md transition duration-200 flex items-center justify-center gap-2"
-                >
-                  <Truck className="w-4 h-4 text-amber-400" />
-                  <span>Order Now — Cash on Delivery</span>
-                </Link>
-                <Link
-                  href="/cart"
-                  onClick={() => setCartDrawerOpen(false)}
-                  className="w-full py-2.5 rounded-xl font-bold text-xs text-stone-700 bg-stone-100 hover:bg-stone-200 transition text-center"
-                >
-                  View Full Cart &amp; Details
-                </Link>
-              </div>
-              <div className="text-center text-[11px] text-stone-500 flex items-center justify-center gap-1.5">
-                <ShieldCheck className="w-3.5 h-3.5 text-emerald-700" />
-                <span>100% Purity Certified • 14-Day Money Back Guarantee</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
     </>
   );
 }
+
+export default Header;

@@ -5,7 +5,6 @@ import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ShoppingBag,
-  Sparkles,
   ShieldCheck,
   Check,
   X,
@@ -209,48 +208,48 @@ export function ProductSliderHero() {
   const selectedPack = currentSlide.packOptions[selectedPackIndex] || currentSlide.packOptions[0];
 
   return (
-    <div className="relative w-full min-h-screen overflow-hidden select-none">
-      {/* Dynamic Header Component */}
+    <div className="relative w-full min-h-screen overflow-hidden select-none flex flex-col">
+      {/* Liquid Sliding Background Layers (Spans full viewport including behind Header) */}
+      <AnimatePresence mode="popLayout" custom={direction}>
+        <motion.div
+          key={`bg-${currentSlide.id}`}
+          custom={direction}
+          variants={{
+            enter: (dir: number) => ({
+              opacity: 0,
+              x: dir > 0 ? "8%" : "-8%",
+              scale: 1.04,
+            }),
+            center: {
+              opacity: 1,
+              x: "0%",
+              scale: 1,
+            },
+            exit: (dir: number) => ({
+              opacity: 0,
+              x: dir > 0 ? "-8%" : "8%",
+              scale: 0.98,
+            }),
+          }}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ duration: 0.95, ease: FLUID_EASE }}
+          className={`absolute inset-0 bg-gradient-to-br ${currentSlide.bgGradient}`}
+        />
+      </AnimatePresence>
+
+      {/* Ambient Radial Glow Lighting Layer */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-30">
+        <div className="absolute top-[10%] left-[15%] w-[60vw] h-[60vw] rounded-full bg-white/40 blur-[130px]" />
+        <div className="absolute bottom-[5%] right-[10%] w-[55vw] h-[55vw] rounded-full bg-black/15 blur-[140px]" />
+      </div>
+
+      {/* Dynamic Header Component (Unpinned at natural top) */}
       <Header theme={currentSlide.themeKey} />
 
       {/* Main Hero Section */}
-      <div className="relative w-full min-h-screen flex flex-col justify-center pt-24 pb-12 sm:pt-28 sm:pb-16 overflow-hidden">
-        
-        {/* Liquid Sliding Background Layers */}
-        <AnimatePresence mode="popLayout" custom={direction}>
-          <motion.div
-            key={`bg-${currentSlide.id}`}
-            custom={direction}
-            variants={{
-              enter: (dir: number) => ({
-                opacity: 0,
-                x: dir > 0 ? "8%" : "-8%",
-                scale: 1.04,
-              }),
-              center: {
-                opacity: 1,
-                x: "0%",
-                scale: 1,
-              },
-              exit: (dir: number) => ({
-                opacity: 0,
-                x: dir > 0 ? "-8%" : "8%",
-                scale: 0.98,
-              }),
-            }}
-            initial="enter"
-            animate="center"
-            exit="exit"
-            transition={{ duration: 0.95, ease: FLUID_EASE }}
-            className={`absolute inset-0 bg-gradient-to-br ${currentSlide.bgGradient}`}
-          />
-        </AnimatePresence>
-
-        {/* Ambient Radial Glow Lighting Layer */}
-        <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden opacity-30">
-          <div className="absolute top-[10%] left-[15%] w-[60vw] h-[60vw] rounded-full bg-white/40 blur-[130px]" />
-          <div className="absolute bottom-[5%] right-[10%] w-[55vw] h-[55vw] rounded-full bg-black/15 blur-[140px]" />
-        </div>
+      <div className="relative z-10 w-full flex-1 flex flex-col justify-center pt-2 pb-8 sm:pt-4 sm:pb-12 overflow-hidden">
 
         {/* Subtle Kinetic Background Typography (Atmospheric depth) */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-0 overflow-hidden">
@@ -336,13 +335,12 @@ export function ProductSliderHero() {
                   transition={{ duration: 0.65, ease: FLUID_EASE }}
                   className={`${currentSlide.textColor}`}
                 >
-                  {/* Brand & Category Mission Pill */}
+                  {/* Category & Brand Tag */}
                   <div className="flex flex-wrap items-center gap-2 mb-3">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
-                      <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-white/70 backdrop-blur-md border border-white/80 shadow-2xs">
                       Usman&apos;s Pure Products
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold bg-black/10 border border-black/15">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold bg-black/10 border border-black/15">
                       {currentSlide.categoryTag}
                     </span>
                   </div>
