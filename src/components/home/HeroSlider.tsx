@@ -285,9 +285,9 @@ export function HeroSlider() {
         tag={currentSlide.tag}
       />
 
-      {/* 4. Top Category Switcher Pills: Prominently displayed in hero header section (Desktop & Tablet only) */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-1.5 sm:pt-2 hidden md:flex items-center justify-center shrink-0">
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white/35 backdrop-blur-md border border-white/50 px-3.5 sm:px-5 py-1.5 rounded-full shadow-xs">
+      {/* 4. Top Category Switcher Pills: Prominently displayed in hero header section (Strictly hidden on mobile, md:flex on desktop/tablet) */}
+      <div className="hidden md:flex relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-1.5 sm:pt-2 items-center justify-center shrink-0">
+        <div className="hidden md:flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white/35 backdrop-blur-md border border-white/50 px-3.5 sm:px-5 py-1.5 rounded-full shadow-xs">
           <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase opacity-75 text-stone-900 select-none">
             PURE CATEGORIES:
           </span>
@@ -340,8 +340,8 @@ export function HeroSlider() {
                 </h1>
               </div>
 
-              {/* Center Tier: Main Product Pouch Shifted Upward (top-[36%] sm:top-[38%]) to Guarantee Zero Card Overlap */}
-              <div className="absolute top-[36%] sm:top-[38%] -translate-y-1/2 inset-x-0 flex items-center justify-center max-h-[32vh] sm:max-h-[36vh] pointer-events-none z-10 -translate-y-3 sm:-translate-y-5">
+              {/* Center Tier: Main Product Pouch Shifted Upward (top-[34%] -translate-y-1/2) to Guarantee Zero Card Overlap */}
+              <div className="absolute top-[34%] -translate-y-1/2 inset-x-0 flex items-center justify-center max-h-[32vh] sm:max-h-[36vh] pointer-events-none z-10">
                 {/* Natural Soft Radial Drop-Shadow at Base */}
                 <div className="absolute -bottom-2 inset-x-14 h-4 rounded-full bg-black/20 blur-md pointer-events-none -z-10" />
 
