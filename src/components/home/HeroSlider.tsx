@@ -285,8 +285,8 @@ export function HeroSlider() {
         tag={currentSlide.tag}
       />
 
-      {/* 4. Top Category Switcher Pills: Prominently displayed in hero header section */}
-      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-1.5 sm:pt-2 flex items-center justify-center shrink-0">
+      {/* 4. Top Category Switcher Pills: Prominently displayed in hero header section (Desktop & Tablet only) */}
+      <div className="relative z-30 w-full max-w-7xl mx-auto px-4 sm:px-8 pt-1.5 sm:pt-2 hidden md:flex items-center justify-center shrink-0">
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 bg-white/35 backdrop-blur-md border border-white/50 px-3.5 sm:px-5 py-1.5 rounded-full shadow-xs">
           <span className="text-[10px] sm:text-xs font-bold tracking-wider uppercase opacity-75 text-stone-900 select-none">
             PURE CATEGORIES:
@@ -329,7 +329,7 @@ export function HeroSlider() {
               transition={{ duration: 0.45, ease: "easeInOut" }}
               className="relative w-full h-full flex flex-col transform-gpu will-change-transform"
             >
-              {/* Upper Tier: Giant Category Title Cleanly Placed Under Categories Bar */}
+              {/* Upper Tier: Giant Category Title Cleanly Placed in Upper Canvas */}
               <div className="w-full text-center px-4 pt-1 sm:pt-2 shrink-0 z-10 select-none">
                 <h1
                   style={{ color: currentSlide.giantTextColor }}
@@ -340,8 +340,8 @@ export function HeroSlider() {
                 </h1>
               </div>
 
-              {/* Center Tier: Main Product Pouch Vertically Centered (top-[42%] -translate-y-1/2) Scaled up 10-12% */}
-              <div className="absolute top-[42%] -translate-y-1/2 inset-x-0 flex items-center justify-center max-h-[34vh] sm:max-h-[38vh] pointer-events-none z-10">
+              {/* Center Tier: Main Product Pouch Shifted Upward (top-[36%] sm:top-[38%]) to Guarantee Zero Card Overlap */}
+              <div className="absolute top-[36%] sm:top-[38%] -translate-y-1/2 inset-x-0 flex items-center justify-center max-h-[32vh] sm:max-h-[36vh] pointer-events-none z-10 -translate-y-3 sm:-translate-y-5">
                 {/* Natural Soft Radial Drop-Shadow at Base */}
                 <div className="absolute -bottom-2 inset-x-14 h-4 rounded-full bg-black/20 blur-md pointer-events-none -z-10" />
 
@@ -351,11 +351,11 @@ export function HeroSlider() {
                   style={{ backgroundColor: currentSlide.bgColor }}
                 />
 
-                {/* Main Product Cutout Image Scaled to max-h-[34vh] sm:max-h-[38vh] with Gentle Idle Float Animation */}
+                {/* Main Product Cutout Image with Gentle Idle Float Animation */}
                 <motion.div
                   animate={{ y: [0, -6, 0], rotate: [0, 0.8, -0.8, 0] }}
                   transition={{ repeat: Infinity, duration: 5, ease: "easeInOut" }}
-                  className="relative w-full h-[32vh] sm:h-[36vh] max-h-[34vh] sm:max-h-[38vh] flex items-center justify-center pointer-events-none transform-gpu will-change-transform"
+                  className="relative w-full h-[30vh] sm:h-[34vh] max-h-[32vh] sm:max-h-[36vh] flex items-center justify-center pointer-events-none transform-gpu will-change-transform"
                 >
                   <Image
                     src={currentSlide.image}
@@ -363,7 +363,7 @@ export function HeroSlider() {
                     fill
                     sizes="(max-width: 768px) 60vw, 400px"
                     quality={85}
-                    className="object-contain p-1 mix-blend-multiply max-h-[34vh] sm:max-h-[38vh] w-auto drop-shadow-md"
+                    className="object-contain p-1 mix-blend-multiply max-h-[32vh] sm:max-h-[36vh] w-auto drop-shadow-md"
                     priority
                   />
                 </motion.div>
