@@ -282,8 +282,8 @@ export function DoctorsChoicePageView() {
               </p>
             </div>
 
-            {/* 2-Column Grid of High-Readability Cards */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
+            {/* 2-Column Grid on Mobile, Scaling up to 4-Columns on Desktop */}
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
               {DOCTOR_PRODUCTS.map((product) => {
                 const currentSize = selectedPacks[product.id] || product.packOptions[0].size;
                 const currentOption =
@@ -293,75 +293,65 @@ export function DoctorsChoicePageView() {
                 return (
                   <article
                     key={product.id}
-                    className="flex flex-col rounded-sm bg-white border border-[#1E1510]/10 overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-300"
+                    className="flex flex-col rounded-xl sm:rounded-2xl bg-white border border-[#1E1510]/10 overflow-hidden shadow-xs hover:shadow-md transition-shadow duration-300 justify-between"
                   >
-                    {/* Top Photograph Container — Uncropped Full Bag Display */}
-                    <div className="relative w-full aspect-[4/5] bg-[#FAF7F2] p-4 flex items-center justify-center overflow-hidden">
+                    {/* Top Photograph Container */}
+                    <div className="relative w-full aspect-[4/5] bg-[#FAF7F2] p-2 sm:p-4 flex items-center justify-center overflow-hidden">
                       <Image
                         src={product.image}
                         alt={product.title}
                         fill
-                        sizes="(max-width: 1024px) 100vw, 50vw"
+                        sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                         className="w-full h-full object-contain transition-transform duration-300 hover:scale-105"
                       />
-                      {/* Big Bold Problem Tag on Image Badge */}
-                      <span className="absolute top-4 left-4 z-10 inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-md text-xs font-extrabold uppercase tracking-wider bg-[#18281E]/95 text-[#E5B869] backdrop-blur-xs shadow-md">
-                        <Activity className="w-3.5 h-3.5 text-[#E5B869]" />
-                        {product.problemTag}
+                      {/* Problem Tag on Image Badge */}
+                      <span className="absolute top-2 left-2 sm:top-3.5 sm:left-3.5 z-10 inline-flex items-center gap-1 px-2 py-0.5 sm:px-3 sm:py-1 rounded-md text-[9px] sm:text-[11px] font-extrabold uppercase tracking-wider bg-[#18281E]/95 text-[#E5B869] backdrop-blur-xs shadow-xs max-w-[90%] truncate">
+                        <Activity className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#E5B869] shrink-0" />
+                        <span className="truncate">{product.problemTag}</span>
                       </span>
                     </div>
 
-                    {/* Card Content with Generous Typography for Elderly Customers */}
-                    <div className="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                    {/* Card Content */}
+                    <div className="p-3 sm:p-5 flex-1 flex flex-col justify-between">
                       <div>
-                        {/* 1. Big Bold Problem Tag (Above Title) */}
-                        <div className="mb-3">
-                          <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md bg-[#8B3A22]/10 text-[#8B3A22] border border-[#8B3A22]/20 text-xs sm:text-sm font-black tracking-wider uppercase">
-                            <Activity className="w-4 h-4 text-[#8B3A22]" />
-                            {product.problemTag}
-                          </span>
-                        </div>
-
                         {/* Product Title */}
                         <Link href={product.detailUrl}>
-                          <h3 className="text-2xl sm:text-3xl font-serif text-[#1E1510] hover:text-[#8B3A22] transition-colors leading-snug font-bold">
+                          <h3 className="text-xs sm:text-base md:text-lg font-serif text-[#1E1510] hover:text-[#8B3A22] transition-colors leading-snug font-bold line-clamp-2 min-h-[2.25rem] sm:min-h-[2.75rem]">
                             {product.title}
                           </h3>
                         </Link>
 
-                        {/* 2. Easy 1-Line Benefit (Below Title in Bold text) */}
-                        <p className="mt-3.5 text-base sm:text-lg font-bold text-[#8B3A22] leading-snug">
+                        {/* 2. Easy 1-Line Benefit */}
+                        <p className="mt-1 sm:mt-2 text-[11px] sm:text-xs font-bold text-[#8B3A22] leading-snug line-clamp-2">
                           {product.easyBenefit}
                         </p>
 
-                        {/* 3. Simple 3 Bullet Points (Large Text, No Medical Jargon) */}
-                        <ul className="mt-6 space-y-3.5">
-                          {product.simplePoints.map((point, idx) => (
-                            <li key={idx} className="flex items-start gap-3 text-base sm:text-lg text-stone-900 leading-snug">
-                              <div className="w-6 h-6 rounded-full bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0 mt-0.5">
-                                <Check className="w-4 h-4 text-emerald-700" strokeWidth={3} />
-                              </div>
-                              <span className="font-medium">{point}</span>
+                        {/* 3. Simple Bullet Points (visible on tablet/desktop) */}
+                        <ul className="hidden sm:block mt-3 space-y-1.5">
+                          {product.simplePoints.slice(0, 2).map((point, idx) => (
+                            <li key={idx} className="flex items-start gap-1.5 text-xs text-stone-700 leading-snug">
+                              <Check className="w-3.5 h-3.5 text-emerald-700 shrink-0 mt-0.5" strokeWidth={2.5} />
+                              <span className="font-medium line-clamp-1">{point}</span>
                             </li>
                           ))}
                         </ul>
                       </div>
 
                       {/* Pricing, Packaging Toggles & CTA Action Area */}
-                      <div className="mt-8 pt-6 border-t border-[#1E1510]/10">
+                      <div className="mt-3 pt-2.5 border-t border-[#1E1510]/10">
                         {/* Packaging Toggle */}
-                        <div className="flex items-center justify-between gap-4 mb-5">
-                          <div className="text-[11px] font-semibold text-[#6B5D52] uppercase tracking-[0.14em]">
-                            Select Pack:
-                          </div>
-                          <div className="flex items-center gap-2">
+                        <div className="flex items-center justify-between gap-1 mb-2.5">
+                          <span className="text-[10px] font-semibold text-[#6B5D52] uppercase tracking-wider">
+                            Pack:
+                          </span>
+                          <div className="flex items-center gap-1">
                             {product.packOptions.map((opt) => (
                               <button
                                 key={opt.size}
                                 onClick={() =>
                                   setSelectedPacks((prev) => ({ ...prev, [product.id]: opt.size }))
                                 }
-                                className={`px-3 py-1.5 rounded-sm text-xs font-semibold uppercase tracking-wider transition-colors cursor-pointer border ${
+                                className={`px-2 py-0.5 rounded-sm text-[10px] font-semibold uppercase tracking-wider transition-colors cursor-pointer border ${
                                   currentSize === opt.size
                                     ? "bg-[#1E1510] text-[#FAF7F2] border-[#1E1510]"
                                     : "bg-stone-50 text-[#6B5D52] border-stone-200 hover:border-stone-400"
@@ -374,44 +364,39 @@ export function DoctorsChoicePageView() {
                         </div>
 
                         {/* Price & Primary CTA */}
-                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-                          <div>
-                            <div className="flex items-baseline gap-2.5">
-                              <span className="text-2xl font-bold text-[#1E1510]">
-                                ₨ {currentOption.price.toLocaleString()}
-                              </span>
-                              <span className="text-sm text-[#6B5D52]/60 line-through">
-                                ₨ {currentOption.originalPrice.toLocaleString()}
-                              </span>
-                            </div>
-                            <span className="text-[11px] font-medium text-emerald-700">
-                              Save ₨ {(currentOption.originalPrice - currentOption.price).toLocaleString()} &bull; Fresh Milled
+                        <div>
+                          <div className="flex items-baseline gap-1.5">
+                            <span className="text-sm sm:text-base font-bold text-[#1E1510]">
+                              ₨ {currentOption.price.toLocaleString()}
+                            </span>
+                            <span className="text-[10px] sm:text-xs text-[#6B5D52]/60 line-through">
+                              ₨ {currentOption.originalPrice.toLocaleString()}
                             </span>
                           </div>
 
-                          <div className="flex items-center gap-2.5">
+                          <div className="flex flex-col gap-1.5 mt-2.5">
                             <button
                               onClick={(e) => handleAddToCart(product, currentOption, e)}
-                              className={`flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-5 py-3 rounded-md text-xs font-bold uppercase tracking-[0.14em] transition-colors cursor-pointer ${
+                              className={`w-full inline-flex items-center justify-center gap-1.5 py-2 px-2 rounded-lg text-[10px] sm:text-xs font-bold uppercase tracking-wider transition-colors cursor-pointer shadow-xs ${
                                 isAdded ? "btn-lux-terra" : "btn-lux"
                               }`}
                             >
                               {isAdded ? (
                                 <>
-                                  <Check className="w-4 h-4" /> Added
+                                  <Check className="w-3.5 h-3.5" /> Added
                                 </>
                               ) : (
                                 <>
-                                  <ShoppingBag className="w-4 h-4" /> Add to Cart
+                                  <ShoppingBag className="w-3.5 h-3.5" /> Add to Cart
                                 </>
                               )}
                             </button>
 
                             <Link
                               href={`${product.checkoutUrl}&pack=${currentOption.size}&qty=1`}
-                              className="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-5 py-3 rounded-md bg-[#8B3A22] hover:bg-[#A0452C] text-white text-xs font-bold uppercase tracking-[0.14em] transition-colors"
+                              className="w-full inline-flex items-center justify-center gap-1 py-1.5 px-2 rounded-lg bg-[#8B3A22] hover:bg-[#A0452C] text-white text-[10px] sm:text-[11px] font-bold uppercase tracking-wider transition-colors text-center"
                             >
-                              <Truck className="w-3.5 h-3.5" />
+                              <Truck className="w-3 h-3" />
                               <span>Order COD</span>
                             </Link>
                           </div>

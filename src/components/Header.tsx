@@ -313,9 +313,18 @@ export function Header({ theme = "amber", isSolid = false }: HeaderProps) {
                     className="object-contain object-left"
                   />
                 </div>
-                <span className="text-xs font-bold text-stone-700 uppercase tracking-widest">
-                  Menu
-                </span>
+                <div className="flex items-center gap-2">
+                  <span className="text-xs font-bold text-stone-700 uppercase tracking-widest">
+                    Menu
+                  </span>
+                  <button
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="p-1 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 transition-colors cursor-pointer"
+                    aria-label="Close Menu"
+                  >
+                    <X className="w-4 h-4" />
+                  </button>
+                </div>
               </div>
               <div className="flex flex-col gap-1 pb-2">
                 {/* 1. Home */}

@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 import { AuthHeaderButton } from "./auth/AuthHeaderButton";
 import { useAmbientTheme } from "@/components/theme/AmbientThemeWrapper";
 
@@ -310,9 +311,18 @@ export function Navbar({
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="fixed inset-x-4 top-20 z-50 md:hidden bg-white/95 backdrop-blur-md border border-stone-200 rounded-3xl p-5 shadow-2xl text-stone-900"
+            className="fixed inset-x-4 top-20 z-50 md:hidden bg-white/95 backdrop-blur-md border border-stone-200 rounded-3xl p-5 shadow-2xl text-stone-900 relative"
           >
-            <div className="flex flex-col gap-2 font-semibold text-sm">
+            {/* Explicit Mobile Menu Close (X) Button */}
+            <button
+              onClick={() => setMobileMenuOpen(false)}
+              className="absolute top-4 right-4 p-2 rounded-full bg-stone-100 hover:bg-stone-200 text-stone-700 transition-colors z-50 cursor-pointer shadow-2xs"
+              aria-label="Close Menu"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <div className="flex flex-col gap-2 font-semibold text-sm pt-2">
               <Link
                 href="/"
                 onClick={() => setMobileMenuOpen(false)}

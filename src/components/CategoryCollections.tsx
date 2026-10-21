@@ -62,19 +62,19 @@ export function CategoryCollections({ onSelectCategory }: CategoryCollectionsPro
         size={420}
       />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-10 gap-4">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 sm:mb-10 gap-4">
           <div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-stone-900 tracking-tight">
               Our Collections
             </h2>
           </div>
-          <p className="text-sm text-stone-600 max-w-md">
+          <p className="text-xs sm:text-sm text-stone-600 max-w-md">
             Wholesome, unadulterated essentials slow-ground in natural stone chakkis and hand-packed with zero chemical additives.
           </p>
         </div>
 
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-3.5 sm:gap-6 w-full">
           {collections.map((item, index) => {
             const isFullWidthMobile = index === 2;
 
@@ -84,9 +84,9 @@ export function CategoryCollections({ onSelectCategory }: CategoryCollectionsPro
                 id={item.id}
                 data-ambient-theme={item.id}
                 href={item.href}
-                className={`group relative rounded-2xl overflow-hidden cursor-pointer shadow-ambient hover:shadow-ambient transition duration-500 bg-white flex flex-col justify-end p-3.5 sm:p-5 md:p-8 ${
+                className={`group relative rounded-2xl border border-stone-200/40 overflow-hidden cursor-pointer shadow-ambient hover:shadow-ambient transition duration-500 bg-white flex flex-col justify-end p-3.5 sm:p-5 md:p-8 w-full max-w-full ${
                   isFullWidthMobile
-                    ? "col-span-2 md:col-span-1 aspect-[21/9] sm:aspect-[16/7] md:aspect-auto md:h-96 min-h-[175px] items-center text-center md:items-start md:text-left"
+                    ? "col-span-2 md:col-span-1 aspect-[21/9] sm:aspect-[16/7] md:aspect-auto md:h-96 min-h-[165px] sm:min-h-[175px] items-center text-center md:items-start md:text-left"
                     : "col-span-1 h-72 sm:h-80 md:h-96 items-start text-left"
                 }`}
               >
